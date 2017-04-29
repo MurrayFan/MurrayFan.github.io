@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[hexo搭建github博客笔记]]></title>
       <url>/2017/04/28/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E7%AC%94%E8%AE%B0/</url>
-      <content type="html"><![CDATA[<p>使用hexo生成静态博客并架设在免费的github page平台<br><a id="more"></a></p>
+      <content type="html"><![CDATA[<p>使用hexo生成静态博客并架设在免费的github page平台 </p>
 <h2 id="node-js配置"><a href="#node-js配置" class="headerlink" title="node.js配置"></a>node.js配置</h2><h3 id="安装node-js"><a href="#安装node-js" class="headerlink" title="安装node.js"></a>安装node.js</h3><p>从官网上下载node.js <a href="https://nodejs.org/en/" target="_blank" rel="external">点我下载node.js</a>，安装时注意勾选ADD TO PATH</p>
 <h3 id="npm代理设置"><a href="#npm代理设置" class="headerlink" title="npm代理设置"></a>npm代理设置</h3><p>由于众所周知的原因，npm 安装组件时会相当漫长。当使用 Shadowsocks 可以用如下方法来提高下载速度<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ git config --global http.http://github.com.proxy https://127.0.0.1:1080$</div><div class="line">$ git config --global https.https://github.com.proxy https://127.0.0.1:1080</div></pre></td></tr></table></figure></p>
 <h3 id="设置node-js的源为阿里云"><a href="#设置node-js的源为阿里云" class="headerlink" title="设置node.js的源为阿里云"></a>设置node.js的源为阿里云</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install -g cnpm --registry=https://registry.npm.taobao.org</div></pre></td></tr></table></figure>
