@@ -4,8 +4,34 @@
 
     
   <url>
+    <loc>https://MurrayFan.github.io/2017/04/30/CentOS%E4%B8%8B%E5%AE%89%E8%A3%85JDK1-7/</loc>
+    <lastmod>2017-04-30T11:13:16.671Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS下安装JDK1.7</title>
+        <pubTime>2017-04-30T10:55:41.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+        <tag>CentOS</tag>
+         
+        <tag>JDK</tag>
+         
+        <tag>安装配置</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="https://MurrayFan.github.io/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://MurrayFan.github.io/2017/04/28/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2017-04-29T06:11:15.229Z</lastmod>
+    <lastmod>2017-04-30T11:08:05.713Z</lastmod>
     <data>
         <display>
         <title>hexo搭建github博客笔记</title>
