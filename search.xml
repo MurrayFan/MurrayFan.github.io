@@ -3,6 +3,27 @@
   
     
     <entry>
+      <title><![CDATA[Kafka安装与常用命令]]></title>
+      <url>/2017/05/07/Kafka%E5%AE%89%E8%A3%85%E4%B8%8E%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+      <content type="html"><![CDATA[<h2 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h2><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ul>
+<li>启动kafka<br>/usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties &amp;</li>
+<li>创建名为test的主题<br>./kafka-topics.sh –create –topic test –replication-factor 1 –partitions 3 –zookeeper 192.168.17.137:2181,192.168.17.138:2181,192.168.17.139:2181</li>
+<li><p>查看”mytopic”这个Topic的详细信息：<br>./kafka-topics.sh –describe –topic test –zookeeper localhost:2181</p>
+</li>
+<li><p>启动消费者，从”accesslog”这个Topic中消费消息，其中”–from-beginning”为可选参数，表示要从头消费消息：</p>
+</li>
+</ul>
+<p>./kafka-console-consumer.sh –topic test –from-beginning –zookeeper localhost:2181 </p>
+<ul>
+<li>查看所有的Topic列表：</li>
+</ul>
+<p>./kafka-topics.sh –list –zookeeper localhost:2181</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[CentOS7下Storm安装配置]]></title>
       <url>/2017/05/01/CentOS7%E4%B8%8BStorm%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/</url>
       <content type="html"><![CDATA[<h2 id="strom环境搭建"><a href="#strom环境搭建" class="headerlink" title="strom环境搭建"></a>strom环境搭建</h2><h3 id="相关配置"><a href="#相关配置" class="headerlink" title="相关配置"></a>相关配置</h3><p>三个节点同时解压到/usr/local下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -zxvf apache-storm-0.9.2-incubating.tar.gz -C /usr/<span class="built_in">local</span></div></pre></td></tr></table></figure></p>

@@ -275,6 +275,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Kafka安装与常用命令" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/07/Kafka安装与常用命令/" class="article-date">
+      <time datetime="2017-05-07T01:32:56.000Z" itemprop="datePublished">2017-05-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/07/Kafka安装与常用命令/">Kafka安装与常用命令</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h2><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ul>
+<li>启动kafka<br>/usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties &amp;</li>
+<li>创建名为test的主题<br>./kafka-topics.sh –create –topic test –replication-factor 1 –partitions 3 –zookeeper 192.168.17.137:2181,192.168.17.138:2181,192.168.17.139:2181</li>
+<li><p>查看”mytopic”这个Topic的详细信息：<br>./kafka-topics.sh –describe –topic test –zookeeper localhost:2181</p>
+</li>
+<li><p>启动消费者，从”accesslog”这个Topic中消费消息，其中”–from-beginning”为可选参数，表示要从头消费消息：</p>
+</li>
+</ul>
+<p>./kafka-console-consumer.sh –topic test –from-beginning –zookeeper localhost:2181 </p>
+<ul>
+<li>查看所有的Topic列表：</li>
+</ul>
+<p>./kafka-topics.sh –list –zookeeper localhost:2181</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-CentOS7下Storm安装配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
