@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 范木甬的博客</title>
+    <link>http://www.fanmuyong.com/post/</link>
+    <description>Recent content in Posts on 范木甬的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 19 Jul 2019 21:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="http://www.fanmuyong.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java8 的时间 API</title>
+      <link>http://www.fanmuyong.com/post/2019-07-19-Java8%E7%9A%84%E6%97%B6%E9%97%B4API/</link>
+      <pubDate>Fri, 19 Jul 2019 21:00:00 +0800</pubDate>
+      
+      <guid>http://www.fanmuyong.com/post/2019-07-19-Java8%E7%9A%84%E6%97%B6%E9%97%B4API/</guid>
+      <description>Java8 的时间 API Java8 一个新增的重要特性就是引入了新的时间和日期 API，它们被包含在java.time 包中。借助新的时间和日期 API 可以以更简洁的方法处理时间和日期。 在Java8 之前，所有关于时间和日期的API都存在各种使用方面的缺陷，主要有： Java 的java.util.Date和java.uti</description>
+    </item>
+    
+  </channel>
+</rss>
