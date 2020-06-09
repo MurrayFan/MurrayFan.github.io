@@ -27,14 +27,6 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-    (adsbygoogle = window.adsbygoogle || []).push({
-        google_ad_client: "ca-pub-4031353640611810",
-        enable_page_level_ads: true
-    });
-    </script>
-    
 
 
     
@@ -58,8 +50,6 @@
                 <nav id="nav-menu" class="clearfix">
                     <a class="current" href="https://www.fanmuyong.com">首页</a>
                     
-                    <a  href="https://www.fanmuyong.com/tools/" title="工具">工具</a>
-                    
                     <a  href="https://www.fanmuyong.com/archives/" title="归档">归档</a>
                     
                     <a  href="https://www.fanmuyong.com/about/" title="关于">关于</a>
@@ -78,6 +68,135 @@
                     
 <div class="res-cons">
     
+
+
+<style type="text/css">
+  .post-toc {
+    position: fixed;
+    width: 200px;
+    margin-left: -210px;
+    padding: 5px 10px;
+    font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+    font-size: 12px;
+    border: 1px solid rgba(0, 0, 0, .07);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.98);
+    background-clip: padding-box;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+    word-wrap: break-word;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 999;
+    cursor: pointer;
+    max-height: 70%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .post-toc .post-toc-title {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .post-toc .post-toc-content {
+    font-size: 12px;
+  }
+
+  .post-toc .post-toc-content>nav>ul {
+    margin: 10px 0;
+  }
+
+  .post-toc .post-toc-content ul {
+    padding-left: 20px;
+     
+    margin: 0.5em;
+    line-height: 1.8em;
+  }
+
+
+
+  @media print,
+  screen and (max-width:1057px) {
+    .post-toc {
+      display: none;
+    }
+  }
+
+  .post-toc {
+    transition: all .3s ease;
+  }
+
+  .post-toc:hover,
+  .post-toc:active {
+    width: 250px !important;
+  }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+  <h2 class="post-toc-title">文章目录</h2>
+
+  <div
+    class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#旧时间-api-的缺陷">旧时间 API 的缺陷</a>
+      <ul>
+        <li><a href="#时间对象的可变性">时间对象的可变性</a></li>
+        <li><a href="#线程安全性">线程安全性</a></li>
+        <li><a href="#操作的便捷性">操作的便捷性</a></li>
+      </ul>
+    </li>
+    <li><a href="#示例">示例</a>
+      <ul>
+        <li><a href="#新旧-api-之间的转化">新旧 API 之间的转化</a></li>
+        <li><a href="#如何获取一个时间段">如何获取一个时间段</a></li>
+        <li><a href="#高级用法">高级用法</a></li>
+        <li><a href="#使-mybatis-支持-java8-的新-api">使 Mybatis 支持 Java8 的新 API</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+<script type="text/javascript">
+  function initToc() {
+    var postToc = $(".post-toc");
+    if (postToc.length) {
+      var leftPos = $("#main").offset().left;
+      if (leftPos < 220) {
+        postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+      }
+
+      var t = postToc.offset().top - 20,
+        a = {
+          start: {
+            position: "absolute",
+            top: t
+          },
+          process: {
+            position: "fixed",
+            top: 80
+          },
+        };
+      $(window).scroll(function () {
+        var e = $(window).scrollTop();
+        e < t ? postToc.css(a.start) : postToc.css(a.process)
+      })
+    }
+  }
+  $(document).ready(function () {
+    initToc()
+  })
+  $(window).resize(function () {
+    initToc()
+  })
+</script>
     <article class="post">
         <header>
             <h1 class="post-title">Java8 的时间 API</h1>
@@ -100,8 +219,14 @@
         </div>
         
         
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
         <div class="post-content">
-            <h1 id="java8-的时间-api">Java8 的时间 API</h1>
+            <h1 id="概述">概述</h1>
 <p>Java8 一个新增的重要特性就是引入了新的时间和日期 API，它们被包含在java.time 包中。借助新的时间和日期 API 可以以更简洁的方法处理时间和日期。
 在Java8 之前，所有关于时间和日期的API都存在各种使用方面的缺陷，主要有：</p>
 <ol>
@@ -110,9 +235,9 @@
 <li>对日期的计算方式繁琐，而且容易出错，因为月份是从0开始的，这意味着从<code>Calendar</code>中获取的月份需要加一才能表示当前月份。
 由于以上这些问题，出现了一些三方的日期处理框架，例如 Joda-Time，date4j 等开源项目。但是，Java 需要一套标准的用于处理时间和日期的框架，于是 Java8 中引入了新的日期API。</li>
 </ol>
-<h2 id="java7-及以前时间-api-的缺陷">Java7 及以前时间 API 的缺陷</h2>
-<h3 id="时间对象的可变性">时间对象的可变性</h3>
-<p>==旧的时间 API 是可变的==</p>
+<h1 id="旧时间-api-的缺陷">旧时间 API 的缺陷</h1>
+<h2 id="时间对象的可变性">时间对象的可变性</h2>
+<p><strong>旧的时间 API 是可变的</strong></p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -143,7 +268,7 @@ Fri Jul 19 17:16:29 CST 2019
 当前时间：
 Fri Jul 19 17:16:49 CST 2019
 </code></pre><p>此时，在多线程情况下尤要注意，不要操作同一个<code>Date</code>对象，避免将<code>Date</code>对象作为<strong>引用参数</strong>传递。
-==新的时间 API 的不可变的==</p>
+新的时间 API 的不可变的</p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -175,9 +300,9 @@ Fri Jul 19 17:16:49 CST 2019
 2019-07-19T17:17:16.431
 当前时间：
 2019-07-19T17:17:16.431
-</code></pre><h3 id="线程安全性">线程安全性</h3>
-<p>注：此处引入 Google Guava 的 jar 包
-==旧的时间 API 是线程不安全的==</p>
+</code></pre><h2 id="线程安全性">线程安全性</h2>
+<p>注：此处引入 Google Guava 的 jar 包</p>
+<p><strong>旧的时间 API 是线程不安全的</strong></p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -222,8 +347,8 @@ Fri Jul 19 17:16:49 CST 2019
 	<span style="color:#000;font-weight:bold">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>结果抛出异常
-==新的时间 API 是线程安全的==</p>
+</div><p>结果抛出异常</p>
+<p><strong>新的时间 API 是线程安全的</strong></p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -271,8 +396,8 @@ Fri Jul 19 17:16:49 CST 2019
 </code></pre></td></tr></table>
 </div>
 </div><p>结果正常</p>
-<h3 id="操作的便捷性">操作的便捷性</h3>
-<p>以获取当前月的最后一天为例==Java7 的写法==</p>
+<h2 id="操作的便捷性">操作的便捷性</h2>
+<p>以获取当前月的最后一天为例Java7 的写法</p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -309,8 +434,8 @@ Fri Jul 19 17:16:49 CST 2019
 	<span style="color:#000;font-weight:bold">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>可以看到十分麻烦
-==Java8 的方式==</p>
+</div><p>可以看到十分麻烦</p>
+<p><strong>Java8 的方式</strong></p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -319,8 +444,8 @@ Fri Jul 19 17:16:49 CST 2019
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String dateStr <span style="color:#000;font-weight:bold">=</span> LocalDate<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">now</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">with</span><span style="color:#000;font-weight:bold">(</span>TemporalAdjusters<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">lastDayOfMonth</span><span style="color:#000;font-weight:bold">()).</span><span style="color:#008080">toString</span><span style="color:#000;font-weight:bold">()</span><span style="color:#a61717;background-color:#e3d2d2">；</span>
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="示例">示例</h2>
-<h3 id="新旧-api-之间的转化">新旧 API 之间的转化</h3>
+</div><h1 id="示例">示例</h1>
+<h2 id="新旧-api-之间的转化">新旧 API 之间的转化</h2>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -367,7 +492,7 @@ Fri Jul 19 17:16:49 CST 2019
 	<span style="color:#000;font-weight:bold">}</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="如何获取一个时间段">如何获取一个时间段</h3>
+</div><h2 id="如何获取一个时间段">如何获取一个时间段</h2>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -382,7 +507,7 @@ Fri Jul 19 17:16:49 CST 2019
     System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span>period<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getDays</span><span style="color:#000;font-weight:bold">());</span>
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="高级用法">高级用法</h3>
+</div><h2 id="高级用法">高级用法</h2>
 <p><code>TemporalAdjusters</code>类中包含了很多静态方法可以直接使用，如果默认的方法不能满足你的需求，你还可以创建自定义的<code>TemporalAdjuster</code>接口的实现，<code>TemporalAdjuster</code>也是一个函数式接口，所以我们可以使用 Lambda 表达式：</p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -492,26 +617,7 @@ Fri Jul 19 17:16:49 CST 2019
         </div>
     </article>
     
-    <div id="disqus_thread"></div>
-<script type="application/javascript">
-    var disqus_config = function () {
     
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     
     

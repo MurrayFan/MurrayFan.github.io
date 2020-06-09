@@ -369,10 +369,8 @@ textarea {
 }
 .post-content h3,.post-content h2{
     margin: 1.4em 0 1.1em;
-    overflow: hidden;
-}
-.post-content h1{
     border-bottom: 1px solid #eee;
+    overflow: hidden;
 }
 .post-content pre{
     padding: 1em;
@@ -389,7 +387,7 @@ textarea {
     border-radius: 3px;
 }
 .post-content p {
-    margin: 0 0 0em; 
+    margin:0 0 1.1em;
 }
 .post-content img {
     padding:1em 0;
@@ -1042,6 +1040,7 @@ table tr:nth-child(2n) {
 
 table tr {
     border: 0;
+    border-top: 1px solid #CCC;
     background-color: white;
 }
   
@@ -1051,4 +1050,3 @@ table tr th, table tr td {
     padding: 0.5em 1em;
     text-align: left;
 }
-
