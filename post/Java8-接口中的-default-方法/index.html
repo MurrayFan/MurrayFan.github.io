@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Java8 接口中的 default 方法 | 范木甬的博客</title>
+    <meta property="og:title" content="Java8 接口中的 default 方法 - 范木甬的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2018-03-14T21:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2018-03-14T21:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="[Java,Java8,default]">
+    <meta name="description" content="Java8 接口中的 default 方法">
+        
+    <meta name="author" content="范明勇">
+    <meta property="og:url" content="https://www.fanmuyong.com/post/Java8-%E6%8E%A5%E5%8F%A3%E4%B8%AD%E7%9A%84-default-%E6%96%B9%E6%B3%95/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://www.fanmuyong.com">
+                        范木甬的博客
+                    </a>
+                
+                <p class="description">专注于Java、JS、移动互联网、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://www.fanmuyong.com">首页</a>
+                    
+                    <a  href="https://www.fanmuyong.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://www.fanmuyong.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+
+
+<style type="text/css">
+  .post-toc {
+    position: fixed;
+    width: 200px;
+    margin-left: -210px;
+    padding: 5px 10px;
+    font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+    font-size: 12px;
+    border: 1px solid rgba(0, 0, 0, .07);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.98);
+    background-clip: padding-box;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+    word-wrap: break-word;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 999;
+    cursor: pointer;
+    max-height: 70%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .post-toc .post-toc-title {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .post-toc .post-toc-content {
+    font-size: 12px;
+  }
+
+  .post-toc .post-toc-content>nav>ul {
+    margin: 10px 0;
+  }
+
+  .post-toc .post-toc-content ul {
+    padding-left: 20px;
+     
+    margin: 0.5em;
+    line-height: 1.8em;
+  }
+
+
+
+  @media print,
+  screen and (max-width:1057px) {
+    .post-toc {
+      display: none;
+    }
+  }
+
+  .post-toc {
+    transition: all .3s ease;
+  }
+
+  .post-toc:hover,
+  .post-toc:active {
+    width: 250px !important;
+  }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+  <h2 class="post-toc-title">文章目录</h2>
+
+  <div
+    class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么要有默认方法">为什么要有默认方法</a></li>
+    <li><a href="#默认方法的继承">默认方法的继承</a></li>
+    <li><a href="#默认方法的多继承">默认方法的多继承</a></li>
+    <li><a href="#接口继承行为发生冲突时的解决规则">接口继承行为发生冲突时的解决规则</a></li>
+    <li><a href="#建议">建议</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+<script type="text/javascript">
+  function initToc() {
+    var postToc = $(".post-toc");
+    if (postToc.length) {
+      var leftPos = $("#main").offset().left;
+      if (leftPos < 220) {
+        postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+      }
+
+      var t = postToc.offset().top - 20,
+        a = {
+          start: {
+            position: "absolute",
+            top: t
+          },
+          process: {
+            position: "fixed",
+            top: 80
+          },
+        };
+      $(window).scroll(function () {
+        var e = $(window).scrollTop();
+        e < t ? postToc.css(a.start) : postToc.css(a.process)
+      })
+    }
+  }
+  $(document).ready(function () {
+    initToc()
+  })
+  $(window).resize(function () {
+    initToc()
+  })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">Java8 接口中的 default 方法</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2018年3月14日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://www.fanmuyong.com/categories/Java'>Java</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        <div class="post-content">
+            <h1 id="为什么要有默认方法">为什么要有默认方法</h1>
+<p>在 Java8 之前，接口与其实现类之间的耦合度太高了，当需要为一个接口添加方法时，所有的实现类都必须随之修改。默认方法解决了这个问题，它可以为接口添加新的方法，而不会破坏已有的接口的实现。这在 lambda 表达式作为 Java8 语言的重要特性而出现之际，为升级旧接口且保持向后兼容提供了途径。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	String<span style="color:#000;font-weight:bold">[]</span> array <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> String<span style="color:#000;font-weight:bold">[]</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#d14">&#34;hello&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#d14">&#34;, &#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#d14">&#34;world&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000;font-weight:bold">};</span>
+	List<span style="color:#000;font-weight:bold">&lt;</span>String<span style="color:#000;font-weight:bold">&gt;</span> list <span style="color:#000;font-weight:bold">=</span> Arrays<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">asList</span><span style="color:#000;font-weight:bold">(</span>array<span style="color:#000;font-weight:bold">);</span>
+	list<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">forEach</span><span style="color:#000;font-weight:bold">(</span>System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">::</span>println<span style="color:#000;font-weight:bold">);</span> <span style="color:#998;font-style:italic">// 这是 jdk 1.8 新增的接口默认方法
+</span></code></pre></td></tr></table>
+</div>
+</div><p>这个<code>forEach</code>方法是 jdk 1.8 新增的接口默认方法，正是因为有了默认方法的引入，才不会因为<code>Iterable</code>接口中添加了<code>forEach</code>方法就需要修改所有<code>Iterable</code>接口的实现类。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">Iterable</span><span style="color:#000;font-weight:bold">&lt;</span>T<span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#000;font-weight:bold">default</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">forEach</span><span style="color:#000;font-weight:bold">(</span>Consumer<span style="color:#000;font-weight:bold">&lt;?</span> <span style="color:#000;font-weight:bold">super</span> T<span style="color:#000;font-weight:bold">&gt;</span> action<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+        Objects<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">requireNonNull</span><span style="color:#000;font-weight:bold">(</span>action<span style="color:#000;font-weight:bold">);</span>
+        <span style="color:#000;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">(</span>T t <span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">this</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+            action<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">accept</span><span style="color:#000;font-weight:bold">(</span>t<span style="color:#000;font-weight:bold">);</span>
+        <span style="color:#000;font-weight:bold">}</span>
+    <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="默认方法的继承">默认方法的继承</h1>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">InterfaceA</span> <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#000;font-weight:bold">default</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">foo</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+        System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;InterfaceA foo&#34;</span><span style="color:#000;font-weight:bold">);</span>
+    <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+ 
+<span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">InterfaceB</span> <span style="color:#000;font-weight:bold">extends</span> InterfaceA <span style="color:#000;font-weight:bold">{</span>
+<span style="color:#000;font-weight:bold">}</span>
+ 
+<span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">InterfaceC</span> <span style="color:#000;font-weight:bold">extends</span> InterfaceA <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#3c5d5d;font-weight:bold">@Override</span>
+    <span style="color:#000;font-weight:bold">default</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">foo</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+        System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;InterfaceC foo&#34;</span><span style="color:#000;font-weight:bold">);</span>
+    <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+ 
+<span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">InterfaceD</span> <span style="color:#000;font-weight:bold">extends</span> InterfaceA <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#3c5d5d;font-weight:bold">@Override</span>
+    <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">foo</span><span style="color:#000;font-weight:bold">();</span>
+<span style="color:#000;font-weight:bold">}</span>
+ 
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Test</span> <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">main</span><span style="color:#000;font-weight:bold">(</span>String<span style="color:#000;font-weight:bold">[]</span> args<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+        <span style="color:#000;font-weight:bold">new</span> InterfaceB<span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{}.</span><span style="color:#008080">foo</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#998;font-style:italic">// 打印：“InterfaceA foo”
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">new</span> InterfaceC<span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{}.</span><span style="color:#008080">foo</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#998;font-style:italic">// 打印：“InterfaceC foo”
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">new</span> InterfaceD<span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+            <span style="color:#3c5d5d;font-weight:bold">@Override</span>
+            <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">foo</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+                System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;InterfaceD foo&#34;</span><span style="color:#000;font-weight:bold">);</span>
+            <span style="color:#000;font-weight:bold">}</span>
+        <span style="color:#000;font-weight:bold">}.</span><span style="color:#008080">foo</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#998;font-style:italic">// 打印：“InterfaceD foo”
+</span><span style="color:#998;font-style:italic"></span>        
+        <span style="color:#998;font-style:italic">// 或者使用 lambda 表达式
+</span><span style="color:#998;font-style:italic"></span>        <span style="color:#000;font-weight:bold">((</span>InterfaceD<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">-&gt;</span> System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;InterfaceD foo&#34;</span><span style="color:#000;font-weight:bold">)).</span><span style="color:#008080">foo</span><span style="color:#000;font-weight:bold">();</span>
+    <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>接口默认方法的继承分三种情况（分别对应上面的 InterfaceB 接口、InterfaceC 接口和 InterfaceD 接口）：</p>
+<ul>
+<li>不覆写默认方法，直接从父接口中获取方法的默认实现。</li>
+<li>覆写默认方法，这跟类与类之间的覆写规则相类似。</li>
+<li>覆写默认方法并将它重新声明为抽象方法，这样新接口的子类必须再次覆写并实现这个抽象方法。</li>
+</ul>
+<h1 id="默认方法的多继承">默认方法的多继承</h1>
+<p>Java 使用的是单继承、多实现的机制，为的是避免多继承带来的调用歧义的问题。当接口的子类同时拥有具有相同签名的方法时，就需要考虑一种解决冲突的方案。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DefaultMethodMuiltExtendTest</span> <span style="color:#000;font-weight:bold">{</span>
+
+	<span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">InterfaceA</span> <span style="color:#000;font-weight:bold">{</span>
+		<span style="color:#000;font-weight:bold">default</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">foo</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+			System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;InterfaceA foo&#34;</span><span style="color:#000;font-weight:bold">);</span>
+		<span style="color:#000;font-weight:bold">}</span>
+	<span style="color:#000;font-weight:bold">}</span>
+
+	<span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">InterfaceB</span> <span style="color:#000;font-weight:bold">{</span>
+		<span style="color:#000;font-weight:bold">default</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">bar</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+			System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;InterfaceB bar&#34;</span><span style="color:#000;font-weight:bold">);</span>
+		<span style="color:#000;font-weight:bold">}</span>
+	<span style="color:#000;font-weight:bold">}</span>
+
+	<span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">InterfaceC</span> <span style="color:#000;font-weight:bold">{</span>
+		<span style="color:#000;font-weight:bold">default</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">foo</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+			System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;InterfaceC foo&#34;</span><span style="color:#000;font-weight:bold">);</span>
+		<span style="color:#000;font-weight:bold">}</span>
+
+		<span style="color:#000;font-weight:bold">default</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">bar</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+			System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;InterfaceC bar&#34;</span><span style="color:#000;font-weight:bold">);</span>
+		<span style="color:#000;font-weight:bold">}</span>
+	<span style="color:#000;font-weight:bold">}</span>
+
+	<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ClassA</span> <span style="color:#000;font-weight:bold">implements</span> InterfaceA<span style="color:#000;font-weight:bold">,</span> InterfaceB <span style="color:#000;font-weight:bold">{</span>
+	<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#998;font-style:italic">// 错误
+</span><span style="color:#998;font-style:italic">//	class ClassB implements InterfaceB, InterfaceC {
+</span><span style="color:#998;font-style:italic">//	}
+</span><span style="color:#998;font-style:italic"></span>
+	<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ClassB</span> <span style="color:#000;font-weight:bold">implements</span> InterfaceB<span style="color:#000;font-weight:bold">,</span> InterfaceC <span style="color:#000;font-weight:bold">{</span>
+		<span style="color:#3c5d5d;font-weight:bold">@Override</span>
+		<span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">bar</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+			InterfaceB<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">super</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">bar</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#998;font-style:italic">// 调用 InterfaceB 的 bar 方法
+</span><span style="color:#998;font-style:italic"></span>			InterfaceC<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">super</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">bar</span><span style="color:#000;font-weight:bold">();</span> <span style="color:#998;font-style:italic">// 调用 InterfaceC 的 bar 方法
+</span><span style="color:#998;font-style:italic"></span>			System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;ClassB bar&#34;</span><span style="color:#000;font-weight:bold">);</span> <span style="color:#998;font-style:italic">// 做其他的事
+</span><span style="color:#998;font-style:italic"></span>		<span style="color:#000;font-weight:bold">}</span>
+	<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在 ClassA 类中，它实现的 InterfaceA 接口和 InterfaceB 接口中的方法不存在歧义，可以直接多实现。</p>
+<p>在 ClassB 类中，它实现的 InterfaceB 接口和 InterfaceC 接口中都存在相同签名的 foo 方法，需要手动解决冲突。覆写存在歧义的方法，并可以使用<code>InterfaceName.super.methodName();</code>的方式手动调用需要的接口默认方法。</p>
+<h1 id="接口继承行为发生冲突时的解决规则">接口继承行为发生冲突时的解决规则</h1>
+<p>有如下情况</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
+<span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">InterfaceA</span> <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#000;font-weight:bold">default</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">foo</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+        System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;InterfaceA foo&#34;</span><span style="color:#000;font-weight:bold">);</span>
+    <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+ 
+<span style="color:#000;font-weight:bold">interface</span> <span style="color:#458;font-weight:bold">InterfaceB</span> <span style="color:#000;font-weight:bold">extends</span> InterfaceA <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#3c5d5d;font-weight:bold">@Override</span>
+    <span style="color:#000;font-weight:bold">default</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">foo</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+        System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;InterfaceB foo&#34;</span><span style="color:#000;font-weight:bold">);</span>
+    <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+ 
+<span style="color:#998;font-style:italic">// 正确
+</span><span style="color:#998;font-style:italic"></span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ClassA</span> <span style="color:#000;font-weight:bold">implements</span> InterfaceA<span style="color:#000;font-weight:bold">,</span> InterfaceB <span style="color:#000;font-weight:bold">{</span>
+<span style="color:#000;font-weight:bold">}</span>
+ 
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">ClassB</span> <span style="color:#000;font-weight:bold">implements</span> InterfaceA<span style="color:#000;font-weight:bold">,</span> InterfaceB <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#3c5d5d;font-weight:bold">@Override</span>
+    <span style="color:#000;font-weight:bold">public</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">foo</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+<span style="color:#998;font-style:italic">//        InterfaceA.super.foo(); // 错误
+</span><span style="color:#998;font-style:italic"></span>        InterfaceB<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">super</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">foo</span><span style="color:#000;font-weight:bold">();</span>
+    <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当 ClassA 类多实现 InterfaceA 接口和 InterfaceB 接口时，不会出现方法名歧义的错误。当 ClassB 类覆写 foo 方法时，无法通过 InterfaceA.super.foo(); 调用 InterfaceA 接口的 foo方法。</p>
+<p>因为 InterfaceB 接口继承了 InterfaceA 接口，那么 InterfaceB 接口一定包含了所有 InterfaceA 接口中的字段方法，因此一个同时实现了 InterfaceA 接口和 InterfaceB 接口的类与一个只实现了 InterfaceB 接口的类完全等价。</p>
+<p>这很好理解，就相当于 class SimpleDateFormat extends DateFormat 与 class SimpleDateFormat extends DateFormat, Object 等价（如果允许多继承）。</p>
+<p>而覆写意味着对父类方法的屏蔽，这也是 Override 的设计意图之一。因此在实现了 InterfaceB 接口的类中无法访问已被覆写的 InterfaceA 接口中的 foo 方法。</p>
+<h1 id="建议">建议</h1>
+<p>通过这个例子，应该注意到在使用一个默认方法前，一定要考虑它是否真的需要。因为 默认方法会带给程序歧义，并且在复杂的继承体系中容易产生编译错误。滥用默认方法可能给代码带来意想不到、莫名其妙的错误。</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://www.fanmuyong.com">范明勇</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://www.fanmuyong.com/post/Java8-%E6%8E%A5%E5%8F%A3%E4%B8%AD%E7%9A%84-default-%E6%96%B9%E6%B3%95/">https://www.fanmuyong.com/post/Java8-%E6%8E%A5%E5%8F%A3%E4%B8%AD%E7%9A%84-default-%E6%96%B9%E6%B3%95/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://www.fanmuyong.com/tags/Java8'>Java8</a></li>
+                
+                <li><a href='https://www.fanmuyong.com/tags/Lambda'>Lambda</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fanmuyong/fanmuyong.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://www.fanmuyong.com/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://www.fanmuyong.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://www.fanmuyong.com/post/Java8%E7%9A%84%E6%97%B6%E9%97%B4API/" title="Java8 的时间 API">Java8 的时间 API</a>
+    </li>
+    
+    <li>
+        <a href="https://www.fanmuyong.com/post/Java8-%E7%9A%84-Stream-API/" title="Java8 的 Stream API">Java8 的 Stream API</a>
+    </li>
+    
+    <li>
+        <a href="https://www.fanmuyong.com/post/Java8-%E7%9A%84%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" title="Java8 的函数式编程">Java8 的函数式编程</a>
+    </li>
+    
+    <li>
+        <a href="https://www.fanmuyong.com/post/Java8-%E6%8E%A5%E5%8F%A3%E4%B8%AD%E7%9A%84-default-%E6%96%B9%E6%B3%95/" title="Java8 接口中的 default 方法">Java8 接口中的 default 方法</a>
+    </li>
+    
+    <li>
+        <a href="https://www.fanmuyong.com/post/%E5%9C%A8-2016-%E5%B9%B4%E5%AD%A6-JavaScript-%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BD%93%E9%AA%8C/" title="在 2016 年学 JavaScript 是一种什么样的体验">在 2016 年学 JavaScript 是一种什么样的体验</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://www.fanmuyong.com/categories/Java/">Java (4)</a></li>
+    
+    <li><a href="https://www.fanmuyong.com/categories/JavaScript/">JavaScript (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://www.fanmuyong.com/tags/Java8/">Java8</a>
+    
+    <a href="https://www.fanmuyong.com/tags/JavaScript/">JavaScript</a>
+    
+    <a href="https://www.fanmuyong.com/tags/Lambda/">Lambda</a>
+    
+    <a href="https://www.fanmuyong.com/tags/Stream/">Stream</a>
+    
+    <a href="https://www.fanmuyong.com/tags/Vue/">Vue</a>
+    
+    <a href="https://www.fanmuyong.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://www.fanmuyong.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://www.fanmuyong.com">范木甬的博客 By 范明勇</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+
+</html>
