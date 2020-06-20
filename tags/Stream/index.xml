@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Stream on 范木甬的博客</title>
-    <link>https://www.fanmuyong.com/tags/Stream/</link>
+    <link>https://blog.fanmuyong.com/tags/Stream/</link>
     <description>Recent content in Stream on 范木甬的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Sat, 24 Mar 2018 21:00:00 +0800</lastBuildDate>
     
-	<atom:link href="https://www.fanmuyong.com/tags/Stream/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blog.fanmuyong.com/tags/Stream/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Java8 的 Stream API</title>
-      <link>https://www.fanmuyong.com/post/Java8-%E7%9A%84-Stream-API/</link>
+      <link>https://blog.fanmuyong.com/post/Java8-%E7%9A%84-Stream-API/</link>
       <pubDate>Sat, 24 Mar 2018 21:00:00 +0800</pubDate>
       
-      <guid>https://www.fanmuyong.com/post/Java8-%E7%9A%84-Stream-API/</guid>
+      <guid>https://blog.fanmuyong.com/post/Java8-%E7%9A%84-Stream-API/</guid>
       <description>为什么需要 Stream Stream 作为 Java8 的一大亮点，它与java.io包里的InputStream和OutputStream是完全不同的概念。Java8 中的Stream是对集合对象功能的增强，它专注于对集合对象进行各种非常便利、高效的聚合操作，或者大批量数据操作。Stream API 借助于同样新出现的 Lambda 表</description>
     </item>
     

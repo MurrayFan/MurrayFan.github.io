@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>JavaScript on 范木甬的博客</title>
-    <link>https://www.fanmuyong.com/categories/JavaScript/</link>
+    <link>https://blog.fanmuyong.com/categories/JavaScript/</link>
     <description>Recent content in JavaScript on 范木甬的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Wed, 14 Dec 2016 21:00:00 +0800</lastBuildDate>
     
-	<atom:link href="https://www.fanmuyong.com/categories/JavaScript/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blog.fanmuyong.com/categories/JavaScript/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>在 2016 年学 JavaScript 是一种什么样的体验</title>
-      <link>https://www.fanmuyong.com/post/%E5%9C%A8-2016-%E5%B9%B4%E5%AD%A6-JavaScript-%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BD%93%E9%AA%8C/</link>
+      <link>https://blog.fanmuyong.com/post/%E5%9C%A8-2016-%E5%B9%B4%E5%AD%A6-JavaScript-%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BD%93%E9%AA%8C/</link>
       <pubDate>Wed, 14 Dec 2016 21:00:00 +0800</pubDate>
       
-      <guid>https://www.fanmuyong.com/post/%E5%9C%A8-2016-%E5%B9%B4%E5%AD%A6-JavaScript-%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BD%93%E9%AA%8C/</guid>
+      <guid>https://blog.fanmuyong.com/post/%E5%9C%A8-2016-%E5%B9%B4%E5%AD%A6-JavaScript-%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BD%93%E9%AA%8C/</guid>
       <description>嘿，我最近接到一个 Web 项目，不过老实说，我这两年没怎么接触 Web 编程，听说 Web 技术已经发生了一些变化。听说你是这里对新技术最了解的 Web 开发工程师？ 准确地说，我是一名「前端工程师」。不过你算是找对人了。我对今年的技术别提多熟了，前端可视化、音乐播放器、能踢足球的无人机，你尽管问吧。我刚去 JS 大</description>
     </item>
     
