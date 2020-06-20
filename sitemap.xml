@@ -4,7 +4,37 @@
   
   <url>
     <loc>https://blog.fanmuyong.com/categories/</loc>
-    <lastmod>2018-04-11T21:00:00+08:00</lastmod>
+    <lastmod>2020-06-16T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/tags/Docker/</loc>
+    <lastmod>2020-06-16T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/categories/Docker/</loc>
+    <lastmod>2020-06-16T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/</loc>
+    <lastmod>2020-06-16T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/post/</loc>
+    <lastmod>2020-06-16T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/tags/</loc>
+    <lastmod>2020-06-16T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/post/%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E7%A0%B4%E8%A7%A3%E5%85%AC%E5%8F%B8-400K-%E7%BD%91%E9%80%9F%E9%99%90%E5%88%B6%E4%B8%8B%E8%BD%BD-Docker-%E9%95%9C%E5%83%8F%E7%9A%84/</loc>
+    <lastmod>2020-06-16T21:00:00+08:00</lastmod>
   </url>
   
   <url>
@@ -19,21 +49,6 @@
   
   <url>
     <loc>https://blog.fanmuyong.com/post/Java8%E7%9A%84%E6%97%B6%E9%97%B4API/</loc>
-    <lastmod>2018-04-11T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/post/</loc>
-    <lastmod>2018-04-11T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/tags/</loc>
-    <lastmod>2018-04-11T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/</loc>
     <lastmod>2018-04-11T21:00:00+08:00</lastmod>
   </url>
   
