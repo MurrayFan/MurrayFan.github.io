@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据库 on Geek笔记</title>
+    <link>https://blog.fanmuyong.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+    <description>Recent content in 数据库 on Geek笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 05 Jun 2019 21:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.fanmuyong.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>嵌入式数据库的冰与火</title>
+      <link>https://blog.fanmuyong.com/post/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%86%B0%E4%B8%8E%E7%81%AB/</link>
+      <pubDate>Wed, 05 Jun 2019 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%86%B0%E4%B8%8E%E7%81%AB/</guid>
+      <description>数据库分关系型数据库和非关系型数据库两种，今天我们来聊一聊关系型数据库中的嵌入式数据库。如无特殊说明，本文所提到的「数据库」均指关系型数据库。 什么是嵌入式数据库 嵌入式数据库 ( Embedded database ) 跟嵌入式设备是不相关的两个概念，尽管它可以运行在手机、平板电脑或树莓派上。 嵌入式数据库将 DBMS ( Database Management System )</description>
+    </item>
+    
+  </channel>
+</rss>

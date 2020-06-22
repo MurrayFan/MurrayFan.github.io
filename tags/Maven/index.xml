@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Maven on Geek笔记</title>
+    <link>https://blog.fanmuyong.com/tags/Maven/</link>
+    <description>Recent content in Maven on Geek笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 15 Nov 2018 21:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.fanmuyong.com/tags/Maven/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Maven打包构建完全指南二（打包构建）</title>
+      <link>https://blog.fanmuyong.com/post/Maven%E6%89%93%E5%8C%85%E6%9E%84%E5%BB%BA%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97%E4%BA%8C/</link>
+      <pubDate>Thu, 15 Nov 2018 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/Maven%E6%89%93%E5%8C%85%E6%9E%84%E5%BB%BA%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97%E4%BA%8C/</guid>
+      <description>打包构建 开发阶段我们一般都是在IDE里面直接运行Java代码，在项目发布部署时如何导出jar包或war包呢？ 非Maven项目 以Eclipse为例，右击项目名，选择Export选择JAR file、Runnable JAR file或WAR file即可 Maven项目 Maven的打包策略有很多</description>
+    </item>
+    
+    <item>
+      <title>Maven打包构建完全指南一（依赖管理）</title>
+      <link>https://blog.fanmuyong.com/post/Maven%E6%89%93%E5%8C%85%E6%9E%84%E5%BB%BA%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%80/</link>
+      <pubDate>Tue, 13 Nov 2018 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/Maven%E6%89%93%E5%8C%85%E6%9E%84%E5%BB%BA%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%80/</guid>
+      <description>前言 Apache Maven是一个软件项目管理和构建工具。基于项目对象模型（POM）的概念，Maven可以从一个核心配置文件管理项目的构建，报告和文档。 虽然近年来Gradle作为后起之秀借着Android的东风大肆扩张，Maven作为主流构建工具的地位还是不可动摇的。我们可以看到很多明星项目</description>
+    </item>
+    
+  </channel>
+</rss>

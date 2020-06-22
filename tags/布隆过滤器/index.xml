@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>布隆过滤器 on Geek笔记</title>
+    <link>https://blog.fanmuyong.com/tags/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/</link>
+    <description>Recent content in 布隆过滤器 on Geek笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 23 Apr 2019 21:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.fanmuyong.com/tags/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>布隆过滤器详解</title>
+      <link>https://blog.fanmuyong.com/post/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Tue, 23 Apr 2019 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8%E8%AF%A6%E8%A7%A3/</guid>
+      <description>今天学习一个有用的算法：布隆过滤器 ( Bloom Filter )。 布隆过滤器是 1970 年由 Burton Howard Bloom 提出的。它实际上是一个很长的二进制向量和一系列随机映射函数。布隆过滤器可以用于快速检索一个元素是否在一个集合中。 先来了解一中数据结构——位图，因为布隆过滤器本身就是基于位图的，是对位图的一种改进。 位图 这里说的位图</description>
+    </item>
+    
+  </channel>
+</rss>

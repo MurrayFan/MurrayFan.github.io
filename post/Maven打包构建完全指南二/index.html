@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Maven打包构建完全指南二（打包构建） | Geek笔记</title>
+    <meta property="og:title" content="Maven打包构建完全指南二（打包构建） - Geek笔记">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2018-11-15T21:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2018-11-15T21:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="[Maven打包]">
+    <meta name="description" content="Maven打包构建完全指南二（打包构建）">
+        
+    <meta name="author" content="范明勇">
+    <meta property="og:url" content="https://blog.fanmuyong.com/post/Maven%E6%89%93%E5%8C%85%E6%9E%84%E5%BB%BA%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97%E4%BA%8C/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://blog.fanmuyong.com">
+                        Geek笔记
+                    </a>
+                
+                <p class="description">范明勇的博客，专注于Java、JS、微服务、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://blog.fanmuyong.com">首页</a>
+                    
+                    <a  href="https://blog.fanmuyong.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://blog.fanmuyong.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+
+
+<style type="text/css">
+  .post-toc {
+    position: fixed;
+    width: 200px;
+    margin-left: -210px;
+    padding: 5px 10px;
+    font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+    font-size: 12px;
+    border: 1px solid rgba(0, 0, 0, .07);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.98);
+    background-clip: padding-box;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+    word-wrap: break-word;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 999;
+    cursor: pointer;
+    max-height: 70%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .post-toc .post-toc-title {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .post-toc .post-toc-content {
+    font-size: 12px;
+  }
+
+  .post-toc .post-toc-content>nav>ul {
+    margin: 10px 0;
+  }
+
+  .post-toc .post-toc-content ul {
+    padding-left: 20px;
+     
+    margin: 0.5em;
+    line-height: 1.8em;
+  }
+
+
+
+  @media print,
+  screen and (max-width:1057px) {
+    .post-toc {
+      display: none;
+    }
+  }
+
+  .post-toc {
+    transition: all .3s ease;
+  }
+
+  .post-toc:hover,
+  .post-toc:active {
+    width: 250px !important;
+  }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+  <h2 class="post-toc-title">文章目录</h2>
+
+  <div
+    class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#打包构建">打包构建</a>
+      <ul>
+        <li><a href="#非maven项目">非Maven项目</a></li>
+        <li><a href="#maven项目">Maven项目</a></li>
+        <li><a href="#最佳实践">最佳实践</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+<script type="text/javascript">
+  function initToc() {
+    var postToc = $(".post-toc");
+    if (postToc.length) {
+      var leftPos = $("#main").offset().left;
+      if (leftPos < 220) {
+        postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+      }
+
+      var t = postToc.offset().top - 20,
+        a = {
+          start: {
+            position: "absolute",
+            top: t
+          },
+          process: {
+            position: "fixed",
+            top: 80
+          },
+        };
+      $(window).scroll(function () {
+        var e = $(window).scrollTop();
+        e < t ? postToc.css(a.start) : postToc.css(a.process)
+      })
+    }
+  }
+  $(document).ready(function () {
+    initToc()
+  })
+  $(window).resize(function () {
+    initToc()
+  })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">Maven打包构建完全指南二（打包构建）</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2018年11月15日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://blog.fanmuyong.com/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB'>工具类</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        <div class="post-content">
+            <h1 id="打包构建">打包构建</h1>
+<p>开发阶段我们一般都是在IDE里面直接运行Java代码，在项目发布部署时如何导出jar包或war包呢？</p>
+<h2 id="非maven项目">非Maven项目</h2>
+<p>以Eclipse为例，右击项目名，选择Export选择JAR file、Runnable JAR file或WAR file即可</p>
+<p><img src="http://raw.fanmuyong.com//mweb/15928094273730.jpg" alt=""></p>
+<h2 id="maven项目">Maven项目</h2>
+<p>Maven的打包策略有很多，在此一打可执行jar包为例进行探讨。首要步骤是需要在pom的<code>&lt;build&gt;</code>节点下添加Maven的打包插件，常见的打包插件有：</p>
+<ol>
+<li>核心插件<code>Maven-compiler-plugin</code>，用于指定编译级别，默认使用jdk1.5编译</li>
+<li>打包可执行jar的<code>Maven-jar-plugin</code>，用于指定本项目生成的jar包中的MANIFEST.MF文件中的配置，如Class-Path和Main-Class</li>
+<li><code>Maven-assembly-plugin</code>，支持定制化打包方式，负责将整个项目按照自定义的目录结构打成最终的压缩包，方便实际部署，可在此处设置打包拷贝路径，配置，以及打包好的jar文件等。</li>
+<li><code>Maven-shade-plugin</code>，用来打可执行包，包含依赖，以及对依赖进行取舍过滤，当你只想将项目打成一个可执行包时，<code>Maven-shade-plugin</code>非常适合。</li>
+</ol>
+<p>打包策略选择：</p>
+<ol>
+<li>直接打包，不打包依赖包，仅打包出项目中的代码到jar包中。在POM中添加<code>Maven-compiler-plugin</code>即可，随后执行<code>Maven package</code>。直接打包意义不大，首先Pass。</li>
+<li>将项目和依赖打包成一整个可执行jar包，用到的就是<code>Maven-shade-plugin</code>了。这是常规的做法，由于包含了所有依赖jar包，封装了内部细节，包容一且。</li>
+<li>将依赖jar包输出到lib目录方式，Tomcat就是采用的这种打包策略。这种方案属于将项目结构重新组装，因此要用到的核心打包插件是<code>Maven-assembly-plugin</code>。通过配置，将依赖jar输出到lib目录，与构建后的主项目包分离，若程序需要升级仅需替换主程序jar即可，不必连同lib目录一起替换，大大提高了网络传输效率；结构分离整体上也够直观。</li>
+</ol>
+<p>在提出最佳实践之前我们先来了解一下打包策略2需要的配置：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;build&gt;</span>  
+    <span style="color:#000080">&lt;plugins&gt;</span>  
+        <span style="color:#000080">&lt;plugin&gt;</span>  
+            <span style="color:#000080">&lt;groupId&gt;</span>org.apache.Maven.plugins<span style="color:#000080">&lt;/groupId&gt;</span>  
+            <span style="color:#000080">&lt;artifactId&gt;</span>Maven-shade-plugin<span style="color:#000080">&lt;/artifactId&gt;</span>  
+            <span style="color:#000080">&lt;version&gt;</span>1.4<span style="color:#000080">&lt;/version&gt;</span>  
+            <span style="color:#000080">&lt;executions&gt;</span>  
+                <span style="color:#000080">&lt;execution&gt;</span>  
+                    <span style="color:#000080">&lt;phase&gt;</span>package<span style="color:#000080">&lt;/phase&gt;</span>  
+                    <span style="color:#000080">&lt;goals&gt;</span>  
+                        <span style="color:#000080">&lt;goal&gt;</span>shade<span style="color:#000080">&lt;/goal&gt;</span>  
+                    <span style="color:#000080">&lt;/goals&gt;</span>  
+                    <span style="color:#000080">&lt;configuration&gt;</span>  
+                        <span style="color:#000080">&lt;filters&gt;</span>  
+                            <span style="color:#000080">&lt;filter&gt;</span>  
+                                <span style="color:#000080">&lt;artifact&gt;</span>*:*<span style="color:#000080">&lt;/artifact&gt;</span>  
+                                <span style="color:#000080">&lt;excludes&gt;</span>  
+                                    <span style="color:#000080">&lt;exclude&gt;</span>META-INF/*.SF<span style="color:#000080">&lt;/exclude&gt;</span>  
+                                    <span style="color:#000080">&lt;exclude&gt;</span>META-INF/*.DSA<span style="color:#000080">&lt;/exclude&gt;</span>  
+                                    <span style="color:#000080">&lt;exclude&gt;</span>META-INF/*.RSA<span style="color:#000080">&lt;/exclude&gt;</span>  
+                                <span style="color:#000080">&lt;/excludes&gt;</span>  
+                            <span style="color:#000080">&lt;/filter&gt;</span>  
+                        <span style="color:#000080">&lt;/filters&gt;</span>  
+                        <span style="color:#000080">&lt;transformers&gt;</span>  
+                            <span style="color:#000080">&lt;transformer</span>  
+                                <span style="color:#008080">implementation=</span><span style="color:#d14">&#34;org.apache.Maven.plugins.shade.resource.ManifestResourceTransformer&#34;</span><span style="color:#000080">&gt;</span>  
+                                <span style="color:#000080">&lt;mainClass&gt;</span>com.cat.Application<span style="color:#000080">&lt;/mainClass&gt;</span>  
+                            <span style="color:#000080">&lt;/transformer&gt;</span>  
+                            <span style="color:#000080">&lt;transformer</span>  
+                                <span style="color:#008080">implementation=</span><span style="color:#d14">&#34;org.apache.Maven.plugins.shade.resource.AppendingTransformer&#34;</span><span style="color:#000080">&gt;</span>  
+                                <span style="color:#000080">&lt;resource&gt;</span>META-INF/spring.handlers<span style="color:#000080">&lt;/resource&gt;</span>  
+                            <span style="color:#000080">&lt;/transformer&gt;</span>  
+                            <span style="color:#000080">&lt;transformer</span>  
+                                <span style="color:#008080">implementation=</span><span style="color:#d14">&#34;org.apache.Maven.plugins.shade.resource.AppendingTransformer&#34;</span><span style="color:#000080">&gt;</span>  
+                                <span style="color:#000080">&lt;resource&gt;</span>META-INF/spring.schemas<span style="color:#000080">&lt;/resource&gt;</span>  
+                            <span style="color:#000080">&lt;/transformer&gt;</span>  
+                        <span style="color:#000080">&lt;/transformers&gt;</span>  
+                    <span style="color:#000080">&lt;/configuration&gt;</span>  
+                <span style="color:#000080">&lt;/execution&gt;</span>  
+            <span style="color:#000080">&lt;/executions&gt;</span>  
+        <span style="color:#000080">&lt;/plugin&gt;</span>  
+    <span style="color:#000080">&lt;/plugins&gt;</span>  
+<span style="color:#000080">&lt;/build&gt;</span>  
+
+</code></pre></td></tr></table>
+</div>
+</div><p>shade插件绑定的是package生命周期目标，并设置com.cat.Application为Main-Class，以及将META-INF/spring.*文件合并(追加而非覆盖)，并过滤掉所有依赖的META/INF中SF,DSA,RSA后缀文件。这里涉及到filter配置和transformer配置。</p>
+<h2 id="最佳实践">最佳实践</h2>
+<p>综上所述，我们选择策略3作为最佳实践（向Tomcat看齐），首先看一下打包后的项目结构：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">D:<span style="color:#d14">\B</span>ANKSERVER //根目录
+│  bankServer.jar //主程序包
+│  README.md      //说明文档
+│  startup.bat    //启动脚本
+│  
+├─conf //配置文件目录
+│      config.properties //配置文件
+│      database.properties //数据库配置文件
+│        
+├─lib //依赖目录
+│      aopalliance-1.0.jar
+│      bankServer-0.0.1-SNAPSHOT.jar
+│      c3p0-0.9.5.2.jar
+│      my-Entry-1.0.jar
+│      commons-lang3-3.8.1.jar
+│      druid-1.1.8.jar
+</code></pre></td></tr></table>
+</div>
+</div><p>这里用到了三个插件，<code>Maven-compiler-plugin</code>指定编译级别；Maven-jar-plugin主要就是配置了MANIFEST.MF这个文件而已，就是让可执行文件知道自己怎么执行，加载哪些文件执行的描述，剩下的工作交由<code>Maven-assembly-plugin</code>来处理。</p>
+<p>贴上来pom.xml的配置：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;build&gt;</span>
+		<span style="color:#000080">&lt;finalName&gt;</span>bankServer<span style="color:#000080">&lt;/finalName&gt;</span>
+		<span style="color:#000080">&lt;plugins&gt;</span>
+			<span style="color:#000080">&lt;plugin&gt;</span>
+				<span style="color:#000080">&lt;groupId&gt;</span>org.apache.Maven.plugins<span style="color:#000080">&lt;/groupId&gt;</span>
+				<span style="color:#000080">&lt;artifactId&gt;</span>Maven-compiler-plugin<span style="color:#000080">&lt;/artifactId&gt;</span>
+				<span style="color:#000080">&lt;version&gt;</span>3.7.0<span style="color:#000080">&lt;/version&gt;</span>
+				<span style="color:#000080">&lt;configuration&gt;</span>
+					<span style="color:#000080">&lt;source&gt;</span>1.7<span style="color:#000080">&lt;/source&gt;</span>
+					<span style="color:#000080">&lt;target&gt;</span>1.7<span style="color:#000080">&lt;/target&gt;</span>
+					<span style="color:#000080">&lt;encoding&gt;</span>utf-8<span style="color:#000080">&lt;/encoding&gt;</span>
+				<span style="color:#000080">&lt;/configuration&gt;</span>
+			<span style="color:#000080">&lt;/plugin&gt;</span>
+
+			<span style="color:#000080">&lt;plugin&gt;</span>
+				<span style="color:#000080">&lt;groupId&gt;</span>org.apache.Maven.plugins<span style="color:#000080">&lt;/groupId&gt;</span>
+				<span style="color:#000080">&lt;artifactId&gt;</span>Maven-jar-plugin<span style="color:#000080">&lt;/artifactId&gt;</span>
+				<span style="color:#000080">&lt;configuration&gt;</span>
+					<span style="color:#000080">&lt;archive&gt;</span>
+						<span style="color:#000080">&lt;addMavenDescriptor&gt;</span>false<span style="color:#000080">&lt;/addMavenDescriptor&gt;</span>
+						<span style="color:#998;font-style:italic">&lt;!-- 指定main信息 --&gt;</span>
+						<span style="color:#000080">&lt;manifest&gt;</span>
+						    <span style="color:#998;font-style:italic">&lt;!--指定添加项目中使用的外部jar的classpath项--&gt;</span>
+							<span style="color:#000080">&lt;addClasspath&gt;</span>true<span style="color:#000080">&lt;/addClasspath&gt;</span>
+							<span style="color:#000080">&lt;classpathPrefix&gt;</span>lib/<span style="color:#000080">&lt;/classpathPrefix&gt;</span>
+							<span style="color:#998;font-style:italic">&lt;!-- 此处指定main方法入口的class --&gt;</span>
+							<span style="color:#000080">&lt;mainClass&gt;</span>com.cat.bank.main.Luncher<span style="color:#000080">&lt;/mainClass&gt;</span>
+						<span style="color:#000080">&lt;/manifest&gt;</span>
+					<span style="color:#000080">&lt;/archive&gt;</span>
+				<span style="color:#000080">&lt;/configuration&gt;</span>
+			<span style="color:#000080">&lt;/plugin&gt;</span>
+			<span style="color:#000080">&lt;plugin&gt;</span>
+				<span style="color:#000080">&lt;artifactId&gt;</span>Maven-assembly-plugin<span style="color:#000080">&lt;/artifactId&gt;</span>
+				<span style="color:#000080">&lt;configuration&gt;</span>
+					<span style="color:#000080">&lt;appendAssemblyId&gt;</span>false<span style="color:#000080">&lt;/appendAssemblyId&gt;</span>
+					<span style="color:#000080">&lt;descriptors&gt;</span>
+					    <span style="color:#998;font-style:italic">&lt;!--指定详细的外部配置，读取这个文件，防止pom.xml过于臃肿--&gt;</span>
+						<span style="color:#000080">&lt;descriptor&gt;</span>packconf/package.xml<span style="color:#000080">&lt;/descriptor&gt;</span>
+					<span style="color:#000080">&lt;/descriptors&gt;</span>
+
+				<span style="color:#000080">&lt;/configuration&gt;</span>
+				<span style="color:#998;font-style:italic">&lt;!--下面是为了使用 mvn package命令，如果不加则使用mvn assembly --&gt;</span>
+				<span style="color:#000080">&lt;executions&gt;</span>
+					<span style="color:#000080">&lt;execution&gt;</span>
+						<span style="color:#000080">&lt;id&gt;</span>make-assembly<span style="color:#000080">&lt;/id&gt;</span>
+						<span style="color:#000080">&lt;phase&gt;</span>package<span style="color:#000080">&lt;/phase&gt;</span>
+						<span style="color:#000080">&lt;goals&gt;</span>
+							<span style="color:#000080">&lt;goal&gt;</span>assembly<span style="color:#000080">&lt;/goal&gt;</span>
+						<span style="color:#000080">&lt;/goals&gt;</span>
+					<span style="color:#000080">&lt;/execution&gt;</span>
+				<span style="color:#000080">&lt;/executions&gt;</span>
+			<span style="color:#000080">&lt;/plugin&gt;</span>
+
+		<span style="color:#000080">&lt;/plugins&gt;</span>
+	<span style="color:#000080">&lt;/build&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>Maven-assembly-plugin</code>引用的package.xml:</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#000080">&lt;assembly&gt;</span>
+	<span style="color:#000080">&lt;id&gt;</span>bin<span style="color:#000080">&lt;/id&gt;</span>
+	<span style="color:#998;font-style:italic">&lt;!-- 最终打包成一个用于发布的zip文件 --&gt;</span>
+	<span style="color:#000080">&lt;formats&gt;</span>
+		<span style="color:#000080">&lt;format&gt;</span>zip<span style="color:#000080">&lt;/format&gt;</span>
+	<span style="color:#000080">&lt;/formats&gt;</span>
+	<span style="color:#998;font-style:italic">&lt;!-- Adds dependencies to zip package under lib directory --&gt;</span>
+	<span style="color:#000080">&lt;dependencySets&gt;</span>
+		<span style="color:#000080">&lt;dependencySet&gt;</span>
+			<span style="color:#998;font-style:italic">&lt;!-- 不使用项目的artifact，第三方jar不要解压，打包进zip文件的lib目录 --&gt;</span>
+			<span style="color:#000080">&lt;useProjectArtifact&gt;</span>true<span style="color:#000080">&lt;/useProjectArtifact&gt;</span>
+			<span style="color:#000080">&lt;outputDirectory&gt;</span>lib<span style="color:#000080">&lt;/outputDirectory&gt;</span>
+			<span style="color:#000080">&lt;unpack&gt;</span>false<span style="color:#000080">&lt;/unpack&gt;</span>
+		<span style="color:#000080">&lt;/dependencySet&gt;</span>
+	<span style="color:#000080">&lt;/dependencySets&gt;</span>
+	<span style="color:#000080">&lt;fileSets&gt;</span>
+		<span style="color:#998;font-style:italic">&lt;!-- 把项目相关的说明文件，打包进zip文件的根目录 --&gt;</span>
+		<span style="color:#000080">&lt;fileSet&gt;</span>
+			<span style="color:#000080">&lt;directory&gt;</span>${project.basedir}<span style="color:#000080">&lt;/directory&gt;</span>
+			<span style="color:#000080">&lt;outputDirectory&gt;</span>/<span style="color:#000080">&lt;/outputDirectory&gt;</span>
+			<span style="color:#000080">&lt;includes&gt;</span>
+				<span style="color:#000080">&lt;include&gt;</span>README*<span style="color:#000080">&lt;/include&gt;</span>
+				<span style="color:#000080">&lt;include&gt;</span>LICENSE*<span style="color:#000080">&lt;/include&gt;</span>
+				<span style="color:#000080">&lt;include&gt;</span>NOTICE*<span style="color:#000080">&lt;/include&gt;</span>
+			<span style="color:#000080">&lt;/includes&gt;</span>
+		<span style="color:#000080">&lt;/fileSet&gt;</span>
+
+		<span style="color:#998;font-style:italic">&lt;!-- 把项目的配置文件，打包进zip文件的conf目录 --&gt;</span>
+		<span style="color:#000080">&lt;fileSet&gt;</span>
+			<span style="color:#000080">&lt;directory&gt;</span>${project.basedir}/conf<span style="color:#000080">&lt;/directory&gt;</span>
+			<span style="color:#000080">&lt;outputDirectory&gt;</span>conf<span style="color:#000080">&lt;/outputDirectory&gt;</span>
+			<span style="color:#000080">&lt;includes&gt;</span>
+				<span style="color:#000080">&lt;include&gt;</span>*<span style="color:#000080">&lt;/include&gt;</span>
+			<span style="color:#000080">&lt;/includes&gt;</span>
+		<span style="color:#000080">&lt;/fileSet&gt;</span>
+
+		<span style="color:#998;font-style:italic">&lt;!-- 把项目的脚本文件目录（ src/main/scripts ）中的启动脚本文件，打包进zip文件的跟目录 --&gt;</span>
+		<span style="color:#000080">&lt;fileSet&gt;</span>
+			<span style="color:#000080">&lt;directory&gt;</span>${project.build.scriptSourceDirectory}<span style="color:#000080">&lt;/directory&gt;</span>
+			<span style="color:#000080">&lt;outputDirectory&gt;&lt;/outputDirectory&gt;</span>
+			<span style="color:#000080">&lt;includes&gt;</span>
+				<span style="color:#000080">&lt;include&gt;</span>startup.*<span style="color:#000080">&lt;/include&gt;</span>
+			<span style="color:#000080">&lt;/includes&gt;</span>
+		<span style="color:#000080">&lt;/fileSet&gt;</span>
+
+		<span style="color:#998;font-style:italic">&lt;!-- 把项目自己编译出来的jar文件，打包进zip文件的根目录 --&gt;</span>
+		<span style="color:#000080">&lt;fileSet&gt;</span>
+			<span style="color:#000080">&lt;directory&gt;</span>${project.build.directory}<span style="color:#000080">&lt;/directory&gt;</span>
+			<span style="color:#000080">&lt;outputDirectory&gt;&lt;/outputDirectory&gt;</span>
+			<span style="color:#000080">&lt;includes&gt;</span>
+				<span style="color:#000080">&lt;include&gt;</span>*.jar<span style="color:#000080">&lt;/include&gt;</span>
+			<span style="color:#000080">&lt;/includes&gt;</span>
+		<span style="color:#000080">&lt;/fileSet&gt;</span>
+	<span style="color:#000080">&lt;/fileSets&gt;</span>
+<span style="color:#000080">&lt;/assembly&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>==**问题记录：**==</p>
+<ol>
+<li>Java代码读取不到jar包外部配置文件</li>
+</ol>
+<p>项目发布的时候通常会修改配置文件，这种情况下就需要把配置文件放到jar外部读取而不能直接打到jar包内。默认的<code>config.properties</code>文件是放在src/main/resources路径，即classpath下的，采用如下代码读取，构建后<code>config.properties</code>文件被打到了conf下，尝试多种方案，即使将<code>&quot;config.properties&quot;</code>加上相对路径也读取不到，若用<code>System.getProperty(&quot;user.dir&quot;)</code>这种方法在IDE下就不能运行了，因此亟需找到一个两全其美的办法同时支持在IDE下读取和构建后的外部目录读取。</p>
+<p>原读取方法：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java">InputStream inputStream <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">this</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getClass</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">getClassLoader</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">getResourceAsStream</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;conf/config.properties&#34;</span><span style="color:#000;font-weight:bold">);</span>   
+Properties p <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Properties<span style="color:#000;font-weight:bold">();</span>   
+<span style="color:#000;font-weight:bold">try</span> <span style="color:#000;font-weight:bold">{</span>   
+   p<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">load</span><span style="color:#000;font-weight:bold">(</span>inputStream<span style="color:#000;font-weight:bold">);</span>   
+<span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span>IOException e1<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>   
+   e1<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">printStackTrace</span><span style="color:#000;font-weight:bold">();</span>   
+<span style="color:#000;font-weight:bold">}</span>  
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>解决方案：</strong></p>
+<p>1）. 将config.properties和database.properties从src/main/resources移到项目根目录的普通文件夹conf</p>
+<p>2）. 修改读取方式为文件流</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Java" data-lang="Java"><span style="color:#000;font-weight:bold">try</span> <span style="color:#000;font-weight:bold">{</span>
+	Properties properties <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> Properties<span style="color:#000;font-weight:bold">();</span>
+	<span style="color:#998;font-style:italic">// 1.加载properties文件
+</span><span style="color:#998;font-style:italic"></span>	InputStream is <span style="color:#000;font-weight:bold">=</span><span style="color:#000;font-weight:bold">new</span> FileInputStream<span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;conf/config.properties&#34;</span><span style="color:#000;font-weight:bold">);</span>
+	<span style="color:#998;font-style:italic">// 2.加载输入流
+</span><span style="color:#998;font-style:italic"></span>	properties<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">load</span><span style="color:#000;font-weight:bold">(</span>is<span style="color:#000;font-weight:bold">);</span>
+<span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">catch</span> <span style="color:#000;font-weight:bold">(</span>Exception e<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+	logger<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">error</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;读取配置文件config.properties错误&#34;</span><span style="color:#000;font-weight:bold">);</span>
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>本地jar包打包后Maven无法加载</li>
+</ol>
+<p>项目中需要引入一个my-Entry.jar的加密jar包，这个包Maven仓库中是没有的。回忆一下前面提到的依赖的system作用域，因此采用如下方式导入了该jar包，但是打包后调用该包内方法时提示Class Not Found。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;dependency&gt;</span>
+	<span style="color:#000080">&lt;groupId&gt;</span>com.cat<span style="color:#000080">&lt;/groupId&gt;</span>
+	<span style="color:#000080">&lt;artifactId&gt;</span>my-Entry<span style="color:#000080">&lt;/artifactId&gt;</span>
+	<span style="color:#998;font-style:italic">&lt;!--注意这个版本号，下面会用到--&gt;</span>
+	<span style="color:#000080">&lt;version&gt;</span>1.0<span style="color:#000080">&lt;/version&gt;</span>
+	<span style="color:#000080">&lt;scope&gt;</span>system<span style="color:#000080">&lt;/scope&gt;</span>
+	<span style="color:#000080">&lt;systemPath&gt;</span>${project.basedir}/libs/my-Entry.jar<span style="color:#000080">&lt;/systemPath&gt;</span>
+<span style="color:#000080">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这是因为scope为system作用域时不参与运行时，解决这个问题有两种方案：</p>
+<p><strong>解决方案：</strong></p>
+<p>1）将该jar安装到本地仓库</p>
+<p>执行以下命令，发布到本地仓库，然后修改pom.xml将<code>scope</code>标签去掉即可。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mvn install:install-file -Dfile<span style="color:#000;font-weight:bold">=</span>D:<span style="color:#d14">\m</span>y-Entry.jar -DgroupId<span style="color:#000;font-weight:bold">=</span>com.cat -DartifactId<span style="color:#000;font-weight:bold">=</span>ccb-Entry -Dversion<span style="color:#000;font-weight:bold">=</span>1.0 -Dpackaging<span style="color:#000;font-weight:bold">=</span>jar
+</code></pre></td></tr></table>
+</div>
+</div><p>2）将外部包加入主jar包META-INF下的MANIFEST.MF文件</p>
+<p>这个MANIFEST.MF里指定了外部依赖的jar包查找路径，需要在在Maven-jar-plugin 里配置Class-Path。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#000080">&lt;plugin&gt;</span>
+	<span style="color:#000080">&lt;groupId&gt;</span>org.apache.Maven.plugins<span style="color:#000080">&lt;/groupId&gt;</span>
+	<span style="color:#000080">&lt;artifactId&gt;</span>Maven-jar-plugin<span style="color:#000080">&lt;/artifactId&gt;</span>
+	<span style="color:#000080">&lt;configuration&gt;</span>
+		<span style="color:#000080">&lt;archive&gt;</span>
+			<span style="color:#000080">&lt;addMavenDescriptor&gt;</span>false<span style="color:#000080">&lt;/addMavenDescriptor&gt;</span>
+			<span style="color:#998;font-style:italic">&lt;!-- Manifest specific configuration --&gt;</span>
+			<span style="color:#000080">&lt;manifest&gt;</span>
+				<span style="color:#000080">&lt;addClasspath&gt;</span>true<span style="color:#000080">&lt;/addClasspath&gt;</span>
+				<span style="color:#000080">&lt;classpathPrefix&gt;</span>lib/<span style="color:#000080">&lt;/classpathPrefix&gt;</span>
+				<span style="color:#998;font-style:italic">&lt;!-- 此处指定main方法入口的class --&gt;</span>
+				<span style="color:#000080">&lt;mainClass&gt;</span>com.cat.bank.main.Luncher<span style="color:#000080">&lt;/mainClass&gt;</span>
+			<span style="color:#000080">&lt;/manifest&gt;</span>
+			<span style="color:#000080">&lt;manifestEntries&gt;</span>
+			    <span style="color:#998;font-style:italic">&lt;!--注意这里要加上-1.0版本号，就是你引入本地依赖时指定的那个version--&gt;</span>
+                <span style="color:#000080">&lt;Class-Path&gt;</span>lib/my-Entry-1.0.jar<span style="color:#000080">&lt;/Class-Path&gt;</span>
+            <span style="color:#000080">&lt;/manifestEntries&gt;</span>
+		<span style="color:#000080">&lt;/archive&gt;</span>
+	<span style="color:#000080">&lt;/configuration&gt;</span>
+<span style="color:#000080">&lt;/plugin&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>现在用解压软件打开bankServer.jar主jar文件会发现MANIFEST.MF文件中已经加上了my-Entry.jar。但是这时这个my-Entry.jar并没有发布到lib文件夹下，我们需要再配置Maven-assembly-plugin将scope为system的依赖也发布到lib目录，或者可以直接拷贝过去。</p>
+<p>在package.xml中追加一行配置，这样就可以正常打包运行啦~</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">	<span style="color:#000080">&lt;dependencySets&gt;</span>
+		<span style="color:#000080">&lt;dependencySet&gt;</span>
+			<span style="color:#998;font-style:italic">&lt;!-- 不使用项目的artifact，第三方jar不要解压，打包进zip文件的lib目录 --&gt;</span>
+			<span style="color:#000080">&lt;useProjectArtifact&gt;</span>true<span style="color:#000080">&lt;/useProjectArtifact&gt;</span>
+			<span style="color:#000080">&lt;outputDirectory&gt;</span>lib<span style="color:#000080">&lt;/outputDirectory&gt;</span>
+			<span style="color:#000080">&lt;unpack&gt;</span>false<span style="color:#000080">&lt;/unpack&gt;</span>
+		<span style="color:#000080">&lt;/dependencySet&gt;</span>
+		<span style="color:#998;font-style:italic">&lt;!--将&lt;scope&gt;system&lt;/scope&gt;也发布到lib--&gt;</span>
+		<span style="color:#000080">&lt;dependencySet&gt;</span>
+			<span style="color:#000080">&lt;useProjectArtifact&gt;</span>true<span style="color:#000080">&lt;/useProjectArtifact&gt;</span>
+			<span style="color:#000080">&lt;outputDirectory&gt;</span>lib<span style="color:#000080">&lt;/outputDirectory&gt;</span>
+			<span style="color:#000080">&lt;unpack&gt;</span>false<span style="color:#000080">&lt;/unpack&gt;</span>
+			<span style="color:#000080">&lt;scope&gt;</span>system<span style="color:#000080">&lt;/scope&gt;</span>
+		<span style="color:#000080">&lt;/dependencySet&gt;</span>
+	<span style="color:#000080">&lt;/dependencySets&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>（全文完）</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://blog.fanmuyong.com">范明勇</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://blog.fanmuyong.com/post/Maven%E6%89%93%E5%8C%85%E6%9E%84%E5%BB%BA%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97%E4%BA%8C/">https://blog.fanmuyong.com/post/Maven%E6%89%93%E5%8C%85%E6%9E%84%E5%BB%BA%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97%E4%BA%8C/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/Maven%E6%89%93%E5%8C%85%E6%9E%84%E5%BB%BA%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97%E4%B8%80/">Maven打包构建完全指南一（依赖管理）</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://blog.fanmuyong.com/tags/Maven'>Maven</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fanmuyong/fanmuyong.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://blog.fanmuyong.com/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://blog.fanmuyong.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E7%A0%B4%E8%A7%A3%E5%85%AC%E5%8F%B8-400K-%E7%BD%91%E9%80%9F%E9%99%90%E5%88%B6%E4%B8%8B%E8%BD%BD-Docker-%E9%95%9C%E5%83%8F%E7%9A%84/" title="我是如何破解公司 400K 网速限制下载 Docker 镜像的">我是如何破解公司 400K 网速限制下载 Docker 镜像的</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/javascriptvoid0-%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D/" title="javascript:void(0) 是什么意思">javascript:void(0) 是什么意思</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E5%9C%A8-2016-%E5%B9%B4%E5%AD%A6-JavaScript-%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BD%93%E9%AA%8C/" title="在 2016 年学 JavaScript 是一种什么样的体验">在 2016 年学 JavaScript 是一种什么样的体验</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/9012%E5%B9%B4%E4%BA%86%E4%BD%A0%E8%BF%98%E5%9C%A8%E7%94%A8-jQuery-%E5%90%97/" title="9012年了，你还在用 jQuery 吗？">9012年了，你还在用 jQuery 吗？</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%86%B0%E4%B8%8E%E7%81%AB/" title="嵌入式数据库的冰与火">嵌入式数据库的冰与火</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8%E8%AF%A6%E8%A7%A3/" title="布隆过滤器详解">布隆过滤器详解</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E4%B8%8B%E8%BD%BD%E5%88%A9%E5%99%A8Aria2/" title="下载利器 Aria2">下载利器 Aria2</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E6%BC%AB%E8%B0%88%E5%8E%8B%E7%BC%A9%E6%A0%BC%E5%BC%8F/" title="漫谈压缩格式">漫谈压缩格式</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3RPC%E4%BA%8C/" title="深入理解RPC（二）">深入理解RPC（二）</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3RPC%E4%B8%80/" title="深入理解RPC（一）">深入理解RPC（一）</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://blog.fanmuyong.com/categories/Docker/">Docker (1)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/Java/">Java (7)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/Linux/">Linux (2)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%89%8D%E7%AB%AF/">前端 (3)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式 (2)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB/">工具类 (3)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库 (1)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E7%AE%97%E6%B3%95/">算法 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://blog.fanmuyong.com/tags/Docker/">Docker</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Java8/">Java8</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/JavaScript/">JavaScript</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Lambda/">Lambda</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Linux/">Linux</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Maven/">Maven</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/RPC/">RPC</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Spring/">Spring</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Stream/">Stream</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Vue/">Vue</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/aria2/">aria2</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E4%B8%B2%E5%8F%A3/">串口</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">布隆过滤器</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://blog.fanmuyong.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://blog.fanmuyong.com">Geek笔记 By 范明勇</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        鲁ICP备20024786号-1
+        <a href="https://www.flysnow.org/" target="_blank">
+            
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+
+</html>

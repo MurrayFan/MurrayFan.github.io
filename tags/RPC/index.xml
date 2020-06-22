@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RPC on Geek笔记</title>
+    <link>https://blog.fanmuyong.com/tags/RPC/</link>
+    <description>Recent content in RPC on Geek笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 01 Mar 2019 21:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.fanmuyong.com/tags/RPC/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>深入理解RPC（二）</title>
+      <link>https://blog.fanmuyong.com/post/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3RPC%E4%BA%8C/</link>
+      <pubDate>Fri, 01 Mar 2019 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3RPC%E4%BA%8C/</guid>
+      <description>RMI（Remote Method Interface）远程方法调用与 RPC（Remote Procedure Call）远程过程调用有什么区别呢？ 1. 什么是 RMI？ RMI，远程方法调用（Remote Method Invocation）是 Enterprise JavaBeans 的支柱，是建立分布式 Java 应用程序的方便途径。RMI 是非常容易使用的，但是它非常的强大。 与</description>
+    </item>
+    
+    <item>
+      <title>深入理解RPC（一）</title>
+      <link>https://blog.fanmuyong.com/post/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3RPC%E4%B8%80/</link>
+      <pubDate>Thu, 28 Feb 2019 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3RPC%E4%B8%80/</guid>
+      <description>1. 从多态说起 面向对象有三大特征：继承、封装、多态，我们先来说说多态。 多态就是指程序中定义的引用变量所指向的具体类型和通过该引用变量发出的方法调用在编程时并不确定，而是在程序运行期间才确定，即一个引用变量倒底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，</description>
+    </item>
+    
+  </channel>
+</rss>
