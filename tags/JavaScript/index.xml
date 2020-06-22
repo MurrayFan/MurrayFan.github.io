@@ -30,12 +30,30 @@
     </item>
     
     <item>
+      <title>Vue 最佳实践</title>
+      <link>https://blog.fanmuyong.com/post/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%AD%94%E7%96%91%E4%B8%8E%E6%8B%93%E5%B1%95/</link>
+      <pubDate>Sat, 07 Mar 2020 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%AD%94%E7%96%91%E4%B8%8E%E6%8B%93%E5%B1%95/</guid>
+      <description>1 项目目录结构 参考：Ant Design Pro https://pro.loacg.com/docs/getting-started ├── public │ └── logo.png # LOGO | └── index.html # Vue 入口模板 ├── src │ ├── api # Api ajax 等 │ ├── assets # 本地静态资源 │ ├── config # 项目基础配置，包含路由，全局设置 │ ├── components # 业务通用组件 │ ├── core # 项目引导, 全局配置初始化，依赖包引入等 │ ├── router # Vue-Router │ ├── store # Vuex │ ├──</description>
+    </item>
+    
+    <item>
       <title>9012年了，你还在用 jQuery 吗？</title>
       <link>https://blog.fanmuyong.com/post/9012%E5%B9%B4%E4%BA%86%E4%BD%A0%E8%BF%98%E5%9C%A8%E7%94%A8-jQuery-%E5%90%97/</link>
       <pubDate>Sun, 08 Dec 2019 21:00:00 +0800</pubDate>
       
       <guid>https://blog.fanmuyong.com/post/9012%E5%B9%B4%E4%BA%86%E4%BD%A0%E8%BF%98%E5%9C%A8%E7%94%A8-jQuery-%E5%90%97/</guid>
       <description>概述 回顾过去，创建 jQuery 是为了应对浏览器之间的 JavaScript 实现差异，Internet Explorer 是当时的罪魁祸首。作为一个易于使用的解决方案，jQuery 已经被开发人员和初学者广泛接受，大多数人开始通过这个库使 JavaScript。 在 2019 年，IE8 到 IE11 的使用量已经极少。这意味着我们可以从应用程序中删除 jQuery 并</description>
+    </item>
+    
+    <item>
+      <title>DOM 这棵树</title>
+      <link>https://blog.fanmuyong.com/post/DOM-%E8%BF%99%E6%A3%B5%E6%A0%91/</link>
+      <pubDate>Tue, 19 Nov 2019 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/DOM-%E8%BF%99%E6%A3%B5%E6%A0%91/</guid>
+      <description>概述 DOM 全名为 Document Object Model 中文翻译为文档对象模型。它是 HTML 和 XML 文档的编程接口。它描述了一个层次化的节点树，并定义了一种方式可以使从程序中对该结构进行访问，从而改变文档的结构、样式和内容。 一个 WEB 页面是一个文档。这个文档可以在浏览器窗口或作为 HTML 源码显示出来。DOM 是 WEB 页面的完全的面向对象表述，</description>
     </item>
     
   </channel>

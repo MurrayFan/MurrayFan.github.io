@@ -13,11 +13,6 @@
   </url>
   
   <url>
-    <loc>https://blog.fanmuyong.com/categories/Docker/</loc>
-    <lastmod>2020-06-16T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.fanmuyong.com/</loc>
     <lastmod>2020-06-16T21:00:00+08:00</lastmod>
   </url>
@@ -29,6 +24,11 @@
   
   <url>
     <loc>https://blog.fanmuyong.com/tags/</loc>
+    <lastmod>2020-06-16T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB/</loc>
     <lastmod>2020-06-16T21:00:00+08:00</lastmod>
   </url>
   
@@ -53,6 +53,26 @@
   </url>
   
   <url>
+    <loc>https://blog.fanmuyong.com/tags/Git/</loc>
+    <lastmod>2020-04-25T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/categories/Git/</loc>
+    <lastmod>2020-04-25T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%BA%8C/</loc>
+    <lastmod>2020-04-25T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%B8%80/</loc>
+    <lastmod>2020-04-24T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.fanmuyong.com/tags/Vue/</loc>
     <lastmod>2020-04-14T21:00:00+08:00</lastmod>
   </url>
@@ -63,8 +83,23 @@
   </url>
   
   <url>
+    <loc>https://blog.fanmuyong.com/categories/JavaScript/</loc>
+    <lastmod>2020-03-07T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/post/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%AD%94%E7%96%91%E4%B8%8E%E6%8B%93%E5%B1%95/</loc>
+    <lastmod>2020-03-07T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.fanmuyong.com/post/9012%E5%B9%B4%E4%BA%86%E4%BD%A0%E8%BF%98%E5%9C%A8%E7%94%A8-jQuery-%E5%90%97/</loc>
     <lastmod>2019-12-08T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/post/DOM-%E8%BF%99%E6%A3%B5%E6%A0%91/</loc>
+    <lastmod>2019-11-19T21:00:00+08:00</lastmod>
   </url>
   
   <url>
@@ -80,6 +115,26 @@
   <url>
     <loc>https://blog.fanmuyong.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2019-06-05T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/tags/%E4%B8%B2%E5%8F%A3/</loc>
+    <lastmod>2019-06-03T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E5%BA%94%E7%94%A8%E7%AF%87/</loc>
+    <lastmod>2019-06-03T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/</loc>
+    <lastmod>2019-06-03T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E7%90%86%E8%AE%BA%E7%AF%87/</loc>
+    <lastmod>2019-05-22T21:00:00+08:00</lastmod>
   </url>
   
   <url>
@@ -104,11 +159,6 @@
   
   <url>
     <loc>https://blog.fanmuyong.com/post/%E4%B8%8B%E8%BD%BD%E5%88%A9%E5%99%A8Aria2/</loc>
-    <lastmod>2019-04-21T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB/</loc>
     <lastmod>2019-04-21T21:00:00+08:00</lastmod>
   </url>
   
@@ -163,6 +213,21 @@
   </url>
   
   <url>
+    <loc>https://blog.fanmuyong.com/tags/Spring/</loc>
+    <lastmod>2018-08-16T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/post/%E5%AF%B9Spring-IOC%E7%9A%84%E7%90%86%E8%A7%A3/</loc>
+    <lastmod>2018-08-16T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.fanmuyong.com/post/%E9%80%9A%E9%85%8D%E7%AC%A6%E4%B8%8E%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</loc>
+    <lastmod>2018-06-08T21:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.fanmuyong.com/tags/Java8/</loc>
     <lastmod>2018-04-11T21:00:00+08:00</lastmod>
   </url>
@@ -200,41 +265,6 @@
   <url>
     <loc>https://blog.fanmuyong.com/post/Java8-%E6%8E%A5%E5%8F%A3%E4%B8%AD%E7%9A%84-default-%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2018-03-14T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/tags/Spring/</loc>
-    <lastmod>2017-08-16T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/post/%E5%AF%B9Spring-IOC%E7%9A%84%E7%90%86%E8%A7%A3/</loc>
-    <lastmod>2017-08-16T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/tags/%E4%B8%B2%E5%8F%A3/</loc>
-    <lastmod>2017-06-03T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E5%BA%94%E7%94%A8%E7%AF%87/</loc>
-    <lastmod>2017-06-03T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/</loc>
-    <lastmod>2017-06-03T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E7%90%86%E8%AE%BA%E7%AF%87/</loc>
-    <lastmod>2017-05-22T21:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.fanmuyong.com/post/%E9%80%9A%E9%85%8D%E7%AC%A6%E4%B8%8E%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</loc>
-    <lastmod>2017-03-08T21:00:00+08:00</lastmod>
   </url>
   
   <url>
