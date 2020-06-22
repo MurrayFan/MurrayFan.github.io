@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>嵌入式 on Geek笔记</title>
+    <link>https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/</link>
+    <description>Recent content in 嵌入式 on Geek笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 03 Jun 2017 21:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>串口通信之应用篇</title>
+      <link>https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E5%BA%94%E7%94%A8%E7%AF%87/</link>
+      <pubDate>Sat, 03 Jun 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E5%BA%94%E7%94%A8%E7%AF%87/</guid>
+      <description>上一篇已经介绍了 RS-232 串口的理论基础，本文开始讲解串口的应用实例。 Linux 上的 tty 在 Bash 环境中执行 ls /dev 命令可以看到很多 tty 开头的文件名，这些文件是干什么的呢？ tty 是 Linux 给用户提供的一个常驻小程序，用于接收用户的标准输入，返回操作系统的标准输出。 Linux 将每个设备都当成一个文件来对待，举例来说，硬盘 IDE 接口的</description>
+    </item>
+    
+    <item>
+      <title>串口通信之理论篇</title>
+      <link>https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E7%90%86%E8%AE%BA%E7%AF%87/</link>
+      <pubDate>Mon, 22 May 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E7%90%86%E8%AE%BA%E7%AF%87/</guid>
+      <description>概述 串口是老式 PC 机上必备的接口，然而近年来它正逐渐淡出我们的视线，被设计上更优良的 USB 接口所取代，但是你若想跟嵌入式设备或古董计算机通讯，串口仍是最简单也是最高效的通讯方式。 此系列文章共 2 篇，笔者作为「非专业嵌入式工程师」，结合之前项目上的应用和自身理解，将分别从理论和实践两方面对</description>
+    </item>
+    
+  </channel>
+</rss>

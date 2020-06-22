@@ -21,11 +21,29 @@
     </item>
     
     <item>
+      <title>Linux</title>
+      <link>https://blog.fanmuyong.com/categories/Linux/</link>
+      <pubDate>Wed, 10 Apr 2019 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/categories/Linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Java</title>
       <link>https://blog.fanmuyong.com/categories/Java/</link>
       <pubDate>Wed, 11 Apr 2018 21:00:00 +0800</pubDate>
       
       <guid>https://blog.fanmuyong.com/categories/Java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>嵌入式</title>
+      <link>https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/</link>
+      <pubDate>Sat, 03 Jun 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/</guid>
       <description></description>
     </item>
     

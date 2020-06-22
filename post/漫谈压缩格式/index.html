@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>漫谈压缩格式 | Geek笔记</title>
+    <meta property="og:title" content="漫谈压缩格式 - Geek笔记">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2019-04-10T21:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2019-04-10T21:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="[压缩格式]">
+    <meta name="description" content="漫谈压缩格式">
+        
+    <meta name="author" content="范明勇">
+    <meta property="og:url" content="https://blog.fanmuyong.com/post/%E6%BC%AB%E8%B0%88%E5%8E%8B%E7%BC%A9%E6%A0%BC%E5%BC%8F/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://blog.fanmuyong.com">
+                        Geek笔记
+                    </a>
+                
+                <p class="description">范明勇的博客，专注于Java、JS、微服务、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://blog.fanmuyong.com">首页</a>
+                    
+                    <a  href="https://blog.fanmuyong.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://blog.fanmuyong.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+
+
+<style type="text/css">
+  .post-toc {
+    position: fixed;
+    width: 200px;
+    margin-left: -210px;
+    padding: 5px 10px;
+    font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+    font-size: 12px;
+    border: 1px solid rgba(0, 0, 0, .07);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.98);
+    background-clip: padding-box;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+    word-wrap: break-word;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 999;
+    cursor: pointer;
+    max-height: 70%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .post-toc .post-toc-title {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .post-toc .post-toc-content {
+    font-size: 12px;
+  }
+
+  .post-toc .post-toc-content>nav>ul {
+    margin: 10px 0;
+  }
+
+  .post-toc .post-toc-content ul {
+    padding-left: 20px;
+     
+    margin: 0.5em;
+    line-height: 1.8em;
+  }
+
+
+
+  @media print,
+  screen and (max-width:1057px) {
+    .post-toc {
+      display: none;
+    }
+  }
+
+  .post-toc {
+    transition: all .3s ease;
+  }
+
+  .post-toc:hover,
+  .post-toc:active {
+    width: 250px !important;
+  }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+  <h2 class="post-toc-title">文章目录</h2>
+
+  <div
+    class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#为什么要有压缩文件">为什么要有压缩文件</a></li>
+    <li><a href="#什么是压缩文件">什么是压缩文件</a>
+      <ul>
+        <li><a href="#打包">打包</a></li>
+        <li><a href="#压缩">压缩</a></li>
+        <li><a href="#常见压缩格式介绍">常见压缩格式介绍</a></li>
+      </ul>
+    </li>
+    <li><a href="#linux-的-tar-命令">Linux 的 tar 命令</a></li>
+    <li><a href="#小结">小结</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+<script type="text/javascript">
+  function initToc() {
+    var postToc = $(".post-toc");
+    if (postToc.length) {
+      var leftPos = $("#main").offset().left;
+      if (leftPos < 220) {
+        postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+      }
+
+      var t = postToc.offset().top - 20,
+        a = {
+          start: {
+            position: "absolute",
+            top: t
+          },
+          process: {
+            position: "fixed",
+            top: 80
+          },
+        };
+      $(window).scroll(function () {
+        var e = $(window).scrollTop();
+        e < t ? postToc.css(a.start) : postToc.css(a.process)
+      })
+    }
+  }
+  $(document).ready(function () {
+    initToc()
+  })
+  $(window).resize(function () {
+    initToc()
+  })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">漫谈压缩格式</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年4月10日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://blog.fanmuyong.com/categories/Linux'>Linux</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        <div class="post-content">
+            <h1 id="概述">概述</h1>
+<p>对于刚刚接触 Linux 的人来说，一定会给 Linux 下一大堆各式各样的文件名给搞晕。别个不说，单单就压缩文件为例，我们知道在 Windows 下最常见 的压缩文件就只有两种：一是 zip，另一个是 rar。可是 Linux 就不同了，它有 <code>.gz、.tar.gz、.bz2、.Z、.tar</code> 等众多压缩文件名，此外 Windows 下的 zip 和 rar 也可以在 Linux 下使用，不过在 Linux 使用 zip 和 rar 的人就太少了。</p>
+<p>本文就来对这些常见的压缩文件进行一番小结，希望你下次遇到这些文件时不至于被搞晕。</p>
+<h1 id="为什么要有压缩文件">为什么要有压缩文件</h1>
+<p>文件对于操作系用的重要性不言而喻，Unix 更是基于文件管理的系统，我们来想一下普通用户都会用到的场景，假设你需要往 U盘里拷贝 100 个 Excel 文件，我们当然可以 <kbd>Ctrl</kbd>+<kbd>A</kbd> 全选、<kbd>Ctrl</kbd>+<kbd>C</kbd> 复制最后到 U盘中 <kbd>Ctrl</kbd>+<kbd>V</kbd> 粘贴，一顿操作猛如虎。</p>
+<p>但若想把这 100 个文件通过 QQ 发送给朋友，你若图省事儿一股脑全拖到聊天窗口发送，估计网线那头的朋友会抓狂，他需要一个个的接收、另存&hellip; &hellip;</p>
+<p>那么问题来了，有没有一种简单有效的方法来进行文件传输？</p>
+<p>答案是肯定的，那就是：打包它！</p>
+<p><strong>划重点：注意不是压缩！</strong></p>
+<h1 id="什么是压缩文件">什么是压缩文件</h1>
+<p>在具体总结各类压缩文件之前呢，首先要弄清两个概念：打包和压缩。为什么要区分这两个概念呢?其实这源于 Linux 中的很多压缩程序只能针对一个文件进行压缩，这样当你想要压缩一大堆文件时，你就得先借助另它的工具将这一大堆文件先打成一个包，然后再就原来的压缩程序进行压缩。</p>
+<h2 id="打包">打包</h2>
+<p>打包是指将一大堆文件或目录什么的变成一个总的文件。tar、zip 都有打包功能。不改变文件大小，就是打个包，变成一个文件的文件夹，解压速率也很快。</p>
+<h2 id="压缩">压缩</h2>
+<p>压缩是将一个大的文件通过一些压缩算法变成一个小文件，顾名思义，通常说的 rar、tar 等这些大多都是格式，而不是算法。</p>
+<p>多数人电脑上装有是 WinRAR、7z、BandZip 等解压软件，它们也能兼容市面上的多数格式。</p>
+<h2 id="常见压缩格式介绍">常见压缩格式介绍</h2>
+<p><code>rar、tar、zip、7z</code> 是归档容器，里面可以放多个文件、有目录结构。</p>
+<p><code>tar</code> 本身是一个文件打包备份的工具，没有自身的压缩功能。通常的使用方式为打包后再调用其他压缩库进行文件压缩。比较适合 Linux 系统，保持文件权限状态、软硬链接能力强。</p>
+<p><code>zip</code> 是公开的一种压缩算法，压缩比目前相对不太高。</p>
+<p><code>gz，gzip</code> 是 GNU 组织开发的一个压缩程序，<code>.gz</code> 结尾的文件就是 gzip 压缩的结果。与 gzip 相对的解压程序 gunzip。</p>
+<p><code>rar</code> 是带专利的商业算法，压缩比目前比较高。</p>
+<p><code>bz2</code> 是 Linux 下常见的压缩文件格式，是由具有高压缩率的压缩工具 bzip2 生成，以后缀为 .bz2 结尾的压缩文件。</p>
+<p><code>Z</code>，compress也是一个压缩程序，.Z 结尾的文件就是 compress 压缩的结果。与 compress 相对的解压程序是 uncompress 。</p>
+<h1 id="linux-的-tar-命令">Linux 的 tar 命令</h1>
+<p>Linux 下最常用的打包程序就是 tar 了，使用 tar 程序打出来的包我们常称为 tar 包，tar 包文件的命令通常都是以 .tar 结尾的。生成 tar 包后，就可以用其它的程序来进行压缩了，所以首先就来讲讲tar 命令的基本用法。</p>
+<p>必须的参数：（不能共存）
+-c，创建压缩文件。c 代表 create。
+-x，解压缩文件。
+-t，查看压缩包里面的文件。
+-r，向压缩归档文件末尾追加文件 。
+-u，更新原压缩包中的文件。</p>
+<p>辅助参数：(可用一个或多个)
+-z，用 gzip 压缩/解压缩。
+-j，用 bzip2 压缩/解压缩。
+-v，显示压缩/解压缩的进度条。
+-f，使用档案文件或设备，这个选项通常是必选的（注意：f后面不要接参数，也就是说-zxfv是不对的，要写成-zxvf）。
+-O，将文件解开到标准输出。</p>
+<h1 id="小结">小结</h1>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*.tar</td>
+<td>用 tar –xvf 解压</td>
+</tr>
+<tr>
+<td>*.gz</td>
+<td>用 gzip -d 或者 gunzip 解压</td>
+</tr>
+<tr>
+<td>*.tar.gz</td>
+<td>用 tar –xzf 解压</td>
+</tr>
+<tr>
+<td>*.tgz</td>
+<td>用 tar –xzf 解压</td>
+</tr>
+<tr>
+<td>*.bz2</td>
+<td>用 bzip2 -d 或者用 bunzip2 解压</td>
+</tr>
+<tr>
+<td>*.tar.bz2</td>
+<td>用 tar –xjf 解压</td>
+</tr>
+<tr>
+<td>*.Z</td>
+<td>用 uncompress 解压</td>
+</tr>
+<tr>
+<td>*.tar.Z</td>
+<td>用 tar –xzf 解压</td>
+</tr>
+<tr>
+<td>*.rar</td>
+<td>用 unrar 解压</td>
+</tr>
+<tr>
+<td>*.zip</td>
+<td>用 unzip 解压</td>
+</tr>
+</tbody>
+</table>
+<p>到此为至，我们已经介绍过 Linux 下的 <code>tar、gzip、gunzip、bzip2、bunzip2、compress、uncompress、 zip、unzip、rar、unrar</code>等程序，你应该已经能够使用它们对<code>.tar、.gz、.tar.gz、.tgz、.bz2、.tar.bz2、. Z、.tar.Z、.zip、.rar</code> 这 10 种压缩文件进行解压了，以后应该不需要为下载了一个软件而不知道如何在 Linux 下解开而烦恼了。</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://blog.fanmuyong.com">范明勇</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://blog.fanmuyong.com/post/%E6%BC%AB%E8%B0%88%E5%8E%8B%E7%BC%A9%E6%A0%BC%E5%BC%8F/">https://blog.fanmuyong.com/post/%E6%BC%AB%E8%B0%88%E5%8E%8B%E7%BC%A9%E6%A0%BC%E5%BC%8F/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/%E9%80%9A%E9%85%8D%E7%AC%A6%E4%B8%8E%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">通配符与正则表达式</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://blog.fanmuyong.com/tags/Linux'>Linux</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fanmuyong/fanmuyong.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://blog.fanmuyong.com/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://blog.fanmuyong.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E7%A0%B4%E8%A7%A3%E5%85%AC%E5%8F%B8-400K-%E7%BD%91%E9%80%9F%E9%99%90%E5%88%B6%E4%B8%8B%E8%BD%BD-Docker-%E9%95%9C%E5%83%8F%E7%9A%84/" title="我是如何破解公司 400K 网速限制下载 Docker 镜像的">我是如何破解公司 400K 网速限制下载 Docker 镜像的</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E6%BC%AB%E8%B0%88%E5%8E%8B%E7%BC%A9%E6%A0%BC%E5%BC%8F/" title="漫谈压缩格式">漫谈压缩格式</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Java8%E7%9A%84%E6%97%B6%E9%97%B4API/" title="Java8 的时间 API">Java8 的时间 API</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Java8-%E7%9A%84-Stream-API/" title="Java8 的 Stream API">Java8 的 Stream API</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Java8-%E7%9A%84%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" title="Java8 的函数式编程">Java8 的函数式编程</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Java8-%E6%8E%A5%E5%8F%A3%E4%B8%AD%E7%9A%84-default-%E6%96%B9%E6%B3%95/" title="Java8 接口中的 default 方法">Java8 接口中的 default 方法</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E5%BA%94%E7%94%A8%E7%AF%87/" title="串口通信之应用篇">串口通信之应用篇</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E7%90%86%E8%AE%BA%E7%AF%87/" title="串口通信之理论篇">串口通信之理论篇</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E9%80%9A%E9%85%8D%E7%AC%A6%E4%B8%8E%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" title="通配符与正则表达式">通配符与正则表达式</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E5%9C%A8-2016-%E5%B9%B4%E5%AD%A6-JavaScript-%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BD%93%E9%AA%8C/" title="在 2016 年学 JavaScript 是一种什么样的体验">在 2016 年学 JavaScript 是一种什么样的体验</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://blog.fanmuyong.com/categories/Docker/">Docker (1)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/Java/">Java (4)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/JavaScript/">JavaScript (1)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/Linux/">Linux (2)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式 (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://blog.fanmuyong.com/tags/Docker/">Docker</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Java8/">Java8</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/JavaScript/">JavaScript</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Lambda/">Lambda</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Linux/">Linux</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Stream/">Stream</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Vue/">Vue</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E4%B8%B2%E5%8F%A3/">串口</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://blog.fanmuyong.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://blog.fanmuyong.com">Geek笔记 By 范明勇</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        鲁ICP备20024786号-1
+        <a href="https://www.flysnow.org/" target="_blank">
+            
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+
+</html>
