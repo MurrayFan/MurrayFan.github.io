@@ -20,5 +20,14 @@
       <description>1. IOC是什么 Ioc—Inversion of Control，即“控制反转”，不是什么技术，而是一种设计思想。在Java开发中，Ioc意味着将你设计好的对象交给容器控制，而不是传统的在你的对象内部直接控制。 用图例说明一下，传统程序设计如图1-1，都是主动去创建相关对象然后再组合起来：</description>
     </item>
     
+    <item>
+      <title>SpringCloud 总览</title>
+      <link>https://blog.fanmuyong.com/post/SpringCloud-%E6%80%BB%E8%A7%88/</link>
+      <pubDate>Sat, 25 Nov 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/SpringCloud-%E6%80%BB%E8%A7%88/</guid>
+      <description>Spring Cloud 为构建分布式系统和微服务提供了一些通用的工具，例如：配置中心，服务注册与发现，熔断器，路由，代理，控制总线，一次性令牌，全局锁，leader选举，分布式 会话，集群状态等。 目前国内有很多公司还是使用dubbo做服务分解，但dubbo只提供了服务注册发现功能，要建立分布式系统还要</description>
+    </item>
+    
   </channel>
 </rss>

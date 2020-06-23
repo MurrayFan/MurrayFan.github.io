@@ -119,7 +119,7 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%BA%8C/" title="Git 分支管理实战二（最佳实践）">Git 分支管理实战二（最佳实践）</a>
+                <a href="https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/" title="Git 协同工作流实战二（最佳实践）">Git 协同工作流实战二（最佳实践）</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
@@ -136,7 +136,7 @@
         <div class="post-content">
             概述 本流程的分支管理维护两个长期分支，Master分支为主分支；维护两类临时分支：BUG修复分支和特性分支。Stable分支总是落后于或等于Master分支的进度，且Stable分支总是由Master分支合并而来，当整个产品进行大的功能升级或者达到版本发布条件时，合并Master……
         </div>
-        <p class="readmore"><a href="https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%BA%8C/">阅读全文</a></p>
+        <p class="readmore"><a href="https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/">阅读全文</a></p>
     </article>
     
     
@@ -144,7 +144,7 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%B8%80/" title="Git 分支管理实战一（综合分析）">Git 分支管理实战一（综合分析）</a>
+                <a href="https://blog.fanmuyong.com/post/Git%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%B8%80/" title="Git 协同工作流实战一（综合分析）">Git 协同工作流实战一（综合分析）</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
@@ -161,7 +161,7 @@
         <div class="post-content">
             概述 随着项目越来越复杂，以至于出现一种现象：开发完成的代码不敢提交到远程仓库，怕升级系统时引发问题。这也暴露出测试、管理上的缺陷。 软件系统的升级发布与开发人员和代码管理是密不可分的，良好的代码管理有助于提升团队的开发效率，使软件版本的迭代变得清晰可控，因此有必要建立一套代码分支管……
         </div>
-        <p class="readmore"><a href="https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%B8%80/">阅读全文</a></p>
+        <p class="readmore"><a href="https://blog.fanmuyong.com/post/Git%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%B8%80/">阅读全文</a></p>
     </article>
     
     
@@ -194,7 +194,32 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://blog.fanmuyong.com/post/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%AD%94%E7%96%91%E4%B8%8E%E6%8B%93%E5%B1%95/" title="Vue 最佳实践">Vue 最佳实践</a>
+                <a href="https://blog.fanmuyong.com/post/ES6-%E8%AF%AD%E6%B3%95%E5%AE%9E%E6%88%98/" title="ES6 语法实战">ES6 语法实战</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2020年3月8日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://blog.fanmuyong.com/categories/%E5%89%8D%E7%AB%AF'>前端</a></span>
+            
+        </div>
+        
+        <div class="post-content">
+            ES6的&hellip;展开运算符 1 2 3 4 5 6 7 let a = [1,2,3]; let b = [0, ...a, 4]; // [0,1,2,3,4] let obj = { a: 1, b: 2 }; let obj2 = { ...obj, c: 3 }; // { a:1, b:2, c:3 } let obj3 = { ...obj, a: 3 }; // { a:3, b:2 } let obj4 = {a:3,...obj}; // { a:1, b:2 } mapState store.js 1 2 3 4 5 6 7 8 9 const state = { activeFirstMenu: &#39;overView&#39;, loginUser: { userName: &#39;&#39;, deptName: &#39;&#39;, logined: false, loginTime: new Date() } } 未使用mapState 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18……
+        </div>
+        <p class="readmore"><a href="https://blog.fanmuyong.com/post/ES6-%E8%AF%AD%E6%B3%95%E5%AE%9E%E6%88%98/">阅读全文</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://blog.fanmuyong.com/post/Vue-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" title="Vue 最佳实践">Vue 最佳实践</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
@@ -211,7 +236,7 @@
         <div class="post-content">
             1 项目目录结构 参考：Ant Design Pro https://pro.loacg.com/docs/getting-started ├── public │ └── logo.png # LOGO | └── index.html # Vue 入口模板 ├── src │ ├── api # Api ajax 等 │ ├── assets # 本地静态资源 │ ├── config # 项目基础配置，包含路由，全局设置 │ ├── components # 业务通用组件 │ ├── core # 项目引导, 全局配置初始化，依赖包引入等 │ ├── router # Vue-Router │ ├── store # Vuex │ ├──……
         </div>
-        <p class="readmore"><a href="https://blog.fanmuyong.com/post/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%AD%94%E7%96%91%E4%B8%8E%E6%8B%93%E5%B1%95/">阅读全文</a></p>
+        <p class="readmore"><a href="https://blog.fanmuyong.com/post/Vue-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">阅读全文</a></p>
     </article>
     
     
@@ -291,31 +316,6 @@
     
     
     
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E5%BA%94%E7%94%A8%E7%AF%87/" title="串口通信之应用篇">串口通信之应用篇</a>
-            </h1>
-        </header>
-        <date class="post-meta meta-date">
-            2019年6月3日
-        </date>
-        
-        <div class="post-meta">
-            <span>|</span>
-            
-            <span class="meta-category"><a href='https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F'>嵌入式</a></span>
-            
-        </div>
-        
-        <div class="post-content">
-            上一篇已经介绍了 RS-232 串口的理论基础，本文开始讲解串口的应用实例。 Linux 上的 tty 在 Bash 环境中执行 ls /dev 命令可以看到很多 tty 开头的文件名，这些文件是干什么的呢？ tty 是 Linux 给用户提供的一个常驻小程序，用于接收用户的标准输入，返回操作系统的标准输出。 Linux 将每个设备都当成一个文件来对待，举例来说，硬盘 IDE 接口的……
-        </div>
-        <p class="readmore"><a href="https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E5%BA%94%E7%94%A8%E7%AF%87/">阅读全文</a></p>
-    </article>
-    
-    
-    
 
 
 
@@ -333,6 +333,10 @@
     
     <li >
         <a href="https://blog.fanmuyong.com/post/page/3/">3</a>
+    </li>
+    
+    <li >
+        <a href="https://blog.fanmuyong.com/post/page/4/">4</a>
     </li>
     
 
@@ -372,11 +376,11 @@
     </li>
     
     <li>
-        <a href="https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%BA%8C/" title="Git 分支管理实战二（最佳实践）">Git 分支管理实战二（最佳实践）</a>
+        <a href="https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/" title="Git 协同工作流实战二（最佳实践）">Git 协同工作流实战二（最佳实践）</a>
     </li>
     
     <li>
-        <a href="https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%B8%80/" title="Git 分支管理实战一（综合分析）">Git 分支管理实战一（综合分析）</a>
+        <a href="https://blog.fanmuyong.com/post/Git%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%B8%80/" title="Git 协同工作流实战一（综合分析）">Git 协同工作流实战一（综合分析）</a>
     </li>
     
     <li>
@@ -384,7 +388,11 @@
     </li>
     
     <li>
-        <a href="https://blog.fanmuyong.com/post/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%AD%94%E7%96%91%E4%B8%8E%E6%8B%93%E5%B1%95/" title="Vue 最佳实践">Vue 最佳实践</a>
+        <a href="https://blog.fanmuyong.com/post/ES6-%E8%AF%AD%E6%B3%95%E5%AE%9E%E6%88%98/" title="ES6 语法实战">ES6 语法实战</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Vue-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" title="Vue 最佳实践">Vue 最佳实践</a>
     </li>
     
     <li>
@@ -399,10 +407,6 @@
         <a href="https://blog.fanmuyong.com/post/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%86%B0%E4%B8%8E%E7%81%AB/" title="嵌入式数据库的冰与火">嵌入式数据库的冰与火</a>
     </li>
     
-    <li>
-        <a href="https://blog.fanmuyong.com/post/%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E4%B9%8B%E5%BA%94%E7%94%A8%E7%AF%87/" title="串口通信之应用篇">串口通信之应用篇</a>
-    </li>
-    
 </ul>
     </section>
 
@@ -412,19 +416,23 @@
         <h3 class="widget-title">分类</h3>
 <ul class="widget-list">
     
-    <li><a href="https://blog.fanmuyong.com/categories/Java/">Java (7)</a></li>
+    <li><a href="https://blog.fanmuyong.com/categories/Java/">Java (10)</a></li>
     
     <li><a href="https://blog.fanmuyong.com/categories/Linux/">Linux (2)</a></li>
     
-    <li><a href="https://blog.fanmuyong.com/categories/%E5%89%8D%E7%AB%AF/">前端 (5)</a></li>
+    <li><a href="https://blog.fanmuyong.com/categories/WEB/">WEB (1)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%89%8D%E7%AB%AF/">前端 (6)</a></li>
     
     <li><a href="https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式 (2)</a></li>
     
     <li><a href="https://blog.fanmuyong.com/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB/">工具类 (6)</a></li>
     
-    <li><a href="https://blog.fanmuyong.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库 (1)</a></li>
+    <li><a href="https://blog.fanmuyong.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库 (2)</a></li>
     
     <li><a href="https://blog.fanmuyong.com/categories/%E7%AE%97%E6%B3%95/">算法 (1)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试 (2)</a></li>
     
 </ul>
     </section>
@@ -437,6 +445,10 @@
     
     <a href="https://blog.fanmuyong.com/tags/Git/">Git</a>
     
+    <a href="https://blog.fanmuyong.com/tags/JVM/">JVM</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Java/">Java</a>
+    
     <a href="https://blog.fanmuyong.com/tags/Java8/">Java8</a>
     
     <a href="https://blog.fanmuyong.com/tags/JavaScript/">JavaScript</a>
@@ -446,6 +458,10 @@
     <a href="https://blog.fanmuyong.com/tags/Linux/">Linux</a>
     
     <a href="https://blog.fanmuyong.com/tags/Maven/">Maven</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/MySQL/">MySQL</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/REST-API/">REST API</a>
     
     <a href="https://blog.fanmuyong.com/tags/RPC/">RPC</a>
     
@@ -464,6 +480,8 @@
     <a href="https://blog.fanmuyong.com/tags/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">布隆过滤器</a>
     
     <a href="https://blog.fanmuyong.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试</a>
     
 </div>
     </section>

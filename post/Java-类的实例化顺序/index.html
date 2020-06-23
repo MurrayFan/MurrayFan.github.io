@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Java 类的实例化顺序 | Geek笔记</title>
+    <meta property="og:title" content="Java 类的实例化顺序 - Geek笔记">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2017-07-21T21:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2017-07-21T21:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="[JVM]">
+    <meta name="description" content="Java 类的实例化顺序">
+        
+    <meta name="author" content="范明勇">
+    <meta property="og:url" content="https://blog.fanmuyong.com/post/Java-%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E9%A1%BA%E5%BA%8F/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://blog.fanmuyong.com">
+                        Geek笔记
+                    </a>
+                
+                <p class="description">范明勇的博客，专注于Java、JS、微服务、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://blog.fanmuyong.com">首页</a>
+                    
+                    <a  href="https://blog.fanmuyong.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://blog.fanmuyong.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+
+
+
+    <article class="post">
+        <header>
+            <h1 class="post-title">Java 类的实例化顺序</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2017年7月21日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://blog.fanmuyong.com/categories/Java'>Java</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-content">
+            <p>当类加载操作完成，开始进行实例化。</p>
+<ol>
+<li>在实例化子类B时，先要实例化父类A</li>
+<li>实例化父类A时，先成员实例化（非静态代码）</li>
+<li>父类A的构造方法</li>
+<li>子类B的成员实例化（非静态代码）</li>
+<li>子类B的构造方法</li>
+</ol>
+<pre><code>初始化父类的静态代码—&gt;初始化子类的静态代码–&gt;初始化父类的非静态代码—&gt;初始化父类构造函数—&gt;初始化子类非静态代码—&gt;初始化子类构造函数
+</code></pre><p><strong>注意：静态代码块先于静态成员属性初始化，普通代码块先于构造函数初始化。</strong></p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SingleTon</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#000;font-weight:bold">private</span> <span style="color:#000;font-weight:bold">static</span> SingleTon singleTon <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> SingleTon<span style="color:#000;font-weight:bold">();</span>
+  <span style="color:#998;font-style:italic">// count1=1,count2=1
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">int</span> count1<span style="color:#000;font-weight:bold">;</span>
+  <span style="color:#998;font-style:italic">// count1=1,count2=1(没进行初始化)
+</span><span style="color:#998;font-style:italic"></span>  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">int</span> count2 <span style="color:#000;font-weight:bold">=</span> 0<span style="color:#000;font-weight:bold">;</span>
+  <span style="color:#998;font-style:italic">// count1=1,count2=0
+</span><span style="color:#998;font-style:italic"></span>
+  <span style="color:#000;font-weight:bold">private</span> <span style="color:#900;font-weight:bold">SingleTon</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+    count1<span style="color:#000;font-weight:bold">++;</span>
+    count2<span style="color:#000;font-weight:bold">++;</span>
+  <span style="color:#000;font-weight:bold">}</span>
+
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> SingleTon <span style="color:#900;font-weight:bold">getInstance</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#000;font-weight:bold">return</span> singleTon<span style="color:#000;font-weight:bold">;</span>
+  <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Test</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#000;font-weight:bold">public</span> <span style="color:#000;font-weight:bold">static</span> <span style="color:#458;font-weight:bold">void</span> <span style="color:#900;font-weight:bold">main</span><span style="color:#000;font-weight:bold">(</span>String<span style="color:#000;font-weight:bold">[]</span> args<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+    SingleTon singleTon <span style="color:#000;font-weight:bold">=</span> SingleTon<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">getInstance</span><span style="color:#000;font-weight:bold">();</span>
+    System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;count1=&#34;</span> <span style="color:#000;font-weight:bold">+</span> singleTon<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">count1</span><span style="color:#000;font-weight:bold">);</span>
+    System<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">out</span><span style="color:#000;font-weight:bold">.</span><span style="color:#008080">println</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;count2=&#34;</span> <span style="color:#000;font-weight:bold">+</span> singleTon<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">count2</span><span style="color:#000;font-weight:bold">);</span>
+  <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span> 
+
+</code></pre></td></tr></table>
+</div>
+</div><p><code>SingleTon singleTon = SingleTon.getInstance();</code>调用了类的SingleTon调用了类的静态方法，触发类的初始化
+类加载的时候在准备过程中为类的静态变量分配内存并初始化默认值</p>
+<pre><code>singleton=null count1=0,count2=0
+</code></pre><p>类初始化化，为类的静态变量赋值和执行静态代码快。singleton 赋值为 <code>new SingleTon()</code>调用类的构造方法
+调用类的构造方法后</p>
+<pre><code>count=1;count2=1
+</code></pre>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://blog.fanmuyong.com">范明勇</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://blog.fanmuyong.com/post/Java-%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E9%A1%BA%E5%BA%8F/">https://blog.fanmuyong.com/post/Java-%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E9%A1%BA%E5%BA%8F/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/Java-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6/">Java 类加载的双亲委派机制</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://blog.fanmuyong.com/tags/JVM'>JVM</a></li>
+                
+                <li><a href='https://blog.fanmuyong.com/tags/Java'>Java</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fanmuyong/fanmuyong.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://blog.fanmuyong.com/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://blog.fanmuyong.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E7%A0%B4%E8%A7%A3%E5%85%AC%E5%8F%B8-400K-%E7%BD%91%E9%80%9F%E9%99%90%E5%88%B6%E4%B8%8B%E8%BD%BD-Docker-%E9%95%9C%E5%83%8F%E7%9A%84/" title="我是如何破解公司 400K 网速限制下载 Docker 镜像的">我是如何破解公司 400K 网速限制下载 Docker 镜像的</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/javascriptvoid0-%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D/" title="javascript:void(0) 是什么意思">javascript:void(0) 是什么意思</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/" title="Git 协同工作流实战二（最佳实践）">Git 协同工作流实战二（最佳实践）</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Git%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%B8%80/" title="Git 协同工作流实战一（综合分析）">Git 协同工作流实战一（综合分析）</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E5%9C%A8-2016-%E5%B9%B4%E5%AD%A6-JavaScript-%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BD%93%E9%AA%8C/" title="在 2016 年学 JavaScript 是一种什么样的体验">在 2016 年学 JavaScript 是一种什么样的体验</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/ES6-%E8%AF%AD%E6%B3%95%E5%AE%9E%E6%88%98/" title="ES6 语法实战">ES6 语法实战</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Vue-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" title="Vue 最佳实践">Vue 最佳实践</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/9012%E5%B9%B4%E4%BA%86%E4%BD%A0%E8%BF%98%E5%9C%A8%E7%94%A8-jQuery-%E5%90%97/" title="9012年了，你还在用 jQuery 吗？">9012年了，你还在用 jQuery 吗？</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/DOM-%E8%BF%99%E6%A3%B5%E6%A0%91/" title="DOM 这棵树">DOM 这棵树</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%86%B0%E4%B8%8E%E7%81%AB/" title="嵌入式数据库的冰与火">嵌入式数据库的冰与火</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://blog.fanmuyong.com/categories/Java/">Java (10)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/Linux/">Linux (2)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/WEB/">WEB (1)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%89%8D%E7%AB%AF/">前端 (6)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式 (2)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB/">工具类 (6)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库 (2)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E7%AE%97%E6%B3%95/">算法 (1)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试 (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://blog.fanmuyong.com/tags/Docker/">Docker</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Git/">Git</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/JVM/">JVM</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Java/">Java</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Java8/">Java8</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/JavaScript/">JavaScript</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Lambda/">Lambda</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Linux/">Linux</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Maven/">Maven</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/MySQL/">MySQL</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/REST-API/">REST API</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/RPC/">RPC</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Spring/">Spring</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Stream/">Stream</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Vue/">Vue</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/aria2/">aria2</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E4%B8%B2%E5%8F%A3/">串口</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">布隆过滤器</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://blog.fanmuyong.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://blog.fanmuyong.com">Geek笔记 By 范明勇</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        鲁ICP备20024786号-1
+        <a href="https://www.flysnow.org/" target="_blank">
+            
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+
+</html>

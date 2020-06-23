@@ -12,20 +12,20 @@
     
     
     <item>
-      <title>Git 分支管理实战二（最佳实践）</title>
-      <link>https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%BA%8C/</link>
+      <title>Git 协同工作流实战二（最佳实践）</title>
+      <link>https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/</link>
       <pubDate>Sat, 25 Apr 2020 21:00:00 +0800</pubDate>
       
-      <guid>https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%BA%8C/</guid>
+      <guid>https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/</guid>
       <description>概述 本流程的分支管理维护两个长期分支，Master分支为主分支；维护两类临时分支：BUG修复分支和特性分支。Stable分支总是落后于或等于Master分支的进度，且Stable分支总是由Master分支合并而来，当整个产品进行大的功能升级或者达到版本发布条件时，合并Master</description>
     </item>
     
     <item>
-      <title>Git 分支管理实战一（综合分析）</title>
-      <link>https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%B8%80/</link>
+      <title>Git 协同工作流实战一（综合分析）</title>
+      <link>https://blog.fanmuyong.com/post/Git%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%B8%80/</link>
       <pubDate>Fri, 24 Apr 2020 21:00:00 +0800</pubDate>
       
-      <guid>https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%B8%80/</guid>
+      <guid>https://blog.fanmuyong.com/post/Git%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%B8%80/</guid>
       <description>概述 随着项目越来越复杂，以至于出现一种现象：开发完成的代码不敢提交到远程仓库，怕升级系统时引发问题。这也暴露出测试、管理上的缺陷。 软件系统的升级发布与开发人员和代码管理是密不可分的，良好的代码管理有助于提升团队的开发效率，使软件版本的迭代变得清晰可控，因此有必要建立一套代码分支管</description>
     </item>
     

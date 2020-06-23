@@ -21,11 +21,20 @@
     </item>
     
     <item>
+      <title>ES6 语法实战</title>
+      <link>https://blog.fanmuyong.com/post/ES6-%E8%AF%AD%E6%B3%95%E5%AE%9E%E6%88%98/</link>
+      <pubDate>Sun, 08 Mar 2020 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/ES6-%E8%AF%AD%E6%B3%95%E5%AE%9E%E6%88%98/</guid>
+      <description>ES6的&amp;hellip;展开运算符 1 2 3 4 5 6 7 let a = [1,2,3]; let b = [0, ...a, 4]; // [0,1,2,3,4] let obj = { a: 1, b: 2 }; let obj2 = { ...obj, c: 3 }; // { a:1, b:2, c:3 } let obj3 = { ...obj, a: 3 }; // { a:3, b:2 } let obj4 = {a:3,...obj}; // { a:1, b:2 } mapState store.js 1 2 3 4 5 6 7 8 9 const state = { activeFirstMenu: &amp;#39;overView&amp;#39;, loginUser: { userName: &amp;#39;&amp;#39;, deptName: &amp;#39;&amp;#39;, logined: false, loginTime: new Date() } } 未使用mapState 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18</description>
+    </item>
+    
+    <item>
       <title>Vue 最佳实践</title>
-      <link>https://blog.fanmuyong.com/post/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%AD%94%E7%96%91%E4%B8%8E%E6%8B%93%E5%B1%95/</link>
+      <link>https://blog.fanmuyong.com/post/Vue-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
       <pubDate>Sat, 07 Mar 2020 21:00:00 +0800</pubDate>
       
-      <guid>https://blog.fanmuyong.com/post/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%AD%94%E7%96%91%E4%B8%8E%E6%8B%93%E5%B1%95/</guid>
+      <guid>https://blog.fanmuyong.com/post/Vue-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
       <description>1 项目目录结构 参考：Ant Design Pro https://pro.loacg.com/docs/getting-started ├── public │ └── logo.png # LOGO | └── index.html # Vue 入口模板 ├── src │ ├── api # Api ajax 等 │ ├── assets # 本地静态资源 │ ├── config # 项目基础配置，包含路由，全局设置 │ ├── components # 业务通用组件 │ ├── core # 项目引导, 全局配置初始化，依赖包引入等 │ ├── router # Vue-Router │ ├── store # Vuex │ ├──</description>
     </item>
     

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>软件测试 on Geek笔记</title>
+    <link>https://blog.fanmuyong.com/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/</link>
+    <description>Recent content in 软件测试 on Geek笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 21 Jul 2017 21:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.fanmuyong.com/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>软件测试基础知识扫盲（一）</title>
+      <link>https://blog.fanmuyong.com/post/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2%E4%B8%80/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2%E4%B8%80/</guid>
+      <description>什么是软件测试？软件测试的目的是什么？ IEEE软件测试定义为：使用人工和自动手段来运行或测试某个系统的过程，其目的在于检验它是否满足规定的需求或是弄清预期结果与实际结果之间的差异。 该定义明确提出了软件测试以检验是否满足需求为目标。 软件测试的目的在于发现错误；一个好的测试用例在于发</description>
+    </item>
+    
+    <item>
+      <title>软件测试基础知识扫盲（二）</title>
+      <link>https://blog.fanmuyong.com/post/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2%E4%BA%8C/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2%E4%BA%8C/</guid>
+      <description>数据和数据库完整性测试 数据与数据库完整测试是指测试关系型数据库完整性原则以及数据合理性测试。 数据库测试主要考虑以下指标： 主键完整性：主键不能为空； 外键完整性：外键必须等于对应的主键或者为空。 数据合理性：指数据在数据库中的类型，长度，索引等是否建的比较合理。 在项目名称中，数据库和数</description>
+    </item>
+    
+  </channel>
+</rss>

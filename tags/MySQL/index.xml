@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MySQL on Geek笔记</title>
+    <link>https://blog.fanmuyong.com/tags/MySQL/</link>
+    <description>Recent content in MySQL on Geek笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 21 Jul 2017 21:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.fanmuyong.com/tags/MySQL/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MySQL 的事务隔离级别</title>
+      <link>https://blog.fanmuyong.com/post/MySQL-%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/MySQL-%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</guid>
+      <description>第1级别：Read Uncommitted(读取未提交内容) 所有事务都可以看到其他未提交事务的执行结果 本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少 该级别引发的问题是——脏读(Dirty Read)：读取到了未提交的数据 首先，修改隔离级别 1 2 set tx_isolation=&amp;#39;READ-UNCOMMITTED&amp;#39;; select @@tx_isolation; @@tx_isolation READ-UNCOMMITTED 事务A：启动一个</description>
+    </item>
+    
+  </channel>
+</rss>

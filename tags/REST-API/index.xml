@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>REST API on Geek笔记</title>
+    <link>https://blog.fanmuyong.com/tags/REST-API/</link>
+    <description>Recent content in REST API on Geek笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 25 Nov 2017 21:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.fanmuyong.com/tags/REST-API/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>REST API 指南</title>
+      <link>https://blog.fanmuyong.com/post/REST-API-%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Sat, 25 Nov 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/REST-API-%E6%8C%87%E5%8D%97/</guid>
+      <description>什么是 REST ？ REST架构风格描述了六个约束。应用于体系结构的这些约束最初由Roy Fielding在他的博士论文中提出（参见https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm），并定义了RES</description>
+    </item>
+    
+  </channel>
+</rss>

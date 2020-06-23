@@ -30,20 +30,20 @@
     </item>
     
     <item>
-      <title>Git 分支管理实战二（最佳实践）</title>
-      <link>https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%BA%8C/</link>
+      <title>Git 协同工作流实战二（最佳实践）</title>
+      <link>https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/</link>
       <pubDate>Sat, 25 Apr 2020 21:00:00 +0800</pubDate>
       
-      <guid>https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%BA%8C/</guid>
+      <guid>https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/</guid>
       <description>概述 本流程的分支管理维护两个长期分支，Master分支为主分支；维护两类临时分支：BUG修复分支和特性分支。Stable分支总是落后于或等于Master分支的进度，且Stable分支总是由Master分支合并而来，当整个产品进行大的功能升级或者达到版本发布条件时，合并Master</description>
     </item>
     
     <item>
-      <title>Git 分支管理实战一（综合分析）</title>
-      <link>https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%B8%80/</link>
+      <title>Git 协同工作流实战一（综合分析）</title>
+      <link>https://blog.fanmuyong.com/post/Git%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%B8%80/</link>
       <pubDate>Fri, 24 Apr 2020 21:00:00 +0800</pubDate>
       
-      <guid>https://blog.fanmuyong.com/post/Git-%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86%E5%AE%9E%E6%88%98%E4%B8%80/</guid>
+      <guid>https://blog.fanmuyong.com/post/Git%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%B8%80/</guid>
       <description>概述 随着项目越来越复杂，以至于出现一种现象：开发完成的代码不敢提交到远程仓库，怕升级系统时引发问题。这也暴露出测试、管理上的缺陷。 软件系统的升级发布与开发人员和代码管理是密不可分的，良好的代码管理有助于提升团队的开发效率，使软件版本的迭代变得清晰可控，因此有必要建立一套代码分支管</description>
     </item>
     
@@ -57,11 +57,20 @@
     </item>
     
     <item>
+      <title>ES6 语法实战</title>
+      <link>https://blog.fanmuyong.com/post/ES6-%E8%AF%AD%E6%B3%95%E5%AE%9E%E6%88%98/</link>
+      <pubDate>Sun, 08 Mar 2020 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/ES6-%E8%AF%AD%E6%B3%95%E5%AE%9E%E6%88%98/</guid>
+      <description>ES6的&amp;hellip;展开运算符 1 2 3 4 5 6 7 let a = [1,2,3]; let b = [0, ...a, 4]; // [0,1,2,3,4] let obj = { a: 1, b: 2 }; let obj2 = { ...obj, c: 3 }; // { a:1, b:2, c:3 } let obj3 = { ...obj, a: 3 }; // { a:3, b:2 } let obj4 = {a:3,...obj}; // { a:1, b:2 } mapState store.js 1 2 3 4 5 6 7 8 9 const state = { activeFirstMenu: &amp;#39;overView&amp;#39;, loginUser: { userName: &amp;#39;&amp;#39;, deptName: &amp;#39;&amp;#39;, logined: false, loginTime: new Date() } } 未使用mapState 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18</description>
+    </item>
+    
+    <item>
       <title>Vue 最佳实践</title>
-      <link>https://blog.fanmuyong.com/post/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%AD%94%E7%96%91%E4%B8%8E%E6%8B%93%E5%B1%95/</link>
+      <link>https://blog.fanmuyong.com/post/Vue-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</link>
       <pubDate>Sat, 07 Mar 2020 21:00:00 +0800</pubDate>
       
-      <guid>https://blog.fanmuyong.com/post/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E7%AD%94%E7%96%91%E4%B8%8E%E6%8B%93%E5%B1%95/</guid>
+      <guid>https://blog.fanmuyong.com/post/Vue-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</guid>
       <description>1 项目目录结构 参考：Ant Design Pro https://pro.loacg.com/docs/getting-started ├── public │ └── logo.png # LOGO | └── index.html # Vue 入口模板 ├── src │ ├── api # Api ajax 等 │ ├── assets # 本地静态资源 │ ├── config # 项目基础配置，包含路由，全局设置 │ ├── components # 业务通用组件 │ ├── core # 项目引导, 全局配置初始化，依赖包引入等 │ ├── router # Vue-Router │ ├── store # Vuex │ ├──</description>
     </item>
     
@@ -225,6 +234,69 @@
       
       <guid>https://blog.fanmuyong.com/post/Java8-%E6%8E%A5%E5%8F%A3%E4%B8%AD%E7%9A%84-default-%E6%96%B9%E6%B3%95/</guid>
       <description>为什么要有默认方法 在 Java8 之前，接口与其实现类之间的耦合度太高了，当需要为一个接口添加方法时，所有的实现类都必须随之修改。默认方法解决了这个问题，它可以为接口添加新的方法，而不会破坏已有的接口的实现。这在 lambda 表达式作为 Java8 语言的重要特性而出现之际，为升级旧接口且保持向后兼容提供了途径。 1</description>
+    </item>
+    
+    <item>
+      <title>REST API 指南</title>
+      <link>https://blog.fanmuyong.com/post/REST-API-%E6%8C%87%E5%8D%97/</link>
+      <pubDate>Sat, 25 Nov 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/REST-API-%E6%8C%87%E5%8D%97/</guid>
+      <description>什么是 REST ？ REST架构风格描述了六个约束。应用于体系结构的这些约束最初由Roy Fielding在他的博士论文中提出（参见https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm），并定义了RES</description>
+    </item>
+    
+    <item>
+      <title>SpringCloud 总览</title>
+      <link>https://blog.fanmuyong.com/post/SpringCloud-%E6%80%BB%E8%A7%88/</link>
+      <pubDate>Sat, 25 Nov 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/SpringCloud-%E6%80%BB%E8%A7%88/</guid>
+      <description>Spring Cloud 为构建分布式系统和微服务提供了一些通用的工具，例如：配置中心，服务注册与发现，熔断器，路由，代理，控制总线，一次性令牌，全局锁，leader选举，分布式 会话，集群状态等。 目前国内有很多公司还是使用dubbo做服务分解，但dubbo只提供了服务注册发现功能，要建立分布式系统还要</description>
+    </item>
+    
+    <item>
+      <title>Java 类加载的双亲委派机制</title>
+      <link>https://blog.fanmuyong.com/post/Java-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/Java-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6/</guid>
+      <description>双亲委派机制 Java 中存在 3 种类型的类加载器： 引导类加载器 扩展类加载器 系统类加载器 三者是的关系是：引导类加载器是扩展类加载器的父类，扩展类加载器是系统类加载器的父类。 启动类加载器(BootStrap) 主要负责加载 JVM 自身所需要的类，该加载器由 C++ 实现，加载的是&amp;lt;JAVA_HOME&amp;g</description>
+    </item>
+    
+    <item>
+      <title>Java 类的实例化顺序</title>
+      <link>https://blog.fanmuyong.com/post/Java-%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E9%A1%BA%E5%BA%8F/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/Java-%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E9%A1%BA%E5%BA%8F/</guid>
+      <description>当类加载操作完成，开始进行实例化。 在实例化子类B时，先要实例化父类A 实例化父类A时，先成员实例化（非静态代码） 父类A的构造方法 子类B的成员实例化（非静态代码） 子类B的构造方法 初始化父类的静态代码—&amp;gt;初始化子类的静态代码–&amp;gt;初始化父类的非静态代码—&amp;gt;初始化父类构造</description>
+    </item>
+    
+    <item>
+      <title>MySQL 的事务隔离级别</title>
+      <link>https://blog.fanmuyong.com/post/MySQL-%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/MySQL-%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/</guid>
+      <description>第1级别：Read Uncommitted(读取未提交内容) 所有事务都可以看到其他未提交事务的执行结果 本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少 该级别引发的问题是——脏读(Dirty Read)：读取到了未提交的数据 首先，修改隔离级别 1 2 set tx_isolation=&amp;#39;READ-UNCOMMITTED&amp;#39;; select @@tx_isolation; @@tx_isolation READ-UNCOMMITTED 事务A：启动一个</description>
+    </item>
+    
+    <item>
+      <title>软件测试基础知识扫盲（一）</title>
+      <link>https://blog.fanmuyong.com/post/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2%E4%B8%80/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2%E4%B8%80/</guid>
+      <description>什么是软件测试？软件测试的目的是什么？ IEEE软件测试定义为：使用人工和自动手段来运行或测试某个系统的过程，其目的在于检验它是否满足规定的需求或是弄清预期结果与实际结果之间的差异。 该定义明确提出了软件测试以检验是否满足需求为目标。 软件测试的目的在于发现错误；一个好的测试用例在于发</description>
+    </item>
+    
+    <item>
+      <title>软件测试基础知识扫盲（二）</title>
+      <link>https://blog.fanmuyong.com/post/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2%E4%BA%8C/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2%E4%BA%8C/</guid>
+      <description>数据和数据库完整性测试 数据与数据库完整测试是指测试关系型数据库完整性原则以及数据合理性测试。 数据库测试主要考虑以下指标： 主键完整性：主键不能为空； 外键完整性：外键必须等于对应的主键或者为空。 数据合理性：指数据在数据库中的类型，长度，索引等是否建的比较合理。 在项目名称中，数据库和数</description>
     </item>
     
     <item>

@@ -74,5 +74,23 @@
       <description></description>
     </item>
     
+    <item>
+      <title>WEB</title>
+      <link>https://blog.fanmuyong.com/categories/WEB/</link>
+      <pubDate>Sat, 25 Nov 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/categories/WEB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>软件测试</title>
+      <link>https://blog.fanmuyong.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

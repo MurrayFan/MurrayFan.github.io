@@ -155,5 +155,50 @@
       <description></description>
     </item>
     
+    <item>
+      <title>REST API</title>
+      <link>https://blog.fanmuyong.com/tags/REST-API/</link>
+      <pubDate>Sat, 25 Nov 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/tags/REST-API/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>https://blog.fanmuyong.com/tags/Java/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/tags/Java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JVM</title>
+      <link>https://blog.fanmuyong.com/tags/JVM/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/tags/JVM/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MySQL</title>
+      <link>https://blog.fanmuyong.com/tags/MySQL/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/tags/MySQL/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>软件测试</title>
+      <link>https://blog.fanmuyong.com/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/</link>
+      <pubDate>Fri, 21 Jul 2017 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

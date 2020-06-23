@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>REST API 指南 | Geek笔记</title>
+    <meta property="og:title" content="REST API 指南 - Geek笔记">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2017-11-25T21:00:00&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2017-11-25T21:00:00&#43;08:00'>
+        
+    <meta name="Keywords" content="[REST API]">
+    <meta name="description" content="REST API 指南">
+        
+    <meta name="author" content="范明勇">
+    <meta property="og:url" content="https://blog.fanmuyong.com/post/REST-API-%E6%8C%87%E5%8D%97/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://blog.fanmuyong.com">
+                        Geek笔记
+                    </a>
+                
+                <p class="description">范明勇的博客，专注于Java、JS、微服务、项目管理、软件架构</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://blog.fanmuyong.com">首页</a>
+                    
+                    <a  href="https://blog.fanmuyong.com/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://blog.fanmuyong.com/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+
+
+<style type="text/css">
+  .post-toc {
+    position: fixed;
+    width: 200px;
+    margin-left: -210px;
+    padding: 5px 10px;
+    font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+    font-size: 12px;
+    border: 1px solid rgba(0, 0, 0, .07);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.98);
+    background-clip: padding-box;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+    word-wrap: break-word;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    z-index: 999;
+    cursor: pointer;
+    max-height: 70%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .post-toc .post-toc-title {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .post-toc .post-toc-content {
+    font-size: 12px;
+  }
+
+  .post-toc .post-toc-content>nav>ul {
+    margin: 10px 0;
+  }
+
+  .post-toc .post-toc-content ul {
+    padding-left: 20px;
+     
+    margin: 0.5em;
+    line-height: 1.8em;
+  }
+
+
+
+  @media print,
+  screen and (max-width:1057px) {
+    .post-toc {
+      display: none;
+    }
+  }
+
+  .post-toc {
+    transition: all .3s ease;
+  }
+
+  .post-toc:hover,
+  .post-toc:active {
+    width: 250px !important;
+  }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+  <h2 class="post-toc-title">文章目录</h2>
+
+  <div
+    class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#什么是-rest-">什么是 REST ？</a>
+      <ul>
+        <li><a href="#uniform-interface-统一接口">Uniform Interface （统一接口）</a></li>
+        <li><a href="#stateless-无状态的">Stateless （无状态的）</a></li>
+        <li><a href="#cacheable">Cacheable</a></li>
+        <li><a href="#client-server">Client-Server</a></li>
+        <li><a href="#layered-system-分层系统">Layered System （分层系统）</a></li>
+        <li><a href="#code-on-demand-optional">Code on Demand (optional)</a></li>
+      </ul>
+    </li>
+    <li><a href="#rest-api-quick-tips">REST API Quick Tips</a>
+      <ul>
+        <li><a href="#使用http动词使你的请求带有含意">使用HTTP动词使你的请求带有含意</a></li>
+        <li><a href="#提供合理的资源名称">提供合理的资源名称</a></li>
+        <li><a href="#使用http响应代码指示状态">使用HTTP响应代码指示状态</a></li>
+        <li><a href="#提供json和xml">提供JSON和XML</a></li>
+        <li><a href="#创建细粒度资源">创建细粒度资源</a></li>
+        <li><a href="#考虑连接性">考虑连接性</a></li>
+      </ul>
+    </li>
+    <li><a href="#using-http-methods-for-restful-services">Using HTTP Methods for RESTful Services</a>
+      <ul>
+        <li><a href="#post">POST</a></li>
+        <li><a href="#get">GET</a></li>
+        <li><a href="#put">PUT</a></li>
+        <li><a href="#patch">PATCH</a></li>
+        <li><a href="#delete">DELETE</a></li>
+      </ul>
+    </li>
+    <li><a href="#resource-naming">Resource Naming</a></li>
+    <li><a href="#幂等">幂等</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+<script type="text/javascript">
+  function initToc() {
+    var postToc = $(".post-toc");
+    if (postToc.length) {
+      var leftPos = $("#main").offset().left;
+      if (leftPos < 220) {
+        postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+      }
+
+      var t = postToc.offset().top - 20,
+        a = {
+          start: {
+            position: "absolute",
+            top: t
+          },
+          process: {
+            position: "fixed",
+            top: 80
+          },
+        };
+      $(window).scroll(function () {
+        var e = $(window).scrollTop();
+        e < t ? postToc.css(a.start) : postToc.css(a.process)
+      })
+    }
+  }
+  $(document).ready(function () {
+    initToc()
+  })
+  $(window).resize(function () {
+    initToc()
+  })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">REST API 指南</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2017年11月25日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://blog.fanmuyong.com/categories/WEB'>WEB</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
+            </div>
+        </div>
+        
+        <div class="post-content">
+            <h1 id="什么是-rest-">什么是 REST ？</h1>
+<p>REST架构风格描述了六个约束。应用于体系结构的这些约束最初由Roy Fielding在他的博士论文中提出（参见https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm），并定义了RESTful-style的基础 。</p>
+<p>这六个约束是：</p>
+<h2 id="uniform-interface-统一接口">Uniform Interface （统一接口）</h2>
+<p>统一接口约束定义了客户端和服务器之间的接口。 它简化并解耦了架构，使每个部件都能独立演变。 统一接口的四个指导原则是：</p>
+<h3 id="resource-based-基于资源的">Resource-Based （基于资源的）</h3>
+<p>使用URI作为资源标识符在请求中标识各个资源。 资源本身在概念上与返回给客户端的表示(representations)分开。 例如，服务器不直接发送其数据库内容，而是发送一些表示某些数据库记录的HTML，XML或JSON，例如，用芬兰语表示并以UTF-8编码，具体取决于请求的详细信息和服务器实现。</p>
+<h3 id="manipulation-of-resources-through-representations">Manipulation of Resources Through Representations</h3>
+<p>当客户端持有资源的表示（包括附加的任何元数据）时，它有足够的信息来修改或删除服务器上的资源，前提是它有权这样做。</p>
+<h3 id="self-descriptive-messages-自描述信息">Self-descriptive Messages （自描述信息）</h3>
+<p>每条消息都包含足够的信息来描述如何处理该消息。 例如，要调用的解析器可以由Internet媒体类型 media type（以前称为MIME类型）指定。 响应还明确指出了它们是否可以被缓存。</p>
+<h3 id="hypermedia-as-the-engine-of-application-state-hateoas-超媒体作为应用程序状态引擎">Hypermedia as the Engine of Application State (HATEOAS) （超媒体作为应用程序状态引擎）</h3>
+<p>客户端通过body 内容，查询字符串参数，请求header和请求的URI（资源名称）来提供状态。 服务通过正文内容，响应代码和响应标头向客户提供状态。 这在技术上被称为超媒体（或超文本中的超链接）。</p>
+<p>除了上面的描述之外，HATEOS还意味着，在必要时，链接包含在返回的正文（或标题）中，以提供用于检索对象本身或相关对象的URI。 我们稍后会详细讨论这个问题。</p>
+<p>任何REST服务必须提供的统一接口是其设计的基础</p>
+<h2 id="stateless-无状态的">Stateless （无状态的）</h2>
+<p>由于REST是REpresentational State Transfer的首字母缩写，statelessness （无状态）是关键。 这意味着要处理请求的状态必须包含在请求本身中，无论是作为URI，查询字符串参数，正文还是标题的一部分。 URI唯一标识资源，body包含该资源的状态（或状态变化）。 然后，在服务器进行处理之后，通过headers，状态和响应主体将适当的状态或重要状态的片断传送回客户端。</p>
+<p>我们大多数已经在业界工作了一段时间的人习惯于在container（不是docker中的） 内编程，这为我们提供了“session”的概念，它在多个HTTP请求中维护状态。 在REST中，客户端必须包含服务器的所有信息以完成请求，如果该状态必须跨越多个请求，则根据需要重新发送状态。 无状态可以实现更高的可伸缩性，因为服务器不必维护，更新或传递该会话状态。 此外，负载均衡器不必担心无状态系统的会话亲和性。</p>
+<p>那么状态(state)和资源(resource)之间的区别是什么？ 状态或应用程序状态是服务器关心的，以满足当前会话或请求所需的请求数据。 资源或资源状态是定义资源表示的数据 - 例如，存储在数据库中的数据。 将应用程序状态视为可能因客户端和每个请求而异的数据。 另一方面，资源状态在请求它的每个客户端都是不变的。</p>
+<h2 id="cacheable">Cacheable</h2>
+<p>与万维网一样，客户端可以缓存响应。 因此，响应必须隐式或显式地将自身定义为可缓存或不可缓存，以防止客户端重用陈旧或不适当的数据以影响进一步的请求。 管理良好的缓存部分或完全消除了一些客户端 - 服务器交互，进一步提高了可伸缩性和性能。</p>
+<h2 id="client-server">Client-Server</h2>
+<p>统一接口将客户端与服务器分开。 这种关注点分离意味着，例如，客户端不关心数据存储，数据存储仍保留在每个服务器的内部，从而提高了客户端代码的可移植性。 服务器不关心用户界面或用户状态，因此服务器可以更简单，更具可伸缩性。 只要不改变接口，服务器和客户端也可以独立替换和开发。</p>
+<h2 id="layered-system-分层系统">Layered System （分层系统）</h2>
+<p>客户端通常无法判断它是直接连接到终端服务器，还是中间服务器。 中间服务器可以通过启用负载平衡和提供共享缓存来提高系统可伸缩性。 Layers 也可以实施安全策略。</p>
+<h2 id="code-on-demand-optional">Code on Demand (optional)</h2>
+<p>服务器能够通过向客户端传输可以执行的逻辑来临时扩展或自定义客户端的功能。 这样的示例可以包括编译的组件，例如Java applet和客户端脚本，例如JavaScript。</p>
+<p>遵守这些约束，从而符合REST架构风格，将使任何类型的分布式超媒体系统具有理想的紧急(emergent)属性，例如性能，可伸缩性，简单性，可修改性，可见性，可移植性和可靠性。</p>
+<p>注意：REST架构的唯一可选约束是code on demand。 如果服务违反任何其他约束，则严格来讲不能将其称为RESTful。</p>
+<h1 id="rest-api-quick-tips">REST API Quick Tips</h1>
+<p>无论技术上是不是REST（根据前面提到的六个约束条件），这里有一些推荐的类似REST的概念。 这六个快速提示将带来更好，更实用的服务。</p>
+<h2 id="使用http动词使你的请求带有含意">使用HTTP动词使你的请求带有含意</h2>
+<p>API使用者能够发送GET，POST，PUT和DELETE请求，这极大地增强了给定请求的清晰度。</p>
+<p>通常，四个主要的HTTP动词使用如下：</p>
+<ul>
+<li>
+<p>GET ：读取特定资源（通过标识符）或资源集合。</p>
+</li>
+<li>
+<p>PUT ：更新特定资源（通过标识符）或资源集合。 如果资源标识符是事先已知的，也可以用于创建特定资源。</p>
+</li>
+<li>
+<p>DELETE ：通过标识符删除指定资源。</p>
+</li>
+<li>
+<p>POST ：创建一个新资源。 对于不适合其他类别的操作，也是一个万能的动词。</p>
+</li>
+</ul>
+<p><strong>注意 ：GET请求不得更改任何底层资源数据。 但可能会更新测量和跟踪数据，但URI标识的资源数据不应更改。</strong></p>
+<h2 id="提供合理的资源名称">提供合理的资源名称</h2>
+<p>制作出色的API需要80％的艺术和20％的科学。 创建表示合理资源的URL层次结构是艺术部分。 拥有合理的资源名称（只是URL路径，例如/customers/12345/orders）可以提高给定请求的清晰度。</p>
+<p>适当的资源名称为服务请求提供上下文，从而提高API的可理解性。 通过URI名称对资源进行分层查看，为消费者提供友好，易于理解的资源层次结构，以便在其应用程序中使用。</p>
+<p>以下是一些URL路径（资源名称）设计的规则：</p>
+<ul>
+<li>在你的网址中使用标识符，而不是在查询字符串中使用。 使用URL查询字符串参数非常适合过滤，但不适用于资源名称。
+<ul>
+<li>Good: /users/12345</li>
+<li>Poor: /api?type=user&amp;id=23</li>
+</ul>
+</li>
+<li>利用URL的分层特性来表示结构。</li>
+<li>为你的客户而不是数据设计。</li>
+<li>资源名称应为名词。 避免使用动词作为资源名称，以提高清晰度。 使用HTTP methods 指定请求的动词部分。</li>
+<li>在URL段中使用复数形式，使用集合使API URI在所有HTTP方法中保持一致。
+<ul>
+<li>Recommended: /customers/33245/orders/8769/lineitems/1</li>
+<li>Not: /customer/33245/order/8769/lineitem/1</li>
+</ul>
+</li>
+<li>避免在URL中使用集合词。 例如’customer_list’作为资源。 使用复数来隐含表示集合（例如，customers 代替customer_list）。</li>
+<li>在URL段中使用小写，用下划线（’_’）或连字符（’ - ‘）分隔单词。 有些服务器会忽略大小写，所以最好清楚。</li>
+<li>保持URL尽可能短，尽可能少的分段。</li>
+</ul>
+<h2 id="使用http响应代码指示状态">使用HTTP响应代码指示状态</h2>
+<p>响应状态代码是HTTP规范的一部分。 它们中有很多可以解决最常见的情况。 本着使RESTful服务包含HTTP规范的精神，我们的Web API应该返回相关的HTTP状态代码。 例如，当成功创建资源时（例如，来自POST请求），API应该返回HTTP状态代码201.这里有常用的HTTP状态代码列表，其列出了每个的详细描述。</p>
+<p>“十大”HTTP响应状态代码的建议用法如下：</p>
+<p><strong>200 OK ：</strong> 通用成功状态代码。 这是最常见的代码。 用于表示成功。</p>
+<p><strong>201 CREATED ：</strong> 成功创建（通过POST或PUT）。 将Location header设置为包含指向新创建的资源的链接（在POST上）。 响应body 内容可能存在也可能不存在。</p>
+<p><strong>204 NO CONTENT ：</strong> 表示成功，但响应body中没有任何内容，通常用于DELETE和PUT操作。</p>
+<p><strong>400 BAD REQUEST ：</strong> 完成请求时的一般错误会导致无效状态。 例如域验证错误，缺少数据等。</p>
+<p><strong>401 UNAUTHORIZED ：</strong> 丢失或无效的身份验证令牌。</p>
+<p><strong>403 FORBIDDEN ：</strong> 当用户未被授权执行操作或资源由于某种原因（例如时间限制等）不可用时的错误代码。</p>
+<p><strong>404 NOT FOUND ：</strong> 在找不到请求的资源时使用，不管是否不存在，或者是否是401或403，出于安全原因，服务需要屏蔽。</p>
+<p><strong>405 METHOD NOT ALLOWED ：</strong> 表示请求的URL存在，但请求的HTTP方法不对。 例如，POST /users/12345，其API不支持以这种方式创建资源（使用提供的ID）。 返回405时必须设置Allow header表明支持的HTTP方法。 例如：”Allow: GET, PUT, DELETE”</p>
+<p><strong>409 CONFLICT ：</strong> 请求导致资源冲突时。 重复条目，例如尝试创建具有相同信息的两个客户，以及在不支持级联删除时删除根对象。</p>
+<p><strong>500 INTERNAL SERVER ERROR ：</strong> 永远不要故意返回该状态码。 服务器端抛出异常时应使用catch-all捕捉。 仅将此用于客户端无法解决的错误（即服务器错误，client做啥也没有用，请联系后端人员解决）。</p>
+<h2 id="提供json和xml">提供JSON和XML</h2>
+<p>一般只支持JSON就可以了，除非是高度标准化和受监管的行业，需要XML。 模式验证和命名空间，并提供JSON和XML，是非常高的。 理想情况下，让消费者使用HTTP Accept header在格式之间切换，或者只是在URL上将.xml的扩展名更改为.json。</p>
+<p>请注意，一旦我们开始讨论XML支持，我们就会开始讨论用于验证，命名空间等的模式。除非你的行业需要，否则请尽量避免支持所有这些复杂性。 JSON旨在简化，简洁和实用。 如果可以的话，让你的XML看起来更简洁。</p>
+<p>换句话说，使返回的XML更像JSON - 简单易读，不存在架构和命名空间细节，只有数据和链接。 如果它最终比这更复杂，那么XML的成本将是惊人的。 根据我的经验，过去几年没有人使用过XML响应，成本太昂贵了。</p>
+<p>请注意，JSON-Schema提供了架构式验证功能。</p>
+<h2 id="创建细粒度资源">创建细粒度资源</h2>
+<p>在开始时，最好创建模仿系统的底层应用程序域模型或数据库体系结构的API。 最终，聚合那些需要利用多个底层资源的服务来减少通信量。 但是，从单个资源创建更大的资源比从更大的聚合创建细粒度或单个资源要容易得多。 让自己轻松自如，从易于定义的小型资源开始，为这些资源提供CRUD功能。 你可以之后创建这些方面的用例，减少通信。</p>
+<h2 id="考虑连接性">考虑连接性</h2>
+<p>REST的原则之一是连通性 - 通过超媒体链接（搜索HATEOAS）。 虽然没有超链接，服务仍然有用，但在响应中返回链接时，API会变得更具自我描述性和可发现性。 至少，“自我描述”的链接引用会告诉客户端如何检索数据。 此外，利用HTTP Location header 包含通过POST（或PUT）创建资源的链接。 对于在支持分页的响应中返回的集合，“first”，“last”，“next”和“prev”链接至少是非常有用的。</p>
+<p>关于链接格式，有很多。 HTTP Web链接规范（RFC5988）解释了如下链接：</p>
+<p>链接是由Internati    链接是由Internationalised Resource Identifiers (IRIs) [RFC3987]标识的两个资源之间的类型连接，包括：</p>
+<pre><code>* 上下文IRI
+* 链接关系类型
+* 目标IRI，和可选的目标属性
+</code></pre>
+<p>可以被视为“{context IRI}在{target IRI}具有{relation type}资源的形式的声明，其具有{target attributes}。”</p>
+<p>至少，按照规范中的建议放置HTTP链接头中的链接，或者在JSON表示中包含此HTTP链接样式的JSON表示（例如Atom样式链接，请参阅：RFC4287）。 之后，随着REST API变得更加成熟，你可以在更复杂的链接样式中进行分层，例如HAL + JSON，Siren，Collection + JSON 或 JSON-LD等。</p>
+<h1 id="using-http-methods-for-restful-services">Using HTTP Methods for RESTful Services</h1>
+<p>HTTP谓词构成了我们“统一接口”约束的主要部分，并为我们提供了与基于名词的资源相对应的动作。 主要或最常用的HTTP谓词（或方法，因为它们被正确调用）是POST，GET，PUT，PATCH和DELETE。 它们分别对应于创建，读取，更新和删除（或CRUD）操作。 还有许多其他动词，但使用频率较低。 在那些不常用的方法中，OPTIONS和HEAD比其他方法更频繁地使用。</p>
+<p>下面的表总结了主要HTTP方法与资源URI结合使用时的建议返回值：</p>
+<table>
+<thead>
+<tr>
+<th>HTTP 动词</th>
+<th>CRUD</th>
+<th>整个集合（例如 /customers）</th>
+<th>特定项目（例如 /customers/{id}）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>Create</td>
+<td>201 (Created),’Location’ header 包含指向新ID的 /customers/{id}的链接。</td>
+<td>404 (Not Found), 409 (Conflict) if resource already exists..</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>Read</td>
+<td>200 (OK), list of customers. Use pagination, sorting and filtering to navigate big lists.</td>
+<td>200 (OK), single customer. 404 (Not Found), if ID not found or invalid.</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Update/Replace</td>
+<td>405 (Method Not Allowed), unless you want to update/replace every resource in the entire collection.</td>
+<td>200 (OK) or 204 (No Content). 404 (Not Found), if ID not found or invalid.</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>Update/Modify</td>
+<td>405 (Method Not Allowed), unless you want to modify the collection itself.</td>
+<td>200 (OK) or 204 (No Content). 404 (Not Found), if ID not found or invalid.</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Delete</td>
+<td>405 (Method Not Allowed), unless you want to delete the whole collection—not often desirable.</td>
+<td>200 (OK). 404 (Not Found), if ID not found or invalid.</td>
+</tr>
+</tbody>
+</table>
+<p>下面是对主要HTTP方法的更详细讨论。</p>
+<h2 id="post">POST</h2>
+<p>POST动词最常用于创建新资源。 特别是，它用于创建从属资源。 也就是说，从属于其他一些（例如父）资源。 换句话说，在创建新资源时，POST负责将新资源与父资源相关联，分配ID（新资源URI）等。</p>
+<p>成功创建后，返回HTTP status 201，返回Location header ，其中包含指向具有201 HTTP status 的新创建资源的链接。</p>
+<p>POST既不安全也不是幂等。 因此，建议用于非幂等资源请求。 两个相同的POST请求最有可能导致两个资源包含相同的信息。</p>
+<p><strong>Examples:</strong></p>
+<p>POST <a href="http://www.example.com/customers">http://www.example.com/customers</a>
+POST <a href="http://www.example.com/customers/12345/orders">http://www.example.com/customers/12345/orders</a></p>
+<h2 id="get">GET</h2>
+<p>HTTP GET方法用于读取（或检索）资源的表示。 在“正确”（或非错误）路径中，GET返回XML或JSON中的表示和HTTP响应代码200（OK）。 在错误情况下，它通常返回404（NOT FOUND）或400（BAD REQUEST）。</p>
+<p>根据HTTP规范的设计，GET（以及HEAD）请求仅用于读取数据而不是更改它。 因此，当以这种方式使用时，它们被认为是安全的。 也就是说，可以调用它们而没有数据修改或损坏的风险 - 调用它一次具有与调用它10次相同的效果。 另外，GET（和HEAD）是幂等的，这意味着产生多个相同的请求最终会产生与单个请求相同的结果。</p>
+<p>不要通过GET公开不安全的操作 - 它永远不应该修改服务器上的任何资源。</p>
+<p><strong>Examples:</strong></p>
+<p>GET <a href="http://www.example.com/customers/12345">http://www.example.com/customers/12345</a>
+GET <a href="http://www.example.com/customers/12345/orders">http://www.example.com/customers/12345/orders</a>
+GET <a href="http://www.example.com/buckets/sample">http://www.example.com/buckets/sample</a></p>
+<h2 id="put">PUT</h2>
+<p>PUT最常用于更新功能，与已知资源URI一起使用，请求body包含原始资源的需要更新的表示。</p>
+<p>但是，在客户端而不是服务器选择资源ID的情况下，PUT也可用于创建资源。 换句话说，如果PUT是包含不存在的资源ID的值的URI。 同样，请求正文包含资源表示。 许多人认为这是令人费解和困惑的。 因此，如果有的话，应该谨慎使用这种方法创建资源。</p>
+<p>或者，使用POST创建新资源并在正文表示中提供客户端定义的ID - 可能是不包含资源ID的URI（请参阅下面的POST）。</p>
+<p>成功更新后，PUT返回200（如果未返回正文中的任何内容，则返回204）。 如果使用PUT进行创建，则在成功创建时返回HTTP状态201。 响应中的body是可选的 - 提供body会消耗更多带宽。 由于客户端已经设置了资源ID，因此无需在创建案例中通过Location header 返回链接。</p>
+<p>PUT不是一个安全的操作，因为它修改（或创建）服务器上的状态，但它是幂等的。 换句话说，如果您使用PUT创建或更新资源，然后再次进行相同的调用，则资源仍然存在，并且仍然具有与第一次调用时相同的状态。</p>
+<p>例如，如果在资源上调用PUT会增加资源中的计数器，则该调用不再是幂等的。 有时会发生这种情况，并且可能足以证明调用不是幂等的。 但是，建议保持PUT请求是幂等的。 强烈建议对非幂等请求使用POST。</p>
+<p><strong>Examples:</strong></p>
+<p>PUT <a href="http://www.example.com/customers/12345">http://www.example.com/customers/12345</a>
+PUT <a href="http://www.example.com/customers/12345/orders/98765">http://www.example.com/customers/12345/orders/98765</a>
+PUT <a href="http://www.example.com/buckets/secret_stuff">http://www.example.com/buckets/secret_stuff</a></p>
+<h2 id="patch">PATCH</h2>
+<p>PATCH用于修改数据。 PATCH请求只需要包含对资源的更改，而不是完整的资源。</p>
+<p>这类似于PUT，但正文包含一组指令，描述当前驻留在服务器上的资源应如何修改以生成新版本。 这意味着PATCH body不应仅仅是资源的修改部分，而是某种补丁语言，如JSON Patch或XML Patch。</p>
+<p>PATCH既不安全也不幂等。 然而，PATCH请求可以以幂等的方式发布，这也有助于防止在相似时间帧内在相同资源上的两个PATCH请求之间的冲突导致的不良结果。 来自多个PATCH请求的冲突可能比PUT冲突更危险，因为某些补丁格式需要从已知的基点操作，否则它们将破坏资源。 使用此类补丁应用程序的客户端应使用条件请求，以便在客户端上次访问资源后资源已更新时请求将失败。 例如，客户端可以在PATCH请求的If-Match标头中使用强ETag。</p>
+<p><strong>Examples:</strong></p>
+<p>PATCH <a href="http://www.example.com/customers/12345">http://www.example.com/customers/12345</a>
+PATCH <a href="http://www.example.com/customers/12345/orders/98765">http://www.example.com/customers/12345/orders/98765</a>
+PATCH <a href="http://www.example.com/buckets/secret_stuff">http://www.example.com/buckets/secret_stuff</a></p>
+<h2 id="delete">DELETE</h2>
+<p>DELETE很容易理解。 它用于删除由URI标识的资源。</p>
+<p>成功删除后，返回HTTP状态200（OK）以及响应正文，可能是已删除项目的表示（通常需要太多带宽），或者包装响应（请参阅下面的返回值）。 要么是返回HTTP状态204（NO CONTENT）而没有响应正文。 换句话说，建议的响应是204状态，没有正文，或JSEND样式响应和HTTP状态200。</p>
+<p>HTTP-spec-wise，DELETE操作是幂等的。 如果删除资源，则将其删除。 在该资源上反复调用DELETE最终结果相同：资源消失了。 如果调用DELETE说，递减计数器（在资源内），则DELETE调用不再是幂等的。 如前所述，只要没有资源数据被改变，就可以更新使用统计和测量，同时仍然考虑服务幂等。 建议使用POST进行非幂等资源请求。</p>
+<p>但是，有一个关于DELETE幂等性的警告。 第二次在资源上调用DELETE通常会返回404（NOT FOUND），因为它已被删除，因此不再可查找。 根据一些观点，这使得DELETE操作不再是幂等的，但是，资源的最终状态是相同的。 返回404是可以接受的，并准确地传达调用的状态。</p>
+<p><strong>Examples:</strong></p>
+<p>DELETE <a href="http://www.example.com/customers/12345">http://www.example.com/customers/12345</a>
+DELETE <a href="http://www.example.com/customers/12345/orders">http://www.example.com/customers/12345/orders</a>
+DELETE <a href="http://www.example.com/bucket/sample">http://www.example.com/bucket/sample</a></p>
+<h1 id="resource-naming">Resource Naming</h1>
+<p>除了适当地利用HTTP动词之外，在创建易于理解，易于使用的Web服务API时，资源命名可以说是最有争议和最重要的概念。 当资源命名良好时，API直观且易于使用。 做得不好，相同的API可能会感觉到笨拙的并且难以使用和理解。 以下是为新API创建资源URI时的一些提示。</p>
+<p>从本质上讲，RESTful API最终只是URI的集合，对这些URI的HTTP调用以及资源的一些JSON或XML表示，其中许多将包含关系链接。 URIs涵盖RESTful可寻址性原则。 每个资源都有自己的地址或URI-服务器可以提供的每条有用的信息都作为资源公开。 统一接口的约束部分通过URI和HTTP动词的组合来解决，并且根据标准和约定使用它们。</p>
+<p>在决定系统中的资源时，将它们命名为名词而不是动词或动作。 换句话说，RESTful URI应该引用一个资源而不是引用一个动作。 其中一个原因是名词具有动词不具有的属性。</p>
+<p>示例：</p>
+<ul>
+<li>系统的用户。</li>
+<li>学生注册的课程。</li>
+<li>用户的帖子时间表。</li>
+<li>跟随其他用户的用户。</li>
+<li>一篇关于骑马的文章。</li>
+</ul>
+<p>服务中的每个资源都至少有一个标识它的URI。 当URI有意义并且能充分描述资源时，它是最好的。 URI应遵循可预测的层次结构，以增强可理解性，从而提高可用性：在数据具有结构关系的意义上，它们是一致的，层次结构的可预测性。 这虽然不是REST规则或约束，但它可以增强API。</p>
+<p>假设我们正在描述一个包含客户，订单，订单项，产品等的订单系统。请考虑描述此这些服务中的资源所涉及的URI：</p>
+<h1 id="幂等">幂等</h1>
+<p>Idempotence是一个非常吸引人的时髦的词。 幂等有时是一个令人困惑的概念，至少从学术定义来看是这样的。</p>
+<p>从RESTful服务的角度来看，要使操作（或服务调用）具有幂等性，客户端可以在产生相同结果的同时重复进行相同的调用。 换句话说，发出多个相同的请求与发出单个请求具有相同的效果。 请注意，虽然幂等操作在服务器上产生相同的结果（没有副作用），但响应本身可能不相同（例如，资源的状态可能在请求之间发生变化）。</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://blog.fanmuyong.com">范明勇</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://blog.fanmuyong.com/post/REST-API-%E6%8C%87%E5%8D%97/">https://blog.fanmuyong.com/post/REST-API-%E6%8C%87%E5%8D%97/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://blog.fanmuyong.com/tags/REST-API'>REST API</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "fanmuyong/fanmuyong.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://blog.fanmuyong.com/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://blog.fanmuyong.com">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E7%A0%B4%E8%A7%A3%E5%85%AC%E5%8F%B8-400K-%E7%BD%91%E9%80%9F%E9%99%90%E5%88%B6%E4%B8%8B%E8%BD%BD-Docker-%E9%95%9C%E5%83%8F%E7%9A%84/" title="我是如何破解公司 400K 网速限制下载 Docker 镜像的">我是如何破解公司 400K 网速限制下载 Docker 镜像的</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/javascriptvoid0-%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D/" title="javascript:void(0) 是什么意思">javascript:void(0) 是什么意思</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/" title="Git 协同工作流实战二（最佳实践）">Git 协同工作流实战二（最佳实践）</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Git%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%B8%80/" title="Git 协同工作流实战一（综合分析）">Git 协同工作流实战一（综合分析）</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E5%9C%A8-2016-%E5%B9%B4%E5%AD%A6-JavaScript-%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BD%93%E9%AA%8C/" title="在 2016 年学 JavaScript 是一种什么样的体验">在 2016 年学 JavaScript 是一种什么样的体验</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/ES6-%E8%AF%AD%E6%B3%95%E5%AE%9E%E6%88%98/" title="ES6 语法实战">ES6 语法实战</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/Vue-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" title="Vue 最佳实践">Vue 最佳实践</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/9012%E5%B9%B4%E4%BA%86%E4%BD%A0%E8%BF%98%E5%9C%A8%E7%94%A8-jQuery-%E5%90%97/" title="9012年了，你还在用 jQuery 吗？">9012年了，你还在用 jQuery 吗？</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/DOM-%E8%BF%99%E6%A3%B5%E6%A0%91/" title="DOM 这棵树">DOM 这棵树</a>
+    </li>
+    
+    <li>
+        <a href="https://blog.fanmuyong.com/post/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%86%B0%E4%B8%8E%E7%81%AB/" title="嵌入式数据库的冰与火">嵌入式数据库的冰与火</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://blog.fanmuyong.com/categories/Java/">Java (10)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/Linux/">Linux (2)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/WEB/">WEB (1)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%89%8D%E7%AB%AF/">前端 (6)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/">嵌入式 (2)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB/">工具类 (6)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库 (2)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E7%AE%97%E6%B3%95/">算法 (1)</a></li>
+    
+    <li><a href="https://blog.fanmuyong.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试 (2)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://blog.fanmuyong.com/tags/Docker/">Docker</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Git/">Git</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/JVM/">JVM</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Java/">Java</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Java8/">Java8</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/JavaScript/">JavaScript</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Lambda/">Lambda</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Linux/">Linux</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Maven/">Maven</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/MySQL/">MySQL</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/REST-API/">REST API</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/RPC/">RPC</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Spring/">Spring</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Stream/">Stream</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/Vue/">Vue</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/aria2/">aria2</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E4%B8%B2%E5%8F%A3/">串口</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">布隆过滤器</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://blog.fanmuyong.com/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://blog.fanmuyong.com">Geek笔记 By 范明勇</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        鲁ICP备20024786号-1
+        <a href="https://www.flysnow.org/" target="_blank">
+            
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+
+</html>
