@@ -69,6 +69,31 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://blog.fanmuyong.com/post/MySQL-%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/" title="MySQL 的事务隔离级别">MySQL 的事务隔离级别</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2017年7月21日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://blog.fanmuyong.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93'>数据库</a></span>
+            
+        </div>
+        
+        <div class="post-content">
+            第1级别：Read Uncommitted(读取未提交内容) 所有事务都可以看到其他未提交事务的执行结果 本隔离级别很少用于实际应用，因为它的性能也不比其他级别好多少 该级别引发的问题是——脏读(Dirty Read)：读取到了未提交的数据 首先，修改隔离级别 1 2 set tx_isolation=&#39;READ-UNCOMMITTED&#39;; select @@tx_isolation; @@tx_isolation READ-UNCOMMITTED 事务A：启动一个……
+        </div>
+        <p class="readmore"><a href="https://blog.fanmuyong.com/post/MySQL-%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/">阅读全文</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://blog.fanmuyong.com/post/Java-%E7%B1%BB%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E9%A1%BA%E5%BA%8F/" title="Java 类的实例化顺序">Java 类的实例化顺序</a>
             </h1>
         </header>
@@ -168,6 +193,10 @@
 <ul class="widget-list">
     
     <li>
+        <a href="https://blog.fanmuyong.com/post/Java-%E5%B9%B6%E5%8F%91%E4%B9%8B-Double-Check/" title="Java 并发之 Double Check">Java 并发之 Double Check</a>
+    </li>
+    
+    <li>
         <a href="https://blog.fanmuyong.com/post/%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E7%A0%B4%E8%A7%A3%E5%85%AC%E5%8F%B8-400K-%E7%BD%91%E9%80%9F%E9%99%90%E5%88%B6%E4%B8%8B%E8%BD%BD-Docker-%E9%95%9C%E5%83%8F%E7%9A%84/" title="我是如何破解公司 400K 网速限制下载 Docker 镜像的">我是如何破解公司 400K 网速限制下载 Docker 镜像的</a>
     </li>
     
@@ -203,10 +232,6 @@
         <a href="https://blog.fanmuyong.com/post/DOM-%E8%BF%99%E6%A3%B5%E6%A0%91/" title="DOM 这棵树">DOM 这棵树</a>
     </li>
     
-    <li>
-        <a href="https://blog.fanmuyong.com/post/%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%86%B0%E4%B8%8E%E7%81%AB/" title="嵌入式数据库的冰与火">嵌入式数据库的冰与火</a>
-    </li>
-    
 </ul>
     </section>
 
@@ -216,7 +241,7 @@
         <h3 class="widget-title">分类</h3>
 <ul class="widget-list">
     
-    <li><a href="https://blog.fanmuyong.com/categories/Java/">Java (10)</a></li>
+    <li><a href="https://blog.fanmuyong.com/categories/Java/">Java (11)</a></li>
     
     <li><a href="https://blog.fanmuyong.com/categories/Linux/">Linux (2)</a></li>
     
@@ -278,6 +303,8 @@
     <a href="https://blog.fanmuyong.com/tags/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">函数式编程</a>
     
     <a href="https://blog.fanmuyong.com/tags/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/">布隆过滤器</a>
+    
+    <a href="https://blog.fanmuyong.com/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a>
     
     <a href="https://blog.fanmuyong.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
     

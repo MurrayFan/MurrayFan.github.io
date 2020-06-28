@@ -6,10 +6,19 @@
     <description>Recent content on Geek笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 16 Jun 2020 21:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 27 Jun 2020 21:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.fanmuyong.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java 并发之 Double Check</title>
+      <link>https://blog.fanmuyong.com/post/Java-%E5%B9%B6%E5%8F%91%E4%B9%8B-Double-Check/</link>
+      <pubDate>Sat, 27 Jun 2020 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/Java-%E5%B9%B6%E5%8F%91%E4%B9%8B-Double-Check/</guid>
+      <description>在Java程序中，有时候可能需要推迟一些高开销的对象初始化操作，并且只有在使用这些对象时才进行初始化。此时，程序员可能会采用延迟初始化。但要正确实现线程安全的延迟初 始化需要一些技巧，否则很容易出现问题。比如，下面是非线程安全的延迟初始化对象的示例代码。 1 2 3 4 5 6 7 8 9 public class UnsafeLazyInitialization{ private static</description>
+    </item>
     
     <item>
       <title>我是如何破解公司 400K 网速限制下载 Docker 镜像的</title>
@@ -54,6 +63,15 @@
       
       <guid>https://blog.fanmuyong.com/post/%E5%9C%A8-2016-%E5%B9%B4%E5%AD%A6-JavaScript-%E6%98%AF%E4%B8%80%E7%A7%8D%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84%E4%BD%93%E9%AA%8C/</guid>
       <description>嘿，我最近接到一个 Web 项目，不过老实说，我这两年没怎么接触 Web 编程，听说 Web 技术已经发生了一些变化。听说你是这里对新技术最了解的 Web 开发工程师？ 准确地说，我是一名「前端工程师」。不过你算是找对人了。我对今年的技术别提多熟了，前端可视化、音乐播放器、能踢足球的无人机，你尽管问吧。我刚去 JS 大</description>
+    </item>
+    
+    <item>
+      <title>关于我</title>
+      <link>https://blog.fanmuyong.com/about/</link>
+      <pubDate>Tue, 10 Mar 2020 00:13:27 +0000</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/about/</guid>
+      <description>范明勇，笔名范木甬，现居青岛。《软件测试效率手册》作者，参编《WEB开发技术——HTML\CSS\JavaScript》，专业Java搬砖，业余前端程序猿，热爱 PS、摄影。 运营微信公众号「Geek笔记」，因微信端对技术类文章阅读不友好，转战个人博客。 自 2016 年至今在「有道云笔记」做了</description>
     </item>
     
     <item>
@@ -297,15 +315,6 @@
       
       <guid>https://blog.fanmuyong.com/post/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%E6%89%AB%E7%9B%B2%E4%BA%8C/</guid>
       <description>数据和数据库完整性测试 数据与数据库完整测试是指测试关系型数据库完整性原则以及数据合理性测试。 数据库测试主要考虑以下指标： 主键完整性：主键不能为空； 外键完整性：外键必须等于对应的主键或者为空。 数据合理性：指数据在数据库中的类型，长度，索引等是否建的比较合理。 在项目名称中，数据库和数</description>
-    </item>
-    
-    <item>
-      <title>关于我</title>
-      <link>https://blog.fanmuyong.com/about/</link>
-      <pubDate>Tue, 10 Mar 2015 00:13:27 +0000</pubDate>
-      
-      <guid>https://blog.fanmuyong.com/about/</guid>
-      <description>范明勇，笔名范木甬，现居青岛。《软件测试效率手册》作者，参编《WEB开发技术——HTML\CSS\JavaScript》，专业Java搬砖。 运营微信公众号「Geek笔记」，因微信端对技术类文章阅读不友好，转战个人博客。 自 2016 年至今在「有道云笔记」做了大量笔记，杂乱无章，不足为外人道</description>
     </item>
     
     <item>
