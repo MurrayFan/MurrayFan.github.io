@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>容器&amp;PaaS on Geek笔记</title>
+    <link>https://blog.fanmuyong.com/categories/%E5%AE%B9%E5%99%A8PaaS/</link>
+    <description>Recent content in 容器&amp;PaaS on Geek笔记</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 05 Jul 2020 21:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.fanmuyong.com/categories/%E5%AE%B9%E5%99%A8PaaS/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Docker 原理一（隔离与限制）</title>
+      <link>https://blog.fanmuyong.com/post/Docker-%E5%8E%9F%E7%90%86%E4%B8%80%E9%9A%94%E7%A6%BB%E4%B8%8E%E9%99%90%E5%88%B6/</link>
+      <pubDate>Sun, 05 Jul 2020 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/Docker-%E5%8E%9F%E7%90%86%E4%B8%80%E9%9A%94%E7%A6%BB%E4%B8%8E%E9%99%90%E5%88%B6/</guid>
+      <description>Docker 与传统虚拟机的区别 容器其实是一种沙盒技术。顾名思义，沙盒就是能够像一个集装箱一样，把你的应用“装”起来的技术。这样，应用与应用之间，就因为有了边界而不至于相互干扰；而被装进集装箱的应用，也可以被方便地搬来搬去。 这幅图的左边，画出了虚拟机的工作原理。其中，名为 Hypervisor 的软件是虚拟机最主</description>
+    </item>
+    
+  </channel>
+</rss>

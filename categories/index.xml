@@ -6,10 +6,19 @@
     <description>Recent content in Categories on Geek笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 27 Jun 2020 21:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 05 Jul 2020 21:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.fanmuyong.com/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>容器云</title>
+      <link>https://blog.fanmuyong.com/categories/%E5%AE%B9%E5%99%A8%E4%BA%91/</link>
+      <pubDate>Sun, 05 Jul 2020 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/categories/%E5%AE%B9%E5%99%A8%E4%BA%91/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Java</title>
