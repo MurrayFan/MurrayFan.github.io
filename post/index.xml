@@ -6,10 +6,28 @@
     <description>Recent content in Posts on Geek笔记</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 05 Jul 2020 21:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jul 2020 21:00:00 +0800</lastBuildDate>
     
 	<atom:link href="https://blog.fanmuyong.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker 原理三（镜像与分层）</title>
+      <link>https://blog.fanmuyong.com/post/Docker-%E5%8E%9F%E7%90%86%E4%B8%89%E9%95%9C%E5%83%8F%E4%B8%8E%E5%88%86%E5%B1%82/</link>
+      <pubDate>Fri, 17 Jul 2020 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/Docker-%E5%8E%9F%E7%90%86%E4%B8%89%E9%95%9C%E5%83%8F%E4%B8%8E%E5%88%86%E5%B1%82/</guid>
+      <description>概述 上一篇文章中提到了，rootfs 的存在将整个操作系统的文件和目录作为依赖打包进了容器中，使得容器具有了一个非常重要的特性：一致性。 难道我每开发一个应用，或者升级一下现有的应用，都要重复制作一次 rootfs 吗？比如，我现在用 Ubuntu 操作系统的 ISO 做了一个 rootfs，然后又在里面安装了 Java 环境，用</description>
+    </item>
+    
+    <item>
+      <title>Docker 原理二（容器的文件系统）</title>
+      <link>https://blog.fanmuyong.com/post/Docker-%E5%8E%9F%E7%90%86%E4%BA%8C%E5%AE%B9%E5%99%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Fri, 17 Jul 2020 21:00:00 +0800</pubDate>
+      
+      <guid>https://blog.fanmuyong.com/post/Docker-%E5%8E%9F%E7%90%86%E4%BA%8C%E5%AE%B9%E5%99%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/</guid>
+      <description>概述 在上一篇文章中介绍了容器实现隔离用的是 Namespace 技术，而实现资源限制使用的是 Cgroups 技术，并提到了 Mount Namespace，用于让被隔离进程只看到当前 Namespace 里的挂载点信息。 那么容器的文件系统是怎么实现的呢，实际上它跟 Mount Namespace 有着千丝万缕的联系。 Mount Namespace Mount Namespace 修改的，是容器进程对文件系统“挂载点”的认知。但是</description>
+    </item>
     
     <item>
       <title>Docker 原理一（隔离与限制）</title>

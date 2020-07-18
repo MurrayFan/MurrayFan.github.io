@@ -6,20 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Git 协同工作流实战二（最佳实践） | Geek笔记</title>
-    <meta property="og:title" content="Git 协同工作流实战二（最佳实践） - Geek笔记">
+    <title>Docker 原理三（镜像与分层） | Geek笔记</title>
+    <meta property="og:title" content="Docker 原理三（镜像与分层） - Geek笔记">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content='2020-04-25T21:00:00&#43;08:00'>
+    <meta property="article:published_time" content='2020-07-17T21:00:00&#43;08:00'>
         
         
-    <meta property="article:modified_time" content='2020-04-25T21:00:00&#43;08:00'>
+    <meta property="article:modified_time" content='2020-07-17T21:00:00&#43;08:00'>
         
-    <meta name="Keywords" content="[Git,GitFlow]">
-    <meta name="description" content="Git 协同工作流实战二（最佳实践）">
+    <meta name="Keywords" content="[Docker]">
+    <meta name="description" content="Docker 原理三（镜像与分层）">
         
     <meta name="author" content="范明勇">
-    <meta property="og:url" content="https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/">
+    <meta property="og:url" content="https://blog.fanmuyong.com/post/Docker-%E5%8E%9F%E7%90%86%E4%B8%89%E9%95%9C%E5%83%8F%E4%B8%8E%E5%88%86%E5%B1%82/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
@@ -145,29 +145,13 @@
     <nav id="TableOfContents">
   <ul>
     <li><a href="#概述">概述</a></li>
-    <li><a href="#分支划分">分支划分</a>
+    <li><a href="#docker-镜像的分层">Docker 镜像的分层</a>
       <ul>
-        <li><a href="#master分支">Master分支</a></li>
-        <li><a href="#feature分支">Feature分支</a></li>
-        <li><a href="#bugfix分支">BUGFix分支</a></li>
+        <li><a href="#unionfs">UnionFS</a></li>
+        <li><a href="#docker-分层的实现">Docker 分层的实现</a></li>
       </ul>
     </li>
-    <li><a href="#分支管理">分支管理</a>
-      <ul>
-        <li><a href="#操作实例">操作实例</a></li>
-        <li><a href="#解决冲突">解决冲突</a></li>
-        <li><a href="#案例分析">案例分析</a></li>
-        <li><a href="#版本发布">版本发布</a></li>
-        <li><a href="#分支管理员">分支管理员</a></li>
-        <li><a href="#注意事项">注意事项</a></li>
-      </ul>
-    </li>
-    <li><a href="#总结">总结</a>
-      <ul>
-        <li></li>
-        <li><a href="#命令速览">命令速览</a></li>
-      </ul>
-    </li>
+    <li><a href="#小结">小结</a></li>
   </ul>
 </nav>
   </div>
@@ -207,16 +191,16 @@
 </script>
     <article class="post">
         <header>
-            <h1 class="post-title">Git 协同工作流实战二（最佳实践）</h1>
+            <h1 class="post-title">Docker 原理三（镜像与分层）</h1>
         </header>
         <date class="post-meta meta-date">
-            2020年4月25日
+            2020年7月17日
         </date>
         
         <div class="post-meta">
             <span>|</span>
             
-            <span class="meta-category"><a href='https://blog.fanmuyong.com/categories/%E5%B7%A5%E5%85%B7%E7%B1%BB'>工具类</a></span>
+            <span class="meta-category"><a href='https://blog.fanmuyong.com/categories/%E5%AE%B9%E5%99%A8%E4%BA%91'>容器云</a></span>
             
         </div>
         
@@ -235,147 +219,132 @@
         
         <div class="post-content">
             <h1 id="概述">概述</h1>
-<p><img src="http://raw.fanmuyong.com//mweb/15889912147442.jpg" alt=""></p>
-<p>本流程的分支管理维护两个长期分支，Master分支为主分支；维护两类临时分支：BUG修复分支和特性分支。Stable分支总是落后于或等于Master分支的进度，且Stable分支总是由Master分支合并而来，当整个产品进行大的功能升级或者达到版本发布条件时，合并Master分支到Stable分支。</p>
-<h1 id="分支划分">分支划分</h1>
-<h2 id="master分支">Master分支</h2>
-<p>Master分支为主分支，上面的代码认为是可靠的，可直接给客户现场升级。开发人员的代码只能提交到Master分支，Master分支开启分支保护，只能通过Merge Request方式提交。</p>
-<h2 id="feature分支">Feature分支</h2>
-<p>特性(Feature)分支又叫做功能分支，是为了开发某种特定功能而创建的临时分支，是从Master分支上分出来的，功能分支仅能合并到Master分支上，不能跳过Master分支直接合并到Stable分支，Master分支接收功能分支的合并后可将功能分支删除。
-feature分支命名规范：feature_${功能名称}。比如：
-feature_sms 代表短信功能分支</p>
-<h2 id="bugfix分支">BUGFix分支</h2>
-<p>BUG 修复分支在当系统出现 BUG 时创建，也是一个临时分支。它基于最新的 Master 分支创建，BUG 修复后合并到 Master 分支，合并后可将该分支删除。对于重大 BUG，经评估后可将该BUG分支同时合并到 Master 和 Stable 分支，相当于Stable分支发布了一个新版本。</p>
-<p>BUG 修复分支的创建方式：</p>
-<ol>
-<li>
-<p>在 GitLab 上提一个 issues ,标记为 BUG 类型，并做详细描述。这个 issue 会被自动分配一个编号如#2。</p>
-</li>
-<li>
-<p>在 GitLab 的该 issue 上点击创建分支按钮，此时系统会自动创建一个名称为<code>2-</code>的分支，这个分支就用于修复 <code>BUG#2 </code>。</p>
-</li>
-</ol>
-<h1 id="分支管理">分支管理</h1>
-<h2 id="操作实例">操作实例</h2>
-<p>分支合并操作流程如下：</p>
-<ol>
-<li>在本地创建特性分支feature_sms。</li>
-</ol>
-<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git checkout -b feature_sms
-</code></pre></td></tr></table>
-</div>
-</div><ol start="2">
-<li>
-<p>本地进行多次commit后完成开发和自测。
-<img src="http://raw.fanmuyong.com//mweb/15928247620954.jpg" alt="-c731"></p>
-</li>
-<li>
-<p>将feature_sms分支推送到远端。
-<img src="http://raw.fanmuyong.com//mweb/15889937025868.jpg" alt=""></p>
-</li>
-</ol>
-<p>可以在远端管理界面上看到这个新分支
-<img src="http://raw.fanmuyong.com//mweb/15889937129006.jpg" alt=""></p>
-<ol start="4">
-<li>
-<p>发起Merge Request请求并做详细描述。
-在管理界面点击Merge Request按钮发起合并请求，填写详细描述。
-<img src="http://raw.fanmuyong.com//mweb/15928248291008.jpg" alt="-w727"></p>
-</li>
-<li>
-<p>对于简单的修改需求，分支管理员进行代码走读和简单功能验证即可接收合并；对于核心业务，须统一安排测试、评审测试用例走完测试流程后方可进行合并。</p>
-</li>
-</ol>
-<h2 id="解决冲突">解决冲突</h2>
-<p>当向远端推送了Merge Request请求后，分支管理员在合并分支的时候的时候可能会出现冲突，此时应关闭该Merge Request由发起合并请求者在本地解决冲突后重新发起Merge Request。</p>
-<h2 id="案例分析">案例分析</h2>
-<p><img src="http://raw.fanmuyong.com//mweb/15928245672466.jpg" alt="-w753"></p>
-<p>此时Git提示冲突，无法合并。应关闭该合并请求然后通知开发者，让开发者解决冲突再次提交合并请求。
-<img src="http://raw.fanmuyong.com//mweb/15889921577791.jpg" alt=""></p>
-<p>解决完冲突再push一下feature_sms分支，就会发现Accept Merge Request按钮可用了。
-<img src="http://raw.fanmuyong.com//mweb/15928246010317.jpg" alt="-c706"></p>
-<h2 id="版本发布">版本发布</h2>
-<p>当系统经评估完成一个阶段性成果后，可考虑新版本发布。发布新版本时需在GitLab上将Master分支上的代码合并到Stable分支，打上TAG用于标识系统版本号。此操作经项目组批准后，由Stable分支管理员进行操作。
-<img src="http://raw.fanmuyong.com//mweb/15928249023179.jpg" alt="-w762"></p>
-<p>版本发布时应注明新版本特性列表和上一版本的升级SQL。</p>
-<h3 id="版本号规范">版本号规范</h3>
-<p><img src="http://raw.fanmuyong.com//mweb/15889914596719.jpg" alt=""></p>
-<p>主版本号、子版本号、阶段版本号仅在合并到Stable分支时，由Stable分支管理员统一在系统代码中更新。</p>
-<p><img src="http://raw.fanmuyong.com//mweb/15928242166952.jpg" alt="-c502"></p>
-<p>日期版本号在每一次升级系统时都在系统参数中维护。</p>
-<h2 id="分支管理员">分支管理员</h2>
-<p>对于一般性的功能提交或BUG修复提交，需由至少2名Master分支管理员进行代码走读和业务了解，2人均同意后方可接受该Merge Request。</p>
-<p>对于涉及核心业务的提交，需组先编写测试用例进行测试，测试无误后项目组内开会评审，评审的内容包括但不限于测试用例的覆盖率、代码走读、业务相关性讨论等。待评审通过后 Stable 分支的管理员可接受该 Merge Request。</p>
-<h2 id="注意事项">注意事项</h2>
-<ol>
-<li>
-<p>切换分支时需先将当前分支未保存的工作提交到本地仓库，或用git stash命令暂存。否则该分支上的改动会被签入到待切换分支。</p>
-</li>
-<li>
-<p>每条分支上的代码可以完成某个小功能点为粒度创建多次提交，往远端推送的频次无要求。</p>
-</li>
-<li>
-<p>每条分支在功能开发完毕且测试无误后方可发起Merge Request，不允许未开发完毕就发起合并请求，浪费人力成本。</p>
-</li>
-</ol>
-<h1 id="总结">总结</h1>
-<p><strong>新的分支管理流程范适用频繁部署、持续集成的要求:</strong></p>
-<p>通常，客户要求两三天就要升级一项功能，此时如果基于GitFlow，单是走完整个分支管理流程就废了半天时间，况且为了某个小功能单独发布一个版本是不合适的。</p>
-<p>新的管理流程在源头上保证了 master 分支的代码是可靠的，是可以发布的，将审核工作放到平时，化整为零，避免了项目发布时统一测试可能遇到的业务遗忘、用例考虑不全等问题。</p>
-<p><strong>Stable分支存在的意义：</strong></p>
-<p>对于进入维护期的项目，在例行升级时候只升Stable分支，保证系统功能相对稳定。且要求了每次Stable分支发布版本时，都要整理升级脚本，这就使得升级工作变得简单了。</p>
-<h3 id="拓展阅读">拓展阅读</h3>
-<p>首先，多人协作的情况，我们通常会 fork团队项目主仓库到自己的托管空间下，然后 Clone 到本地进行开发,假设团队项目的托管地址为：</p>
-<p><a href="https://github.com/fe/github-flow">https://github.com/fe/github-flow</a></p>
-<p>此时主仓库项目下的固定分支两个，分别是 master，develop。</p>
-<p>Clone 到本地：</p>
-<p>git clone <a href="mailto:git@github.com">git@github.com</a>:fe/github-flow.git
-假设上面主仓库 fork 之后的项目地址为：</p>
-<p><a href="https://github.com/xxx/github-flow">https://github.com/xxx/github-flow</a></p>
-<p>Fork 出来的仓库完全属于你自己，你可以任意修改该仓库的代码及配置，但是除非你向项目主仓库提交 pull request，并且被接受通过，你才可以将你fork 仓库修改的代码合并到主仓库，否则不会对主仓库产生任何影响。</p>
-<p>此时可以在控制台输入 git remote -v 命令查看当前远端仓库的地址，输出如下：</p>
-<pre><code>origin  git@github.com:xxx/github-flow.git (fetch)
-origin  git@github.com:xxx/github-flow.git (push)
-</code></pre><p>可以看出该地址的远端（origin）为刚刚 fork 到自己的托管空间下项目地址。</p>
-<p>接下来我们可以设置一个名字为 upstream 的上游地址，也就是我们项目主仓库的地址
-在命令行执行：</p>
-<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git remote add upstream git@github.com:fe/github-flow.git
-</code></pre></td></tr></table>
-</div>
-</div><p>添加一个别名为upstream(上游)的地址，指向之前 fork 的原项目仓库地址。
-再次执行 git remote -v 控制台输出如下：</p>
-<pre><code>origin  git@github.com:xxx/github-flow.git (fetch)
-origin  git@github.com:xxx/github-flow.git (push)
-upstream    git@github.com:fe/github-flow.git (fetch)
-upstream    git@github.com:fe/github-flow.git (push)
-</code></pre><p>设置上游地址的目的是当我们通过 pull request 的形式提到主仓库之后，本地仓库需要同步主仓库的代码，并及时更新到 origin（远端）仓库，保证自己托管空间下本地和远端仓库的代码都是最新的。</p>
-<p>之后运行下面几条命令，就可以保持本地仓库与上游（upstream）仓库同步了</p>
+<p>上一篇文章中提到了，rootfs 的存在将整个操作系统的文件和目录作为依赖打包进了容器中，使得容器具有了一个非常重要的特性：<strong>一致性</strong>。</p>
+<p>难道我每开发一个应用，或者升级一下现有的应用，都要重复制作一次 rootfs 吗？比如，我现在用 Ubuntu 操作系统的 ISO 做了一个 rootfs，然后又在里面安装了 Java 环境，用来部署我的 Java 应用。那么，我的另一个同事在发布他的 Java 应用时，显然希望能够直接使用我安装过 Java 环境的 rootfs，而不是重复这个流程。</p>
+<p>一种比较直观的解决办法是，我在制作 rootfs 的时候，每做一步“有意义”的操作，就保存一个 rootfs 出来，这样其他同事就可以按需求去用他需要的 rootfs 了。</p>
+<h1 id="docker-镜像的分层">Docker 镜像的分层</h1>
+<p>Docker 在镜像的设计中，引入了层（layer）的概念。也就是说，用户制作镜像的每一步操作，都会生成一个层，也就是一个增量 rootfs。</p>
+<p>当然，这个想法不是凭空臆造出来的，而是用到了一种叫作联合文件系统（Union File System）的能力。Union File System 也叫 UnionFS，最主要的功能是将多个不同位置的目录联合挂载（union mount）到同一个目录下。</p>
+<h2 id="unionfs">UnionFS</h2>
+<p>比如，我现在有两个目录 A 和 B，它们分别有两个文件：</p>
+<pre><code>$ tree
+.
+├── A
+│  ├── a
+│  └── x
+└── B
+  ├── b
+  └── x
+</code></pre><p>然后，我使用联合挂载的方式，将这两个目录挂载到一个公共的目录 C 上：</p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git fetch upstream
-git checkout master
-git merge upstream/master
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ mkdir C
+$ mount -t aufs -o <span style="color:#008080">dirs</span><span style="color:#000;font-weight:bold">=</span>./A:./B none ./C
 </code></pre></td></tr></table>
 </div>
-</div><h2 id="命令速览">命令速览</h2>
-<ul>
-<li>查看分支</li>
-</ul>
+</div><p>这时，我再查看目录 C 的内容，就能看到目录 A 和 B 下的文件被合并到了一起：</p>
+<pre><code>$ tree ./C
+./C
+├── a
+├── b
+└── x
+</code></pre><p>可以看到，在这个合并后的目录 C 里，有 a、b、x 三个文件，并且 x 文件只有一份。这，就是“合并”的含义。此外，如果你在目录 C 里对 a、b、x 文件做修改，这些修改也会在对应的目录 A、B 中生效。</p>
+<h2 id="docker-分层的实现">Docker 分层的实现</h2>
+<p>我的环境是 Ubuntu 16.04 和 Docker CE 18.05，这对组合默认使用的是 AuFS 这个联合文件系统的实现。</p>
+<p>可以通过 docker info 命令，查看到这个信息。</p>
+<p>AuFS 的全称是 Another UnionFS，后改名为 Alternative UnionFS，再后来干脆改名叫作 Advance UnionFS。它是对 Linux 原生 UnionFS 的重写和改进。</p>
+<p>对于 AuFS 来说，它最关键的目录结构在 /var/lib/docker 路径下的 diff 目录：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/var/lib/docker/aufs/diff/&lt;layer_id&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>而这个目录的作用，我们不妨通过一个具体例子来看一下。</p>
+<p>现在，我们启动一个容器，比如：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run -d ubuntu:latest sleep <span style="color:#099">3600</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这时候，Docker 就会从 Docker Hub 上拉取一个 Ubuntu 镜像到本地。</p>
+<p>这个所谓的“镜像”，实际上就是一个 Ubuntu 操作系统的 rootfs，它的内容是 Ubuntu 操作系统的所有文件和目录。不过，与之前我们讲述的 rootfs 稍微不同的是，Docker 镜像使用的 rootfs，往往由多个“层”组成：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker image inspect ubuntu:latest
+...
+     <span style="color:#d14">&#34;RootFS&#34;</span>: <span style="color:#000;font-weight:bold">{</span>
+      <span style="color:#d14">&#34;Type&#34;</span>: <span style="color:#d14">&#34;layers&#34;</span>,
+      <span style="color:#d14">&#34;Layers&#34;</span>: <span style="color:#000;font-weight:bold">[</span>
+        <span style="color:#d14">&#34;sha256:f49017d4d5ce9c0f544c...&#34;</span>,
+        <span style="color:#d14">&#34;sha256:8f2b771487e9d6354080...&#34;</span>,
+        <span style="color:#d14">&#34;sha256:ccd4d61916aaa2159429...&#34;</span>,
+        <span style="color:#d14">&#34;sha256:c01d74f99de40e097c73...&#34;</span>,
+        <span style="color:#d14">&#34;sha256:268a067217b5fe78e000...&#34;</span>
+      <span style="color:#000;font-weight:bold">]</span>
+    <span style="color:#000;font-weight:bold">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到，这个 Ubuntu 镜像，实际上由五个层组成。这五个层就是五个增量 rootfs，每一层都是 Ubuntu 操作系统文件与目录的一部分；而在使用镜像时，Docker 会把这些增量联合挂载在一个统一的挂载点上（等价于前面例子里的“/C”目录）。</p>
+<p>这个挂载点就是 /var/lib/docker/aufs/mnt/，比如：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/var/lib/docker/aufs/mnt/6e3be5d2ecccae7cc0fcfa2a2f5c89dc21ee30e166be823ceaeba15dce645b3e
+</code></pre></td></tr></table>
+</div>
+</div><p>不出意外的，这个目录里面正是一个完整的 Ubuntu 操作系统：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ls /var/lib/docker/aufs/mnt/6e3be5d2ecccae7cc0fcfa2a2f5c89dc21ee30e166be823ceaeba15dce645b3e
+bin boot dev etc home lib lib64 media mnt opt proc root run sbin srv sys tmp usr var
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="docker-镜像的三层结构">Docker 镜像的三层结构</h3>
+<p>那么，前面提到的五个镜像层，又是如何被联合挂载成这样一个完整的 Ubuntu 文件系统的呢？</p>
+<p>这个信息记录在 AuFS 的系统目录 /sys/fs/aufs 下面。</p>
+<p>首先，通过查看 AuFS 的挂载信息，我们可以找到这个目录对应的 AuFS 的内部 ID（也叫：si）：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat /proc/mounts| grep aufs
+none /var/lib/docker/aufs/mnt/6e3be5d2ecccae7cc0fc... aufs rw,relatime,si<span style="color:#000;font-weight:bold">=</span>972c6d361e6b32ba,dio,dirperm1 <span style="color:#099">0</span> <span style="color:#099">0</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>即，si=972c6d361e6b32ba。</p>
+<p>然后使用这个 ID，你就可以在 /sys/fs/aufs 下查看被联合挂载在一起的各个层的信息：</p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -383,92 +352,72 @@ git merge upstream/master
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git branch
-----------
-* develop
-  hotfix_lisi_20180311_测试分支
-  master
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cat /sys/fs/aufs/si_972c6d361e6b32ba/br<span style="color:#000;font-weight:bold">[</span>0-9<span style="color:#000;font-weight:bold">]</span>*
+/var/lib/docker/aufs/diff/6e3be5d2ecccae7cc...<span style="color:#000;font-weight:bold">=</span>rw
+/var/lib/docker/aufs/diff/6e3be5d2ecccae7cc...-init<span style="color:#000;font-weight:bold">=</span>ro+wh
+/var/lib/docker/aufs/diff/32e8e20064858c0f2...<span style="color:#000;font-weight:bold">=</span>ro+wh
+/var/lib/docker/aufs/diff/2b8858809bce62e62...<span style="color:#000;font-weight:bold">=</span>ro+wh
+/var/lib/docker/aufs/diff/20707dce8efc0d267...<span style="color:#000;font-weight:bold">=</span>ro+wh
+/var/lib/docker/aufs/diff/72b0744e06247c7d0...<span style="color:#000;font-weight:bold">=</span>ro+wh
+/var/lib/docker/aufs/diff/a524a729adadedb90...<span style="color:#000;font-weight:bold">=</span>ro+wh
 </code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>创建分支</li>
-</ul>
-<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git branch &lt;name&gt;
-例：$ git branch feature_zhangsan_20190310_停上电事件处理
-</code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>切换分支</li>
-</ul>
-<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git checkout develop
------------
-Switched to branch <span style="color:#d14">&#39;develop&#39;</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>创建+切换分支</li>
-</ul>
-<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git checkout -b hotfix_lisi_20180311_测试分支
-Switched to a new branch <span style="color:#d14">&#39;hotfix_lisi_20180311_测试分支&#39;</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>删除分支</li>
-</ul>
+</div><p>从这些信息里，我们可以看到，镜像的层都放置在 /var/lib/docker/aufs/diff 目录下，然后被联合挂载在 /var/lib/docker/aufs/mnt 里面。</p>
+<p><strong>而且，从这个结构可以看出来，这个容器的 rootfs 由如下图所示的三部分组成：</strong></p>
+<p><img src="http://raw.fanmuyong.com//mweb/15937475274163.jpg" alt=""></p>
+<h4 id="第一部分只读层">第一部分，只读层。</h4>
+<p>它是这个容器的 rootfs 最下面的五层，对应的正是 ubuntu:latest 镜像的五层。</p>
+<p>可以看到，它们的挂载方式都是只读的（ro+wh，即 readonly+whiteout，至于什么是 whiteout，我下面马上会讲到）。</p>
+<p>这时，我们可以分别查看一下这些层的内容：</p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git branch -d &lt;name&gt;
-例：$ git branch -d feature_zhangsan_201903101010—_功能一
---------------
-Deleted branch feature_zhangsan_201903101010—_功能二 <span style="color:#000;font-weight:bold">(</span>was 7ca7803<span style="color:#000;font-weight:bold">)</span>.
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ls /var/lib/docker/aufs/diff/72b0744e06247c7d0...
+etc sbin usr var
+$ ls /var/lib/docker/aufs/diff/32e8e20064858c0f2...
+run
+$ ls /var/lib/docker/aufs/diff/a524a729adadedb900...
+bin boot dev etc home lib lib64 media mnt opt proc root run sbin srv sys tmp usr var
 </code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>从远程合并分支</li>
-</ul>
-<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git pull origin &lt;远程分支name&gt;
-</code></pre></td></tr></table>
-</div>
-</div>
+</div><p>可以看到，这些层，都以增量的方式分别包含了 Ubuntu 操作系统的一部分。</p>
+<h4 id="第二部分可读写层">第二部分，可读写层。</h4>
+<p>它是这个容器的 rootfs 最上面的一层（6e3be5d2ecccae7cc），它的挂载方式为：rw，即 read write。在没有写入文件之前，这个目录是空的。而一旦在容器里做了写操作，你修改产生的内容就会以增量的方式出现在这个层中。</p>
+<p>可是，你有没有想到这样一个问题：如果我现在要做的，是删除只读层里的一个文件呢？</p>
+<p>为了实现这样的删除操作，AuFS 会在可读写层创建一个 whiteout 文件，把只读层里的文件“遮挡”起来。</p>
+<p>比如，你要删除只读层里一个名叫 foo 的文件，那么这个删除操作实际上是在可读写层创建了一个名叫.wh.foo 的文件。这样，当这两个层被联合挂载之后，foo 文件就会被.wh.foo 文件“遮挡”起来，“消失”了。这个功能，就是“ro+wh”的挂载方式，即只读 +whiteout 的含义。我喜欢把 whiteout 形象地翻译为：“白障”。</p>
+<p>所以，最上面这个可读写层的作用，就是专门用来存放你修改 rootfs 后产生的增量，无论是增、删、改，都发生在这里。而当我们使用完了这个被修改过的容器之后，还可以使用 docker commit 和 push 指令，保存这个被修改过的可读写层，并上传到 Docker Hub 上，供其他人使用；而与此同时，原先的只读层里的内容则不会有任何变化。这，就是增量 rootfs 的好处。</p>
+<h4 id="第三部分init-层">第三部分，Init 层。</h4>
+<p>它是一个以“-init”结尾的层，夹在只读层和读写层之间。Init 层是 Docker 项目单独生成的一个内部层，专门用来存放 /etc/hosts、/etc/resolv.conf 等信息。</p>
+<p>需要这样一层的原因是，这些文件本来属于只读的 Ubuntu 镜像的一部分，但是用户往往需要在启动容器时写入一些指定的值比如 hostname，所以就需要在可读写层对它们进行修改。</p>
+<p>可是，这些修改往往只对当前的容器有效，我们并不希望执行 docker commit 时，把这些信息连同可读写层一起提交掉。</p>
+<p>所以，Docker 做法是，在修改了这些文件之后，以一个单独的层挂载了出来。而用户执行 docker commit 只会提交可读写层，所以是不包含这些内容的。</p>
+<p>最终，这 7 个层都被联合挂载到 /var/lib/docker/aufs/mnt 目录下，表现为一个完整的 Ubuntu 操作系统供容器使用。</p>
+<h1 id="小结">小结</h1>
+<p>通过“分层镜像”的设计，以 Docker 镜像为核心，来自不同公司、不同团队的技术人员被紧密地联系在了一起。而且，由于容器镜像的操作是增量式的，这样每次镜像拉取、推送的内容，比原本多个完整的操作系统的大小要小得多；而共享层的存在，可以使得所有这些容器镜像需要的总空间，也比每个镜像的总和要小。这样就使得基于容器镜像的团队协作，要比基于动则几个 GB 的虚拟机磁盘镜像的协作要敏捷得多。</p>
+<p>更重要的是，一旦这个镜像被发布，那么你在全世界的任何一个地方下载这个镜像，得到的内容都完全一致，可以完全复现这个镜像制作者当初的完整环境。这，就是容器技术“强一致性”的重要体现。</p>
+<p><strong>参考</strong></p>
+<p><em>《深入剖析 Kubernetes》- 张磊</em></p>
+
         </div>
 
         
 <div class="post-archive">
     <ul class="post-copyright">
         <li><strong>原文作者：</strong><a rel="author" href="https://blog.fanmuyong.com">范明勇</a></li>
-        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/">https://blog.fanmuyong.com/post/Git-%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%BA%8C/</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://blog.fanmuyong.com/post/Docker-%E5%8E%9F%E7%90%86%E4%B8%89%E9%95%9C%E5%83%8F%E4%B8%8E%E5%88%86%E5%B1%82/">https://blog.fanmuyong.com/post/Docker-%E5%8E%9F%E7%90%86%E4%B8%89%E9%95%9C%E5%83%8F%E4%B8%8E%E5%88%86%E5%B1%82/</a></li>
         <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
     </ul>
 </div>
@@ -482,7 +431,11 @@ Deleted branch feature_zhangsan_201903101010—_功能二 <span style="color:#00
     <h2>See Also</h2>
     <ul class="listing">
         
-        <li><a href="/post/Git%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%AE%9E%E6%88%98%E4%B8%80/">Git 协同工作流实战一（综合分析）</a></li>
+        <li><a href="/post/Docker-%E5%8E%9F%E7%90%86%E4%BA%8C%E5%AE%B9%E5%99%A8%E7%9A%84%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/">Docker 原理二（容器的文件系统）</a></li>
+        
+        <li><a href="/post/Docker-%E5%8E%9F%E7%90%86%E4%B8%80%E9%9A%94%E7%A6%BB%E4%B8%8E%E9%99%90%E5%88%B6/">Docker 原理一（隔离与限制）</a></li>
+        
+        <li><a href="/post/%E6%88%91%E6%98%AF%E5%A6%82%E4%BD%95%E7%A0%B4%E8%A7%A3%E5%85%AC%E5%8F%B8-400K-%E7%BD%91%E9%80%9F%E9%99%90%E5%88%B6%E4%B8%8B%E8%BD%BD-Docker-%E9%95%9C%E5%83%8F%E7%9A%84/">我是如何破解公司 400K 网速限制下载 Docker 镜像的</a></li>
         
     </ul>
 </div>
@@ -492,7 +445,7 @@ Deleted branch feature_zhangsan_201903101010—_功能二 <span style="color:#00
             
             <ul class="clearfix">
                 
-                <li><a href='https://blog.fanmuyong.com/tags/Git'>Git</a></li>
+                <li><a href='https://blog.fanmuyong.com/tags/Docker'>Docker</a></li>
                 
             </ul>
             
